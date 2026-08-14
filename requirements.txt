@@ -1,0 +1,36 @@
+# Rythmo Dub — dépendances Python (Windows 11 / Linux)
+# Python 3.12 recommandé (3.13 validé). torch est installé séparément par
+# scripts/install_win.ps1 (build CUDA si NVIDIA, sinon CPU) — requis par WhisperX.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+pillow>=10.4
+numpy>=2.0
+opencv-python-headless>=4.10
+mediapipe>=1.0
+faster-whisper>=1.1
+whisperx>=3.6
+static-ffmpeg>=2.5
+httpx>=0.27
+pytest>=8.0
+pytest-asyncio>=0.23
+
+# Diarisation par embeddings vocaux (Resemblyzer) — OPTIONNEL, session 28.
+# Sans lui, la séparation des voix retombe sur la méthode par hauteur (T56) :
+# l'application fonctionne intégralement. torch doit être installé AVANT
+# (voir scripts/install_win.ps1), puis :
+#   pip install webrtcvad-wheels
+#   pip install resemblyzer --no-deps
+# (webrtcvad-wheels fournit webrtcvad sans compilation ; resemblyzer --no-deps
+# évite qu'il ne tire sa propre build de torch.)
+# resemblyzer>=0.1.4
+# webrtcvad-wheels>=2.0.14
+
+# Diarisation de niveau studio (pyannote.audio) — OPTIONNEL, session 29.
+# pyannote/speaker-diarization-3.1 est un modèle « gated » : il faut accepter
+# la licence sur huggingface.co/pyannote/speaker-diarization-3.1 et fournir un
+# token via la variable RYTHMO_HF_TOKEN (ou HF_TOKEN). Sans lui, la diarisation
+# retombe sur Resemblyzer puis sur la méthode par hauteur. torch + torchaudio
+# doivent être présents (install_win.ps1 étape 4) :
+#   pip install pyannote.audio
+# pyannote.audio>=4.0

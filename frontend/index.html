@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rythmo Dub — Bande rythmo automatique</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="carte">
+  <header>
+    <div class="pastille">R▶</div>
+    <div>
+      <h1>Rythmo Dub</h1>
+      <p>Bande rythmo automatique par IA locale — avec synchronisation labiale</p>
+    </div>
+    <div class="badge" id="badge-device">moteur&nbsp;: <b id="device">…</b> · <span id="version"></span></div>
+  </header>
+
+  <div id="erreur" role="alert"></div>
+
+  <section>
+    <h2>1 · Vidéo à doubler</h2>
+    <form id="upload">
+      <div id="zone-depot">
+        <div class="gros">🎬 Déposer la vidéo ici</div>
+        <div class="petit">ou cliquer pour choisir — MP4, MKV, MOV, AVI, WEBM</div>
+        <input type="file" id="champ-fichier" accept="video/mp4,video/quicktime,video/x-matroska,.mkv,.avi,.mov,.m4v,.webm,.mp4" hidden>
+        <div class="fichier-choisi" id="nom-fichier"></div>
+      </div>
+    </form>
+  </section>
+
+  <section id="options">
+    <div>
+      <label for="opt-modele">Modèle IA</label>
+      <select id="opt-modele">
+        <option value="tiny">tiny (très rapide)</option>
+        <option value="base" selected>base (rapide)</option>
+        <option value="small">small (recommandé)</option>
+        <option value="medium">medium (précis, GPU conseillé)</option>
+        <option value="large-v3">large-v3 (max qualité, GPU)</option>
+      </select>
+    </div>
+    <div>
+      <label for="opt-asr">Moteur de transcription</label>
+      <select id="opt-asr">
+        <option value="local" selected>Local (faster-whisper — 100 % privé)</option>
+        <option value="auto">Cloud avec repli local (auto)</option>
+        <option value="cloud">Cloud uniquement (API)</option>
+      </select>
+    </div>
+    <div>
+      <label for="opt-langue">Langue parlée</label>
+      <select id="opt-langue">
+        <option value="" selected>Détection auto</option>
+        <option value="fr">Français</option>
+        <option value="en">Anglais</option>
+        <option value="es">Espagnol</option>
+        <option value="de">Allemand</option>
+        <option value="it">Italien</option>
+      </select>
+    </div>
+    <div>
+      <label for="opt-style">Style de bande</label>
+      <select id="opt-style">
+        <option value="RYTHMO" selected>Rythmo défilant (curseur)</option>
+        <option value="REPLIQUE">Par réplique (studio)</option>
+      </select>
+    </div>
+    <div>
+      <label for="opt-theme">Thème de bande</label>
+      <select id="opt-theme">
+        <option value="STUDIO" selected>Studio (bande claire, mot surligné)</option>
+        <option value="SOMBRE">Sombre (karaoké noir)</option>
+      </select>
+    </div>
+    <div>
+      <label for="opt-taille">Hauteur bande (px)</label>
+      <input type="number" id="opt-taille" min="60" max="260" value="110">
+    </div>
+    <div>
+      <label for="opt-curseur">Position curseur (%) — style défilant</label>
+      <input type="number" id="opt-curseur" min="5" max="50" value="15">
+    </div>
+    <div>
+      <label for="opt-vitesse">Vitesse de défilement — style défilant</label>
+      <select id="opt-vitesse">
+        <option value="" selected>Auto (référence pro, 32 % largeur/s)</option>
+        <option value="0.24">Lente (24 % largeur/s)</option>
+        <option value="0.32">Normale (32 % largeur/s)</option>
+        <option value="0.45">Rapide (45 % largeur/s)</option>
+      </select>
+    </div>
+    <div class="interrupteur">
+      <input type="checkbox" id="opt-lipsync" checked>
+      <label for="opt-lipsync" style="margin:0">Synchronisation labiale</label>
+    </div>
+    <div class="interrupteur">
+      <input type="checkbox" id="opt-etirer" checked>
+      <label for="opt-etirer" style="margin:0">Étirer les syllabes allongées (tempo réel)</label>
+    </div>
+    <div class="interrupteur">
+      <input type="checkbox" id="opt-edition">
+      <label for="opt-edition" style="margin:0">✏️ Corriger les répliques avant le rendu</label>
+    </div>
+    <div class="interrupteur">
+      <input type="checkbox" id="opt-diariser" checked>
+      <label for="opt-diariser" style="margin:0">🎭 Séparer les voix automatiquement (pistes par personnage)</label>
+    </div>
+  </section>
+
+  <section>
+    <button id="bouton-lancer" disabled>▶ Générer la bande rythmo</button>
+  </section>
+
+  <section id="progress">
+    <h2>2 · Traitement IA local</h2>
+    <div class="barre"><div id="barre-remplie"></div></div>
+    <div id="etape"><span id="etape-texte">…</span><b id="pct">0 %</b></div>
+    <button id="bouton-annuler" title="Annuler le traitement en cours">✖ Annuler</button>
+  </section>
+
+  <section id="editeur" style="display:none">
+    <h2>3 · Correction des répliques <span id="etat-edition" class="etat-edition"></span></h2>
+    <p class="aide">Le texte vient de l'IA locale : il peut contenir des coquilles
+      (noms propres, liaisons…). Corrigez le texte, ajustez les horaires, et
+      glissez chaque mot sur sa piste (timeline) pour un calage parfait —
+      le verrouillage du sync interdit tout chevauchement : les mots restent
+      dans leur réplique et dans l'ordre. Les symboles entre parenthèses
+      — (souffle), (pause), (silence)… — créent une respiration : ils ne sont
+      pas prononcés et apparaissent en encart dédié sur la bande. Cliquez
+      l'aperçu pour sauter à une réplique. Raccourcis&nbsp;:
+      <kbd>Ctrl+Entrée</kbd> valider · <kbd>Ctrl+S</kbd> sauvegarder ·
+      <kbd>Alt+↑/↓</kbd> réplique précédente/suivante · <kbd>Échap</kbd>
+      stopper l'écoute.</p>
+    <div id="apercu-timeline" title="Cliquez pour sauter à une réplique">
+      <canvas id="onde-globale"></canvas>
+    </div>
+    <div class="lg-labels"><span>#</span><span>début (s)</span><span>fin (s)</span>
+      <span>texte de la réplique</span><span></span></div>
+    <div id="liste-repliques"></div>
+    <div id="erreurs-edition" role="alert"></div>
+    <div class="rangee-boutons">
+      <button id="bouton-valider-edition">▶ Lancer le rendu avec ces corrections</button>
+      <button id="bouton-ajouter-replique" title="Ajouter une réplique après la dernière">＋ Ajouter</button>
+      <button id="bouton-sauvegarde-repliques" title="Sauvegarder ces répliques dans un fichier">💾 Sauvegarder</button>
+      <button id="bouton-charge-repliques" title="Charger des répliques depuis un fichier">📂 Charger</button>
+      <button id="bouton-export-srt" title="Exporter ces répliques en sous-titres (.srt)">💬 Exporter .srt</button>
+      <button id="bouton-sauvegarde-projet" title="Enregistrer le projet complet (répliques corrigées, timings, options) dans un fichier portable">📦 Enregistrer le projet</button>
+      <button id="bouton-charge-projet" title="Restaurer un projet depuis un fichier (reprend le rendu avec le travail sauvegardé)">📂 Charger un projet</button>
+      <button id="bouton-annuler-edition" title="Abandonner ce job">✖ Abandonner</button>
+      <input type="file" id="charge-repliques-fichier" accept=".json" hidden>
+      <input type="file" id="charge-projet-fichier" accept=".json" hidden>
+    </div>
+  </section>
+
+  <section id="resultat">
+    <h2>3 · Résultat</h2>
+    <video id="preview" controls preload="metadata"></video>
+    <br>
+    <a id="download" href="#" download>⬇ Télécharger la vidéo avec bande rythmo</a>
+    <a id="download-srt" href="#" download>⬇ Télécharger les sous-titres (.srt)</a>
+    <button id="bouton-reediter" title="Rouvrir l'éditeur de répliques et re-générer la vidéo"
+            style="margin-left:10px;padding:12px 18px;background:transparent;border:1px solid var(--accent);
+                   color:var(--accent);border-radius:10px;cursor:pointer;font-weight:700;font-size:.9rem">
+      ✏️ Corriger les répliques</button>
+    <div id="meta"></div>
+  </section>
+
+  <footer>Rythmo Dub · 100 % local — aucune donnée ne quitte cette machine.</footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
