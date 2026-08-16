@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import shutil
 import threading
 import uuid
 from concurrent.futures import ThreadPoolExecutor
@@ -120,23 +121,36 @@ class GestionJobs:
 
         self._gerer_fin(job, phase_unique_ou_analyse)
 
-    def executer_rendu(self, job_id: str) -> Job | None:
-        """Lance la phase 2 (après PUT des répliques éditées). Retourne le job."""
+    def executer_rendu(self, job_id: str, texte_cible: dict | None = None) -> Job | None:
+        """Lance la phase 2 (après PUT des répliques éditées). Retourne le job.
+
+        ``texte_cible`` (optionnel) rend la bande traduite : le texte de chaque
+        réplique est substitué par sa traduction, timecodes inchangés.
+        """
         job = self.jobs.get(job_id)
         if job is None:
             return None
         with job.verrou:
             job.statut, job.progression = "traitement", max(job.progression, 80)
             job.etape = "répliques validées : rendu en cours"
-        self.pool.submit(self._executer_rendu, job)
+        self.pool.submit(self._executer_rendu, job, texte_cible)
         return job
 
-    def _executer_rendu(self, job: Job) -> None:
+    def _executer_rendu(self, job: Job, texte_cible: dict | None = None) -> None:
         from . import pipeline  # import tardif : monkeypatchable par les tests
 
         def phase_rendu():
-            pipeline.reprendre_rendu(job.job_dir, job.progresser_ou_annuler,
-                                     registrer_processus=job.definir_sous_processus)
+            # rétro-compatible : le rendu original n'envoie pas ``texte_cible``
+            # (les faux de test existants n'acceptent pas ce mot-clé).
+            if texte_cible:
+                pipeline.reprendre_rendu(
+                    job.job_dir, job.progresser_ou_annuler,
+                    registrer_processus=job.definir_sous_processus,
+                    texte_cible=texte_cible)
+            else:
+                pipeline.reprendre_rendu(
+                    job.job_dir, job.progresser_ou_annuler,
+                    registrer_processus=job.definir_sous_processus)
             job.publier(100, "terminé")
 
         self._gerer_fin(job, phase_rendu)
@@ -167,6 +181,95 @@ class GestionJobs:
                 pass
         return job
 
+    # ——— reprise de projet (slice 3) : projets persistés réouvrables ———
+
+    @staticmethod
+    def _statut_persiste(dossier: Path) -> str:
+        """Statut dérivé des fichiers : ``termine`` si le rendu existe, sinon édition."""
+        return "termine" if (dossier / "final.mp4").is_file() else "pret_edition"
+
+    def lister_projets(self) -> list[dict]:
+        """Projets persistés disposant de répliques — réouvrables sans ré-analyse.
+
+        Un dossier sans ``repliques.json`` (analyse interrompue, upload
+        orphelin) n'est jamais proposé en « rouvrir ».
+        """
+        projets: list[dict] = []
+        if not self.jobs_dir.is_dir():
+            return projets
+        for dossier in sorted(self.jobs_dir.iterdir()):
+            if not dossier.is_dir():
+                continue
+            repliques = dossier / "repliques.json"
+            if not repliques.is_file():
+                continue
+            params = {}
+            try:
+                params = json.loads((dossier / "params.json")
+                                    .read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                pass
+            nom_source = str(params.get("source") or params.get("nom_source")
+                             or "source.mp4")
+            duree = 0.0
+            try:
+                duree = float(json.loads(repliques.read_text(encoding="utf-8"))
+                              .get("duree_video", 0.0))
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                pass
+            try:
+                date = repliques.stat().st_mtime
+            except OSError:
+                date = 0.0
+            projets.append({"id": dossier.name, "nom_source": nom_source,
+                            "duree": duree, "date": date,
+                            "statut": self._statut_persiste(dossier)})
+        return projets
+
+    def rouvrir(self, projet_id: str) -> Job | None:
+        """Ré-hydrate un projet persisté en ``Job`` mémoire (sans relancer le pipeline).
+
+        Le dossier existant devient le ``job_dir`` du Job : les routes
+        répliques/audio/onde/srt répondent aussitôt. Idempotent ; un job déjà
+        en mémoire (y compris en cours de traitement) n'est pas perturbé.
+        """
+        dossier = self.jobs_dir / projet_id
+        if not (dossier / "repliques.json").is_file():
+            return None
+        job = self.jobs.get(projet_id)
+        if job is None:
+            job = Job(id=projet_id)
+            job.job_dir = dossier
+            self.jobs[projet_id] = job
+        with job.verrou:
+            if job.statut != "traitement":
+                job.statut = self._statut_persiste(dossier)
+                job.progression = 100 if job.statut == "termine" else 78
+                job.etape = "projet rouvert depuis le disque — prêt à reprendre"
+        return job
+
+    def supprimer_projet(self, projet_id: str) -> str:
+        """Supprime un projet : dossier + entrée mémoire. Retourne un état.
+
+        ``"supprime"`` / ``"absent"`` / ``"en_cours"``. Jamais un job en cours
+        (``en_attente``/``traitement``) : on ne retire pas les fichiers sous
+        les pieds d'un worker actif. Le chemin est confiné par ``safe_path``.
+        """
+        job = self.jobs.get(projet_id)
+        if job is not None:
+            with job.verrou:
+                if job.statut in ("en_attente", "traitement"):
+                    return "en_cours"
+            self.jobs.pop(projet_id, None)
+        try:
+            dossier = safe_path(self.jobs_dir, projet_id)
+        except RythmoError:
+            return "absent"
+        if not dossier.is_dir():
+            return "absent"
+        shutil.rmtree(dossier)
+        return "supprime"
+
 
 def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 * 1024
               ) -> FastAPI:
@@ -184,6 +287,41 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
         return {"statut": "ok", "device": choose_device(), "version": __version__,
                 "flux_sse_actifs": appli.state.flux_sse_actifs}
 
+    @appli.get("/api/projets")
+    def lister_projets_route():
+        """Projets persistés (répliques disponibles) — liste pour l'étape 01.
+
+        Survit au redémarrage : scan de ``data/jobs``, sans ré-upload ni
+        ré-analyse (slice 3). Un job sans répliques n'est pas proposé.
+        """
+        return {"projets": gestion.lister_projets()}
+
+    @appli.post("/api/projets/{projet_id}/rouvrir")
+    def rouvrir_projet_route(projet_id: str):
+        """Ré-hydrate un projet analysé : répliques/timings/audio, sans pipeline."""
+        job = gestion.rouvrir(projet_id)
+        if job is None:
+            raise HTTPException(404, "Projet inconnu (ou sans répliques)")
+        with job.verrou:
+            return {"job_id": job.id, "statut": job.statut,
+                    "progression": job.progression}
+
+    @appli.delete("/api/projets/{projet_id}")
+    def supprimer_projet_route(projet_id: str):
+        """Efface proprement un projet : dossier du job + entrée mémoire.
+
+        Refuse (409) un job en cours de traitement ; 404 si inconnu. Le chemin
+        est confiné au dossier des jobs (``safe_path`` → jamais d'effacement
+        hors du répertoire autorisé).
+        """
+        resultat = gestion.supprimer_projet(projet_id)
+        if resultat == "en_cours":
+            raise HTTPException(409, "Projet en cours de traitement : "
+                                     "impossible de le supprimer")
+        if resultat == "absent":
+            raise HTTPException(404, "Projet inconnu")
+        return {"projet_id": projet_id, "statut": "supprime"}
+
     @appli.post("/api/jobs", status_code=202)
     async def creer_job(fichier: UploadFile = File(...), options: str = Form(default="{}")):
         nom = fichier.filename or "video.mp4"
@@ -193,19 +331,31 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
             params = json.loads(options) if options.strip() else {}
         except json.JSONDecodeError:
             raise HTTPException(400, "Paramètre 'options' : JSON invalide") from None
+        if not isinstance(params, dict):
+            params = {}
+        # nom d'origine conservé : la liste des projets reste parlante
+        # (sinon tout devient « source.mp4 » après copie dans le job)
+        params["nom_fichier"] = nom
 
         tampon = safe_path(jobs_dir, f".upload_{uuid.uuid4().hex[:8]}{Path(nom).suffix.lower()}")
         taille = 0
+        trop_gros = False
         try:
             with open(tampon, "wb") as sortie:
                 while morceau := await fichier.read(1024 * 1024):
                     taille += len(morceau)
                     if taille > max_upload_octets:
-                        tampon.unlink(missing_ok=True)
-                        raise HTTPException(413, f"Fichier trop lourd (> {max_upload_octets // (1024 * 1024)} Mo)")
+                        # Sous Windows, le fichier est encore ouvert par le
+                        # ``with`` : on reporte la suppression après sa fermeture
+                        # (sinon WinError 32 masque le HTTP 413 attendu).
+                        trop_gros = True
+                        break
                     sortie.write(morceau)
         finally:
             await fichier.close()
+        if trop_gros:
+            tampon.unlink(missing_ok=True)
+            raise HTTPException(413, f"Fichier trop lourd (> {max_upload_octets // (1024 * 1024)} Mo)")
         job = gestion.soumettre(tampon, params)
         return {"job_id": job.id, "statut": job.statut}
 
@@ -306,8 +456,9 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
                                       "message_utilisateur": format_user_error(
                                           "E005", "Corps JSON illisible")}) from None
         repliques = corps.get("repliques") if isinstance(corps, dict) else None
+        personnages = corps.get("personnages") if isinstance(corps, dict) else None
         try:
-            appliquer_edition(job.job_dir, repliques)
+            appliquer_edition(job.job_dir, repliques, personnages)
         except RythmoError as exc:
             raise HTTPException(400, {"code": exc.code, "message": exc.message,
                                       "message_utilisateur": format_user_error(
@@ -456,6 +607,41 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
             for r in entrees if isinstance(r, dict)
         ]}
 
+    @appli.post("/api/jobs/{job_id}/synchroniser")
+    async def synchroniser_route(job_id: str, request: Request):
+        """Réaligne le texte des répliques envoyées sur l'audio du job (mot à mot).
+
+        Stateless : reçoit l'état affiché par l'éditeur et renvoie ce même état
+        complété de timings ``mots`` — sans persister ni relancer le rendu (le
+        PUT habituel reste le seul déclencheur de rendu). Utile après un import
+        de ``.srt``, dont les mots sont sinon répartis uniformément.
+        """
+        from .synchroniser import synchroniser_repliques
+
+        job = gestion.jobs.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Job inconnu")
+        with job.verrou:
+            statut = job.statut
+        if statut not in STATUTS_EDITABLES:
+            raise HTTPException(409, f"Ce job n'accepte pas de resynchronisation "
+                                     f"(statut « {statut} »)")
+        try:
+            corps = await request.json()
+        except json.JSONDecodeError:
+            raise HTTPException(400, {"code": "E005",
+                                      "message": "Corps JSON illisible",
+                                      "message_utilisateur": format_user_error(
+                                          "E005", "Corps JSON illisible")}) from None
+        repliques = corps.get("repliques") if isinstance(corps, dict) else None
+        try:
+            resynchronisees = synchroniser_repliques(job.job_dir, repliques)
+        except RythmoError as exc:
+            raise HTTPException(400, {"code": exc.code, "message": exc.message,
+                                      "message_utilisateur": format_user_error(
+                                          exc.code, exc.message)}) from None
+        return {"job_id": job_id, "repliques": resynchronisees}
+
     @appli.get("/api/jobs/{job_id}/projet")
     def exporter_projet_route(job_id: str):
         """Export du travail complet (répliques + timings + options) en JSON portable.
@@ -538,6 +724,10 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
             raise HTTPException(410, "Résultat absent (fichier supprimé)")
         return FileResponse(resultat_path, media_type="video/mp4",
                             filename=f"rythmo_{job.id}.mp4")
+
+    # Couche de traduction IA (module dédié, sans toucher aux routes existantes)
+    from .traduction.traduction_api import enregistrer_routes as enregistrer_routes_traduction
+    enregistrer_routes_traduction(appli, gestion)
 
     if FRONT_DIR.is_dir():
         appli.mount("/", StaticFiles(directory=FRONT_DIR, html=True), name="front")

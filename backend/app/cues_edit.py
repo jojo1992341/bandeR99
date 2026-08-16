@@ -22,6 +22,17 @@ def _est_nombre(valeur) -> bool:
     return isinstance(valeur, (int, float)) and not isinstance(valeur, bool)
 
 
+def _voix_differentes(a: dict, b: dict) -> bool:
+    """Vrai si les deux répliques portent chacune une voix connue ET distincte.
+
+    Parole simultanée (T127) : deux comédiens peuvent se couper la parole ; seuls
+    les chevauchements au sein d'une MÊME voix (ou à voix inconnue — impossible
+    de départager) restent des violations.
+    """
+    pa, pb = a.get("personnage"), b.get("personnage")
+    return pa is not None and pb is not None and pa != pb
+
+
 def valider_repliques(repliques, duree_video: float,
                       tolerance_fin: float = TOLERANCE_FIN_S,
                       tolerance_recalage: float = TOLERANCE_RECALAGE_S) -> list[dict]:
@@ -80,13 +91,21 @@ def valider_repliques(repliques, duree_video: float,
 
     if not violations:
         normalisees.sort(key=lambda r: (r["debut"], r["fin"]))
-        for i in range(1, len(normalisees)):
-            precedente, courante = normalisees[i - 1], normalisees[i]
-            recouvrement = precedente["fin"] - courante["debut"]
-            if recouvrement > tolerance_recalage:
-                violations.append(
-                    f"répliques « {precedente['texte'][:20]} » et "
-                    f"« {courante['texte'][:20]} » : chevauchement de {recouvrement:.2f} s")
+        for i in range(len(normalisees)):
+            for j in range(i + 1, len(normalisees)):
+                precedente, courante = normalisees[i], normalisees[j]
+                if courante["debut"] >= precedente["fin"]:
+                    # liste triée par debut : plus aucun chevauchement après ce j
+                    break
+                if _voix_differentes(precedente, courante):
+                    continue  # parole simultanée de deux comédiens (T127)
+                recouvrement = precedente["fin"] - courante["debut"]
+                if recouvrement > tolerance_recalage:
+                    violations.append(
+                        f"répliques « {precedente['texte'][:20]} » et "
+                        f"« {courante['texte'][:20]} » : chevauchement de {recouvrement:.2f} s")
+                    break
+            if violations:
                 break
     if violations:
         raise RythmoError("E005", "Répliques invalides — " + " ; ".join(violations))

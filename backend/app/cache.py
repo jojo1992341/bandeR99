@@ -14,8 +14,9 @@ from .asr import Word
 
 # Version de l'affinage des timestamps : incrémentée quand le post-traitement
 # change les horodatages (ex. T50 — prolongation acoustique des syllabes
-# tenues) — les entrées de cache antérieures sont alors re-transcrites une fois.
-VERSION_AFFINAGE = "t50-2026-08"
+# tenues ; T116 — prolongation par phonèmes voisés ; T117 — onsets de mots par
+# phonèmes voisés) — les entrées de cache antérieures sont re-transcrites une fois.
+VERSION_AFFINAGE = "studio-fragments-2026-08"
 
 
 def _cache_dir() -> Path:
@@ -46,7 +47,9 @@ def lire_transcription(cle: str) -> tuple[list[Word], str] | None:
     try:
         donnees = json.loads(p.read_text(encoding="utf-8"))
         mots = [Word(m["texte"], float(m["debut"]), float(m["fin"]),
-                     float(m.get("proba", 0.0))) for m in donnees["mots"]]
+                     float(m.get("proba", 0.0)),
+                     marqueur=bool(m.get("marqueur", False)))
+                for m in donnees["mots"]]
         return mots, donnees["langue"]
     except (KeyError, ValueError, json.JSONDecodeError):
         return None
@@ -54,7 +57,8 @@ def lire_transcription(cle: str) -> tuple[list[Word], str] | None:
 
 def ecrire_transcription(cle: str, mots: list[Word], langue: str) -> None:
     donnees = {"langue": langue, "mots": [
-        {"texte": m.text, "debut": m.start, "fin": m.end, "proba": m.probability}
+        {"texte": m.text, "debut": m.start, "fin": m.end, "proba": m.probability,
+         **({"marqueur": True} if m.marqueur else {})}
         for m in mots]}
     cible = _chemin(cle)
     tampon = cible.with_suffix(".json.tmp")  # écriture atomique (anti-coupure)

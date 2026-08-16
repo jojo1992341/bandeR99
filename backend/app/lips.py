@@ -155,27 +155,47 @@ def find_speech_onsets(piste: MouthTrack, seuil_relatif: float = 0.35,
 
 
 def align_cues_to_mouth(cues, onsets, decalage_max: float = 0.25):
-    """Recale chaque cue sur l'onset bouche le plus proche (|décalage| ≤ borne).
+    """Recale la *fenêtre* de chaque cue sur l'onset bouche le plus proche.
 
-    Le décalage est borné, la durée des répliques est préservée, aucune réplique
-    ne démarre avant t=0. Sans onset dans la fenêtre : cue inchangée.
+    Le calage labial concerne l'entrée visuelle de la réplique ; il ne doit pas
+    décaler les mots audio eux-mêmes. L'ancien comportement déplaçait toute la
+    timeline mot-à-mot, ce qui pouvait transformer une bonne transcription en
+    faux timestamps. Les bornes de fenêtre sont donc portées par
+    ``Cue.start_override``/``end_override`` et la durée de fenêtre est conservée.
+
+    Chaque recalage est borné pour ne jamais créer de chevauchement avec la
+    réplique précédente (ni démarrer avant t=0) : sinon la phase 2
+    (``valider_repliques``) rejetterait la sortie automatique, alors que les
+    mots audio, eux, n'ont pas bougé. Le calage labial cède donc le pas au
+    respect de l'ordre des répliques.
     """
     from .cues import Cue  # import local : évite un cycle lips<->cues
 
-    from .asr import Word
-
     ajustees = []
+    fin_precedente = 0.0
     for cue in cues:
+        debut = cue.start
+        fin = cue.end
         if onsets and cue.words:
             plus_proche = min(onsets, key=lambda o: abs(o - cue.start))
             delta = plus_proche - cue.start
             if abs(delta) <= decalage_max:
-                delta = max(delta, -cue.start)  # jamais avant t=0
-                mots = [Word(w.text, w.start + delta, w.end + delta, w.probability)
-                        for w in cue.words]
-                ajustees.append(Cue(words=mots))
-                continue
-        ajustees.append(cue)
+                debut = cue.start + delta
+                fin = cue.end + delta
+        # jamais avant t=0, jamais en chevauchement avec la réplique précédente
+        if debut < fin_precedente:
+            glissement = fin_precedente - debut
+            debut += glissement
+            fin += glissement
+        debut = max(debut, 0.0)
+        fin = max(fin, debut)
+        ajustees.append(Cue(
+            words=list(cue.words),
+            personnage=cue.personnage,
+            start_override=debut,
+            end_override=fin,
+        ))
+        fin_precedente = fin
     return ajustees
 
 def mesurer_visage_image(bgr: np.ndarray) -> dict:

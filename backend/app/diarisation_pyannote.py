@@ -125,15 +125,13 @@ def _lire_waveform(chemin_wav):
     return torch.from_numpy(buf).unsqueeze(0), rate
 
 
-def diariser_repliques_pyannote(cues, chemin_wav) -> list[int] | None:
-    """Étiquettes de personnage par réplique via pyannote (vrai modèle).
+def obtenir_tours_pyannote(chemin_wav) -> list[tuple[float, float, str]] | None:
+    """Exécute pyannote une fois et renvoie ses tours de parole normalisés.
 
-    Retourne ``None`` si le pipeline est indisponible (token absent, modèle
-    non téléchargé) ou si l'exécution échoue — le pipeline retombe alors sur
-    Resemblyzer (T109) puis la hauteur (T56). Jamais d'exception.
+    Cette primitive évite de réduire trop tôt une diarisation studio à une
+    étiquette par réplique : le pipeline peut ensuite couper une réplique au
+    changement de locuteur, même quand la pause est inférieure à 600 ms.
     """
-    if not cues:
-        return []
     try:
         pipeline = charger_pipeline()
         if pipeline is None:
@@ -145,13 +143,64 @@ def diariser_repliques_pyannote(cues, chemin_wav) -> list[int] | None:
             diarization = pipeline({"waveform": waveform, "sample_rate": rate})
         # pyannote.audio >= 4.0 renvoie un ``DiarizeOutput`` (l'Annotation est
         # dans le champ ``speaker_diarization``) au lieu de l'Annotation directe
-        # de pyannote 3.1 : on normalise les deux formats avant de lire les tours.
+        # de pyannote 3.1.
         if not hasattr(diarization, "itertracks"):
             diarization = getattr(diarization, "speaker_diarization", None)
         if diarization is None:
             return None
-        tours = [(turn.start, turn.end, loc)
-                 for turn, _, loc in diarization.itertracks(yield_label=True)]
-        return _assigner_par_dominance(cues, tours)
+        return [(float(turn.start), float(turn.end), str(loc))
+                for turn, _, loc in diarization.itertracks(yield_label=True)]
     except Exception:
         return None  # toute défaillance → repli, jamais d'exception
+
+
+def _renumeroter_tours(tours: list[tuple[float, float, str]]) -> dict[str, int]:
+    """Renumérote les locuteurs par première apparition temporelle."""
+    ordre: dict[str, int] = {}
+    for _, _, loc in sorted(tours, key=lambda t: (t[0], t[1], t[2])):
+        if loc not in ordre:
+            ordre[loc] = len(ordre)
+    return ordre
+
+
+def etiqueter_mots_pyannote(mots, tours: list[tuple[float, float, str]] | None
+                            ) -> list[int] | None:
+    """Attribue chaque mot au tour qui le recouvre le plus.
+
+    Contrairement à l'ancienne dominance par réplique, cette granularité permet
+    à ``build_cues`` de couper un cue quand le locuteur change. Les tours
+    simultanés restent déterministes : le plus grand recouvrement gagne, sans
+    inventer une troisième voix.
+    """
+    if not mots:
+        return []
+    if not tours:
+        return None
+    ordre = _renumeroter_tours(tours)
+    labels: list[int] = []
+    for mot in mots:
+        meilleur_loc, meilleur = None, 0.0
+        for debut, fin, loc in tours:
+            recouvrement = min(float(mot.end), fin) - max(float(mot.start), debut)
+            if recouvrement > meilleur:
+                meilleur, meilleur_loc = recouvrement, loc
+        if meilleur_loc is None:
+            centre = (float(mot.start) + float(mot.end)) / 2.0
+            plus_proche = min(tours,
+                              key=lambda t: abs((t[0] + t[1]) / 2.0 - centre))
+            meilleur_loc = plus_proche[2]
+        labels.append(ordre[meilleur_loc])
+    return labels
+
+
+def diariser_repliques_pyannote(cues, chemin_wav) -> list[int] | None:
+    """Étiquettes de personnage par réplique via pyannote (vrai modèle).
+
+    Retourne ``None`` si le pipeline est indisponible (token absent, modèle
+    non téléchargé) ou si l'exécution échoue — le pipeline retombe alors sur
+    Resemblyzer (T109) puis la hauteur (T56). Jamais d'exception.
+    """
+    if not cues:
+        return []
+    tours = obtenir_tours_pyannote(chemin_wav)
+    return _assigner_par_dominance(cues, tours) if tours else None

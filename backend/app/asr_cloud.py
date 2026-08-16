@@ -23,8 +23,8 @@ from pathlib import Path
 
 import httpx
 
-from .asr import (Word, duree_wav, enveloppe_rms, prolonger_fins_sur_audio,
-                  validate_words)
+from .asr import (Word, duree_wav, enveloppe_parole, fusionner_fragments_fr,
+                  prolonger_fins_sur_audio, recaler_onsets_sur_audio, validate_words)
 from .errors import RythmoError
 
 URL_DEFAUT = "https://api.openai.com/v1/audio/transcriptions"
@@ -99,7 +99,10 @@ def transcrire_cloud(chemin_wav: str | Path, language: str | None = None,
                                   "(timestamp_granularities[].word requis).")
     # même post-traitement que le local : syllabes tenues prolongées, bornes sûres
     duree = duree_wav(chemin_wav)
-    mots = prolonger_fins_sur_audio(mots, enveloppe_rms(chemin_wav))
+    mots = fusionner_fragments_fr(mots)
+    rms, zc = enveloppe_parole(chemin_wav)
+    mots = prolonger_fins_sur_audio(mots, rms, zc_hz=zc)
+    mots = recaler_onsets_sur_audio(mots, rms, zc)
     return validate_words(mots, duree), langue or language or ""
 
 

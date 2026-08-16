@@ -27,8 +27,9 @@ PARAMS_BORNES: dict[str, tuple[float, float]] = {
     "curseur_ratio": (0.05, 0.50),
     "vitesse": (0.05, 5.0),
     "taille_police": (10, 200),
+    "taille_police_min": (10, 200),
 }
-PARAMS_ENTIERS = {"hauteur_bande", "taille_police"}
+PARAMS_ENTIERS = {"hauteur_bande", "taille_police", "taille_police_min"}
 PARAMS_BOOLEENS = {"aligner_whisperx", "lipsync", "etirer_mots", "diariser", "edition"}
 PARAMS_CHAINES = {"langue", "modele", "style", "theme", "asr", "modele_cloud", "asr_cle"}
 
@@ -51,6 +52,10 @@ def _assainir_params(params) -> dict:
                 continue
             mini, maxi = PARAMS_BORNES[cle]
             propres[cle] = max(mini, min(maxi, propres[cle]))
+        elif cle == "vitesse" and valeur == "dynamique":
+            # T149 : sentinelle « vitesse constante par réplique » — un
+            # float() l'écarterait silencieusement à l'import de projet
+            propres[cle] = "dynamique"
         elif cle in PARAMS_BORNES:  # flottants bornés
             try:
                 propres[cle] = float(valeur)
