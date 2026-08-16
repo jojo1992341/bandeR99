@@ -1,15 +1,170 @@
 (() => {
   const $ = s => document.querySelector(s);
+
+  /* ——————— bande rythmo (en-tête) : héros OU mini-lecteur du job ———————
+     Par défaut, mini bande défilante : le produit lui-même en héros (mots
+     dupliqués pour une boucle sans couture, figée si prefers-reduced-motion).
+     Dès qu'un job est éditable (répliques horodatées + audio disponibles),
+     la bande devient un VRAI mini-lecteur : les mots du job défilent AU
+     RYTHME DE L'AUDIO — piste temporelle rigide (même loi que le rendu
+     serveur : position s = v·début, anti-chevauchement), lecture/pause,
+     timecode et clic pour se déplacer. */
+  const bandeFenetre = document.querySelector(".bande-fenetre");
+  const bandePiste = document.querySelector(".bande-piste");
+  const bandeControles = document.querySelector("#bande-controles");
+  const bandeJouer = document.querySelector("#bande-jouer");
+  const bandeTemps = document.querySelector("#bande-temps");
+  const VITESSE_BANDE = 0.32;  // fraction de la largeur par seconde (réf. pro)
+  const ESPACE_BANDE = 26;     // px entre mots sur la piste
+  const DUREE_TRANCHE = 20;    // s par tranche audio chargée (jamais le WAV entier)
+  let rafHero = null;          // boucle héros (null = lecteur actif)
+  let lecteurBande = null;     // état du mini-lecteur (null = bande héros)
+
+  function demarrerBandeHero() {
+    const fenetre = bandeFenetre, piste = bandePiste;
+    if (!fenetre || !piste) return;
+    piste.innerHTML = "";
+    ["Le", "doublage", "mot", "par", "mot", "100 %", "local"].forEach(t => {
+      const m = document.createElement("span");
+      m.className = "bande-mot";
+      m.textContent = t;
+      piste.appendChild(m);
+    });
+    const originaux = [...piste.children];
+    if (originaux.length < 2) return;
+    originaux.forEach(m => piste.appendChild(m.cloneNode(true)));
+    const mots = [...piste.querySelectorAll(".bande-mot")];
+    const n = originaux.length;
+    const largeurDemi = mots[n].offsetLeft - mots[0].offsetLeft;
+    if (largeurDemi <= 0) return;
+    const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const VITESSE = 0.07;   // fraction de la largeur par seconde
+    let tx = 0;
+
+    function placer() {
+      const curseur = fenetre.clientWidth * 0.15;
+      mots.forEach(m => {
+        const g = m.offsetLeft + tx;
+        const d = g + m.offsetWidth;
+        m.classList.toggle("actif", g <= curseur + 1 && d >= curseur - 1);
+        m.classList.toggle("passe", d < curseur - 6);
+      });
+      piste.style.transform = "translateX(" + tx + "px)";
+    }
+
+    // position initiale : le deuxième mot est sous le curseur, en surbrillance
+    tx = fenetre.clientWidth * 0.15 - (mots[1].offsetLeft + mots[1].offsetWidth / 2);
+    placer();
+    if (reduit) return;  // bande figée
+
+    let precedent = null;
+    function cadre(ts) {
+      if (!precedent) precedent = ts;
+      const dt = Math.min((ts - precedent) / 1000, 0.1);
+      precedent = ts;
+      tx -= fenetre.clientWidth * VITESSE * dt;
+      if (tx <= -largeurDemi) tx += largeurDemi;
+      placer();
+      rafHero = requestAnimationFrame(cadre);
+    }
+    rafHero = requestAnimationFrame(cadre);
+  }  demarrerBandeHero();
+
   let fichierChoisi = null;
   let jobCourant = null;        // job en cours (événements + édition)
   let dureeVideoJob = 0;        // durée vidéo annoncée par l'analyse
   let sourceCourante = null;    // EventSource de suivi (jamais deux à la fois)
   let editionModifiee = false;   // corrections non encore validées côté serveur
+  let nomsPersonnages = [];     // noms des personnages de la scène (index 0 = voix 1)
+  let menuPersonnage = null;    // menu contextuel « attribuer ce mot à un personnage »
 
   fetch("/api/health").then(r => r.json()).then(h => {
     $("#device").textContent = h.device.toUpperCase();
     $("#version").textContent = "v" + h.version;
   }).catch(() => { $("#device").textContent = "?"; });
+
+  // ——— slice 3 : projets déjà analysés sur cette machine (étape 01) ———
+  // La liste est chargée au démarrage ; rouvrir ré-hydrate le job sans
+  // ré-upload ni ré-analyse (le serveur scanne data/jobs).
+  async function chargerProjets() {
+    const bloc = $("#section-projets"), liste = $("#liste-projets");
+    if (!bloc || !liste) return;
+    try {
+      const rep = await fetch("/api/projets");
+      if (!rep.ok) return;
+      const corps = await rep.json();
+      const projets = corps.projets || [];
+      liste.innerHTML = "";
+      projets.forEach(p => {
+        const infos = '<span class="infos-projet">' +
+          (p.nom_source || p.id) +
+          (p.duree ? " · " + p.duree.toFixed(1) + " s" : "") +
+          " · " + (p.statut === "termine" ? "terminé" : "édition en pause") +
+          '</span>';
+        liste.insertAdjacentHTML('beforeend',
+          '<li class="ligne-projet">' + infos +
+          '<span class="actions-projet">' +
+          '<button type="button" class="bouton-rouvrir" ' +
+          'data-id="' + p.id + '">📂 Rouvrir</button>' +
+          '<button type="button" class="bouton-supprimer-projet" ' +
+          'data-id="' + p.id + '" title="Supprimer ce projet et tous ses fichiers">🗑 Supprimer</button>' +
+          '</span></li>');
+      });
+      liste.querySelectorAll(".bouton-rouvrir").forEach(b =>
+        b.addEventListener("click", () => rouvrirProjet(b.dataset.id)));
+      liste.querySelectorAll(".bouton-supprimer-projet").forEach(b =>
+        b.addEventListener("click", () => supprimerProjet(b.dataset.id)));
+      bloc.hidden = !projets.length;
+    } catch (err) { /* serveur injoignable : la section reste cachée */ }
+  }
+
+  async function rouvrirProjet(id) {
+    try {
+      const rep = await fetch("/api/projets/" + encodeURIComponent(id) + "/rouvrir",
+                              { method: "POST" });
+      if (!rep.ok) {
+        afficherErreur("impossible de rouvrir ce projet (HTTP " + rep.status + ")");
+        return;
+      }
+      jobCourant = id;
+      const r2 = await fetch("/api/jobs/" + encodeURIComponent(id) + "/repliques");
+      if (!r2.ok) {
+        afficherErreur("impossible de charger les répliques de ce projet");
+        return;
+      }
+      cacherErreur();
+      ouvrirEditeur(await r2.json());
+      $("#resultat").style.display = "none";
+    } catch (err) {
+      afficherErreur("serveur injoignable : " + err.message);
+    }
+  }
+
+  async function supprimerProjet(id) {
+    // Confirmation native : on n'efface jamais une vidéo, son analyse et son
+    // rendu sans un accord explicite du comédien.
+    if (!confirm("Supprimer définitivement ce projet (vidéo, analyse et rendu) ?"))
+      return;
+    try {
+      const rep = await fetch("/api/projets/" + encodeURIComponent(id),
+                              { method: "DELETE" });
+      if (!rep.ok) {
+        const d = await rep.json().catch(() => ({}));
+        afficherErreur("suppression refusée : " + (d.detail || ("HTTP " + rep.status)));
+        return;
+      }
+      if (jobCourant === id) {
+        jobCourant = null;
+        arreterBandeLecteur();
+        $("#editeur").style.display = "none";
+        $("#resultat").style.display = "none";
+      }
+      chargerProjets();  // rafraîchit la liste
+    } catch (err) {
+      afficherErreur("serveur injoignable : " + err.message);
+    }
+  }
+  chargerProjets();
 
   const zone = $("#zone-depot"), champ = $("#champ-fichier");
   zone.addEventListener("click", () => champ.click());
@@ -61,8 +216,14 @@
       style: $("#opt-style").value,
       theme: $("#opt-theme").value,
       hauteur_bande: parseInt($("#opt-taille").value) || 110,
+      taille_police_min: $("#opt-taille-police-min").value
+        ? Math.max(10, Math.min(200,
+            parseInt($("#opt-taille-police-min").value) || 200))
+        : null,
       curseur_ratio: Math.min(50, Math.max(5, parseInt($("#opt-curseur").value) || 15)) / 100,
-      vitesse: $("#opt-vitesse").value ? parseFloat($("#opt-vitesse").value) : null,
+      // T149 : valeur brute ("0.24", "dynamique"…) — parseFloat détruirait
+      // « dynamique » en NaN ; le backend traduit chaque sentinelle.
+      vitesse: $("#opt-vitesse").value || null,
       etirer: $("#opt-etirer").checked,
       lipsync: $("#opt-lipsync").checked,
       edition: $("#opt-edition").checked,
@@ -88,6 +249,7 @@
     }
     const { job_id } = await rep.json();
     jobCourant = job_id;
+    arreterBandeLecteur();  // nouveau job : bande héros jusqu'aux répliques
     $("#bouton-annuler").onclick = async () => {
       if (!confirm("Annuler le traitement en cours ?")) return;
       try { await fetch("/api/jobs/" + job_id + "/cancel", { method: "POST" }); } catch (_) {}
@@ -109,11 +271,14 @@
 
   function sauvegarderRepliques() {
     const repliques = collecterRepliques();
-    const erreurs = validerLocal(repliques);
+    // ni chevauchement ni fin au-delà de la vidéo n'empêchent de sauvegarder :
+    // ce fichier sert à archiver/échanger, pas à valider (le PUT, lui, reste strict)
+    const erreurs = validerLocal(repliques, { pourFichier: true });
     afficherErreursEdition(erreurs);
-    if (erreurs.length) return;  // on ne sauvegarde pas un brouillon invalide
+    if (erreurs.length) return;
     const donnees = { "version": 1, "duree_video": dureeVideoJob,
-                      "job": jobCourant, "repliques": repliques };
+                      "job": jobCourant, "repliques": repliques,
+                      "personnages": collecterPersonnages() };
     const blob = new Blob([JSON.stringify(donnees, null, 2)],
                           { type: "application/json" });
     const lien = document.createElement("a");
@@ -140,15 +305,95 @@
         texte: String(r.texte ?? ""),
         debut: Number(r.debut), fin: Number(r.fin),
         personnage: r.personnage,
+        verrouillee: !!r.verrouillee,
         mots: Array.isArray(r.mots) ? r.mots : undefined,
       }));
-      const erreurs = validerLocal(vues);
+      const erreurs = validerLocal(vues, { pourFichier: true });
       if (erreurs.length)
         return afficherErreursEdition(["Fichier refusé :", ...erreurs]);
-      $("#liste-repliques").innerHTML = "";
-      vues.forEach((r, i) => ajouterLigneReplique(r, true));
-      afficherErreursEdition([]);
-      marquerModifiee();
+      if (Array.isArray(donnees.personnages))
+        initialiserPersonnages({ repliques: vues, personnages: donnees.personnages });
+      remplacerListeRepliques(vues);
+    };
+    lecteur.readAsText(fichier);
+  }
+
+  /* ——————— import de sous-titres .srt (T118) ——————— */
+
+  function remplacerListeRepliques(vues) {
+    $("#liste-repliques").innerHTML = "";
+    vues.forEach(r => ajouterLigneReplique(r, true));
+    afficherErreursEdition([]);
+    marquerModifiee();
+    // si la bande d'en-tête est en mode lecteur (job en cours), on la resynchronise
+    if (lecteurBande) activerBandeLecteur({ repliques: vues, duree_video: dureeVideoJob });
+  }
+
+  function secondesSrt(chaine) {
+    // « HH:MM:SS,mmm » (virgule = norme SRT) ou « HH:MM:SS.mmm » ; on cherche
+    // le premier horodatage de la chaîne pour ignorer d'éventuels réglages de
+    // position placés après le temps de fin.
+    const m = /(\d{1,2}):(\d{1,2}):(\d{1,2})[,.](\d{1,3})/.exec(String(chaine));
+    if (!m) return null;
+    const h = parseInt(m[1], 10), min = parseInt(m[2], 10), s = parseInt(m[3], 10);
+    const ms = parseInt(m[4].padEnd(3, "0"), 10);
+    return h * 3600 + min * 60 + s + ms / 1000;
+  }
+
+  function nettoyerTexteSrt(chaine) {
+    return String(chaine || "")
+      .replace(/<[^>]*>/g, "")                // balises <i>, <font>… courantes
+      .replace(/&amp;/g, "&").replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function parserSrt(contenu) {
+    // Le .srt sépare chaque cue par une ligne vide : on découpe sur ces lignes
+    // vides, puis on localise la ligne « debut --> fin » de chaque bloc.
+    const brut = String(contenu || "")
+      .replace(/^\uFEFF/, "")                 // BOM UTF-8 éventuel
+      .replace(/\r\n?/g, "\n");
+    const repliques = [];
+    for (const bloc of brut.split(/\n[ \t]*\n/)) {
+      const lignes = bloc.split("\n").map(l => l.trim()).filter(Boolean);
+      if (!lignes.length) continue;
+      const iFleche = lignes.findIndex(l => l.includes("-->"));
+      if (iFleche === -1) continue;
+      const morceaux = lignes[iFleche].split("-->");
+      if (morceaux.length !== 2) continue;
+      const debut = secondesSrt(morceaux[0]);
+      const fin = secondesSrt(morceaux[1]);
+      if (debut == null || fin == null || fin <= debut) continue;
+      const texte = nettoyerTexteSrt(lignes.slice(iFleche + 1).join(" "));
+      if (!texte) continue;
+      repliques.push({ texte, debut, fin });
+    }
+    return repliques;
+  }
+
+  function importerSrt(fichier) {
+    const lecteur = new FileReader();
+    lecteur.onload = () => {
+      const repliques = parserSrt(lecteur.result);
+      if (!repliques.length)
+        return afficherErreursEdition(
+          ["Aucune réplique trouvée : ce fichier .srt est vide ou mal formé."]);
+      // Chaque cue devient une réplique ; faute d'alignement audio, ses mots
+      // sont répartis sur sa fenêtre (même distribution uniforme que le repli
+      // serveur) : la timeline est manipulable immédiatement.
+      const vues = repliques.map(r => ({
+        texte: r.texte,
+        debut: r.debut,
+        fin: r.fin,
+        mots: distribuerUniforme(r.texte.split(/\s+/).filter(Boolean),
+                                 r.debut, r.fin),
+      }));
+      const erreurs = validerLocal(vues, { pourFichier: true });
+      if (erreurs.length)
+        return afficherErreursEdition(["Fichier refusé :", ...erreurs]);
+      remplacerListeRepliques(vues);
     };
     lecteur.readAsText(fichier);
   }
@@ -205,9 +450,162 @@
     lecteur.readAsText(fichier);
   }
 
+  /* ——————— personnages de la scène (noms + parole simultanée, T125) ——————— */
+
+  function echapperHtml(chaine) {
+    return String(chaine == null ? "" : chaine).replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+
+  function optionsVoix() {
+    let html = '<option value="">—</option>';
+    nomsPersonnages.forEach((nom, i) => {
+      html += '<option value="' + (i + 1) + '">' +
+              echapperHtml(nom || ("Personnage " + (i + 1))) + "</option>";
+    });
+    return html;
+  }
+
+  function majSelectsVoix() {
+    document.querySelectorAll(".champ-voix").forEach(sel => {
+      const garde = sel.value;
+      sel.innerHTML = optionsVoix();
+      if ([...sel.options].some(o => o.value === garde)) sel.value = garde;
+    });
+  }
+
+  function majChampsNoms() {
+    const conteneur = $("#noms-personnages");
+    if (!conteneur) return;
+    conteneur.innerHTML = "";
+    nomsPersonnages.forEach((nom, i) => {
+      const champ = document.createElement("input");
+      champ.type = "text";
+      champ.className = "nom-personnage";
+      champ.value = nom || "";
+      champ.placeholder = "Personnage " + (i + 1);
+      champ.title = "Nom du personnage " + (i + 1);
+      champ.addEventListener("input", () => {
+        nomsPersonnages[i] = champ.value.trim() || ("Personnage " + (i + 1));
+        majSelectsVoix();
+        marquerModifiee();
+      });
+      conteneur.appendChild(champ);
+    });
+    majSelectsVoix();
+  }
+
+  function initialiserPersonnages(donnees) {
+    let voixMax = 0;
+    (donnees.repliques || []).forEach(r => {
+      if (r.personnage != null) voixMax = Math.max(voixMax, Number(r.personnage) + 1);
+    });
+    const annonces = Array.isArray(donnees.personnages) ? donnees.personnages : null;
+    let nb = Math.max(annonces ? annonces.length : 0,
+                      Number(donnees.nb_personnages) || 0, voixMax);
+    if (!nb) nb = 2;  // aucune information : un dialogue à deux par défaut
+    nomsPersonnages = [];
+    for (let i = 0; i < nb; i++) {
+      nomsPersonnages.push(annonces && annonces[i]
+        ? String(annonces[i]) : "Personnage " + (i + 1));
+    }
+    const champ = $("#nb-personnages");
+    if (champ) champ.value = String(nb);
+    majChampsNoms();
+  }
+
+  function collecterPersonnages() {
+    return nomsPersonnages.slice();
+  }
+
+  function fermerMenuPersonnage() {
+    if (menuPersonnage) { menuPersonnage.remove(); menuPersonnage = null; }
+  }
+
+  function assignerMotPersonnage(piste, indexMot, indicePersonnage) {
+    const bloc = piste.closest(".bloc-replique");
+    if (!bloc) return;
+    const ligne = bloc.querySelector(".ligne-replique");
+    const mots = piste.mots;
+    if (!mots || mots.length < 2) {
+      afficherErreursEdition(
+        ["Impossible d'attribuer ce mot : la réplique doit conserver au moins un mot."]);
+      return;
+    }
+    const [deplace] = mots.splice(indexMot, 1);
+    const restants = mots;
+    piste.mots = restants;
+    ligne.querySelector(".champ-texte").value =
+      restants.map(m => m.texte).join(" ");
+    // la fenêtre de la source suit son premier/dernier mot restant
+    ligne.querySelector(".champ-debut").value = restants[0].debut.toFixed(3);
+    ligne.querySelector(".champ-fin").value =
+      restants[restants.length - 1].fin.toFixed(3);
+    rendererPiste(piste);
+
+    // un clone par (réplique source, personnage) : la première attribution
+    // crée le clone, les suivantes vers le MÊME personnage y ajoutent le mot
+    const clones = bloc.__clones || (bloc.__clones = {});
+    let clone = clones[indicePersonnage];
+    if (!clone || !clone.isConnected) {
+      const liste = $("#liste-repliques");
+      const suivant = bloc.nextElementSibling;
+      const index = [...liste.children].indexOf(bloc) + 1;
+      clone = ligneReplique({ texte: deplace.texte, debut: deplace.debut,
+                              fin: deplace.fin, personnage: indicePersonnage,
+                              mots: [deplace] }, index, true);
+      clone.classList.add("clone");
+      if (suivant) liste.insertBefore(clone, suivant);
+      else liste.appendChild(clone);
+      clones[indicePersonnage] = clone;
+    } else {
+      const pisteClone = clone.querySelector(".piste-mots");
+      const motsClone = pisteClone.mots;
+      motsClone.push(deplace);
+      motsClone.sort((a, b) => a.debut - b.debut);
+      const ligneClone = clone.querySelector(".ligne-replique");
+      ligneClone.querySelector(".champ-texte").value =
+        motsClone.map(m => m.texte).join(" ");
+      ligneClone.querySelector(".champ-debut").value =
+        Math.min(...motsClone.map(m => m.debut)).toFixed(3);
+      ligneClone.querySelector(".champ-fin").value =
+        Math.max(...motsClone.map(m => m.fin)).toFixed(3);
+      rendererPiste(pisteClone);
+    }
+    renumeroter();
+    rafraichirApercu();
+    marquerModifiee();
+  }
+
+  function ouvrirMenuPersonnage(e, piste, indexMot) {
+    e.preventDefault();
+    fermerMenuPersonnage();
+    const menu = document.createElement("div");
+    menu.className = "menu-personnage";
+    nomsPersonnages.forEach((nom, i) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "menu-personnage-item";
+      item.textContent = nom || ("Personnage " + (i + 1));
+      item.onclick = () => {
+        fermerMenuPersonnage();
+        assignerMotPersonnage(piste, indexMot, i);
+      };
+      menu.appendChild(item);
+    });
+    document.body.appendChild(menu);
+    menuPersonnage = menu;
+    const rect = menu.getBoundingClientRect();
+    menu.style.left = Math.max(8, Math.min(e.clientX, window.innerWidth - rect.width - 8)) + "px";
+    menu.style.top = Math.max(8, Math.min(e.clientY, window.innerHeight - rect.height - 8)) + "px";
+  }
+
   function ligneReplique(replique, index, nouvelle) {
     const bloc = document.createElement("div");
     bloc.className = "bloc-replique";
+    bloc.verrouillee = !!replique.verrouillee;
+    if (bloc.verrouillee) bloc.classList.add("verrouillee");
     const ligne = document.createElement("div");
     ligne.className = "ligne-replique" + (nouvelle ? " nouvelle" : "");
     if (replique.id != null) ligne.dataset.id = replique.id;
@@ -217,22 +615,33 @@
         Number(replique.debut).toFixed(2) + '" title="début (s)">' +
       '<input type="number" class="champ-fin" min="0" step="0.05" value="' +
         Number(replique.fin).toFixed(2) + '" title="fin (s)">' +
-      '<button class="bouton-ecoute" title="Écouter cette réplique">▶</button>' +
-      '<button class="bouton-suggestions" title="Proposer des corrections">✨</button>' +
-      '<select class="champ-voix" title="Voix de cette réplique : détectée automatiquement, ou choix manuel (T94)">' +
-        '<option value="">—</option>' +
-        '<option value="1">Voix 1</option>' +
-        '<option value="2">Voix 2</option>' +
-        '<option value="3">Voix 3</option>' +
-        '<option value="4">Voix 4</option>' +
-      '</select>' +
       '<textarea class="champ-texte" rows="1" spellcheck="false"></textarea>' +
-      '<button class="bouton-inserer" title="Insérer une réplique après celle-ci">＋</button>' +
-      '<button class="bouton-suppr" title="Supprimer cette réplique">🗑</button>';
+      '<select class="champ-voix" title="Voix de cette réplique : détectée automatiquement, ou choix manuel (T94)">' +
+        optionsVoix() +
+      '</select>' +
+      '<div class="actions-replique">' +
+        '<button class="bouton-ecoute" title="Écouter cette réplique">▶</button>' +
+        '<button class="bouton-suggestions" title="Proposer des corrections">✨</button>' +
+        '<button class="bouton-inserer" title="Insérer une réplique après celle-ci">＋</button>' +
+        '<button class="bouton-suppr" title="Supprimer cette réplique">🗑</button>' +
+        '<button class="bouton-verrou" title="Verrouiller cette réplique : ignorée par la resynchronisation">' +
+          (bloc.verrouillee ? "🔒" : "🔓") +
+        '</button>' +
+      '</div>';
     if (replique.personnage != null)
       ligne.querySelector(".champ-voix").value =
         String(Number(replique.personnage) + 1);
     ligne.querySelector(".champ-voix").addEventListener("change", marquerModifiee);
+    const verrou = ligne.querySelector(".bouton-verrou");
+    verrou.onclick = () => {
+      bloc.verrouillee = !bloc.verrouillee;
+      bloc.classList.toggle("verrouillee", bloc.verrouillee);
+      verrou.textContent = bloc.verrouillee ? "🔒" : "🔓";
+      verrou.title = bloc.verrouillee
+        ? "Réplique verrouillée : la resynchronisation l'ignore"
+        : "Verrouiller cette réplique : la resynchronisation l'ignore";
+      marquerModifiee();
+    };
     ligne.querySelector(".champ-texte").value = replique.texte;
     ligne.querySelector(".bouton-inserer").onclick = () => insererLigneReplique(bloc);
     ligne.querySelector(".bouton-suppr").onclick = () => {
@@ -409,6 +818,7 @@
 
   function ouvrirEditeur(donnees) {
     dureeVideoJob = donnees.duree_video || 0;
+    initialiserPersonnages(donnees);
     $("#liste-repliques").innerHTML = "";
     (donnees.repliques || []).forEach(r => ajouterLigneReplique(r, false));
     $("#erreurs-edition").style.display = "none";
@@ -418,6 +828,7 @@
     progression(78, "en attente de vos corrections…");
     rendererToutesLesPistes();
     rafraichirApercu();
+    activerBandeLecteur(donnees);  // la bande d'en-tête suit les répliques du job
     $("#editeur").scrollIntoView({ behavior: "smooth" });
   }
 
@@ -431,6 +842,7 @@
         fin: parseFloat(lg.querySelector(".champ-fin").value),
       };
       if (lg.dataset.id != null) r.id = lg.dataset.id;
+      if (bloc.verrouillee) r.verrouillee = true;  // le bouton Resynchroniser l'ignore
       // voix choisie au sélecteur : nombre, ou null explicite pour la retirer
       const choixVoix = lg.querySelector(".champ-voix");
       if (choixVoix) r.personnage = choixVoix.value === "" ? null
@@ -447,7 +859,14 @@
     return sortie;
   }
 
-  function validerLocal(repliques) {
+  function validerLocal(repliques, options) {
+    // Pour un FICHIER (sauvegarde/chargement .json, import/export .srt), on ne
+    // bloque que les répliques structurellement malformées : texte vide,
+    // horaires illisibles, début < 0, fin ≤ début. Les contraintes de RENDU —
+    // chevauchement entre répliques, fin au-delà de la vidéo — ne sont
+    // vérifiées que pour le PUT (le serveur les refuserait de toute façon) :
+    // on doit pouvoir archiver ou échanger un travail en cours.
+    const pourFichier = !!(options && options.pourFichier);
     const erreurs = [];
     if (!repliques.length) erreurs.push("Il faut au moins une réplique.");
     repliques.forEach((r, i) => {
@@ -459,13 +878,17 @@
         if (r.debut < 0) erreurs.push("Réplique " + n + " : début négatif.");
         if (r.fin <= r.debut)
           erreurs.push("Réplique " + n + " : le début doit être avant la fin.");
-        if (dureeVideoJob && r.fin > dureeVideoJob + 0.6)
+        if (!pourFichier && dureeVideoJob && r.fin > dureeVideoJob + 0.6)
           erreurs.push("Réplique " + n + " : fin au-delà de la vidéo (" +
                        dureeVideoJob.toFixed(1) + " s).");
       }
-      if (i > 0) {
+      if (!pourFichier && i > 0) {
         const p = repliques[i - 1];
-        if (!isNaN(p.fin) && !isNaN(r.debut) && r.debut < p.fin - 0.05)
+        // parole simultanée (T127) : deux voix DIFFÉRENTES peuvent se chevaucher
+        const voixDifferentes = p.personnage != null && r.personnage != null &&
+                                p.personnage !== r.personnage;
+        if (!voixDifferentes && !isNaN(p.fin) && !isNaN(r.debut) &&
+            r.debut < p.fin - 0.05)
           erreurs.push("Répliques " + i + " et " + n + " : elles se chevauchent.");
       }
     });
@@ -489,7 +912,7 @@
       rep = await fetch("/api/jobs/" + jobCourant + "/repliques", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repliques }),
+        body: JSON.stringify({ repliques, personnages: collecterPersonnages() }),
       });
     } catch (err) {
       afficherErreursEdition(["serveur injoignable : " + err.message]);
@@ -518,6 +941,268 @@
   }
 
   $("#bouton-valider-edition").addEventListener("click", envoyerRepliques);
+
+  async function traduireRepliques() {
+    // Slice 1 : une passe de traduction locale, couche séparée (traduction.json).
+    // L'original n'est jamais touché — on envoie uniquement langue source/cible.
+    // Slice 2 : url/cle_api/modele_api configurent le moteur « API compatible OpenAI ».
+    if (!jobCourant) return;
+    const source = $("#traduction-langue-source").value || "en";
+    const cible = $("#traduction-langue-cible").value || "fr";
+    const modele = $("#traduction-modele").value || "deterministe";
+    const temperature = parseFloat($("#traduction-temperature").value);
+    const bouton = $("#bouton-traduire");
+    const etat = $("#etat-traduction");
+    bouton.disabled = true;
+    etat.textContent = "traduction en cours…";
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/traductions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.assign(
+          { langue_source: source, langue_cible: cible, modele: modele,
+            temperature: isNaN(temperature) ? undefined : temperature },
+          configMoteurTraduction())),
+      });
+      if (!rep.ok) {
+        const d = await rep.json().catch(() => ({}));
+        const detail = d.detail || {};
+        etat.textContent = detail.message ||
+          ("refus du serveur (HTTP " + rep.status + ")");
+        return;
+      }
+      // la passe est asynchrone côté serveur : on suit la progression X/Y
+      for (let i = 0; i < 2000; i++) {
+        await new Promise(res => setTimeout(res, 100));
+        const lecture = await fetch("/api/jobs/" + jobCourant + "/traductions");
+        if (!lecture.ok) break;
+        const couche = await lecture.json();
+        const prog = couche.progression || {};
+        etat.textContent = "traduction… " + (prog.fait || 0) + "/" +
+          (prog.total || 0) + (prog.statut === "en_pause" ? " (en pause)" : "");
+        if (prog.statut === "termine") {
+          afficherTraductions(couche);
+          etat.textContent = "traduction terminée · " + (prog.fait || 0) +
+            "/" + (prog.total || 0);
+          break;
+        }
+        if (prog.statut === "annule") {
+          etat.textContent = "traduction annulée";
+          break;
+        }
+        if (prog.statut === "erreur") {
+          etat.textContent = "erreur de traduction";
+          break;
+        }
+      }
+    } catch (err) {
+      etat.textContent = "serveur injoignable : " + err.message;
+    } finally {
+      bouton.disabled = false;
+    }
+  }
+
+  function afficherTraductions(couche) {
+    // Slice 7 : comparaison source/cible, édition manuelle, verrouillage,
+    // exclusion, retraduction et explication des scores — l'original (texte
+    // source éditable) n'est jamais modifié.
+    const entrees = (couche && couche.entrees) || {};
+    $("#liste-repliques").querySelectorAll(".bloc-replique").forEach(bloc => {
+      const ligne = bloc.querySelector(".ligne-replique");
+      const rid = ligne && ligne.dataset.id;
+      let zone = bloc.querySelector(".traduction-replique");
+      if (!zone) {
+        zone = document.createElement("div");
+        zone.className = "traduction-replique";
+        bloc.appendChild(zone);
+      }
+      const e = rid != null ? entrees[rid] : null;
+      if (!e) { zone.innerHTML = ""; return; }
+      if (e.statut === "erreur") {
+        zone.innerHTML = "⚠ traduction impossible : " + echapperHtml(e.erreur || "erreur");
+        return;
+      }
+      if (e.exclue) {
+        zone.innerHTML = '<span class="traduction-exclue">✖ exclue de la traduction</span>';
+        return;
+      }
+      const explications = (e.explications || []).map(echapperHtml).join(" · ");
+      zone.innerHTML =
+        '<div class="traduction-ligne">' +
+          '<span class="traduction-source">' + echapperHtml(e.source_text) + '</span>' +
+          '<span class="traduction-fleche">→</span>' +
+          '<input class="traduction-champ-cible" spellcheck="false" ' +
+            'title="Traduction modifiable — l\'original reste intact" value="' +
+            echapperHtml(e.target_text) + '">' +
+        '</div>' +
+        '<div class="traduction-actions">' +
+          '<button class="traduction-verrou" title="Verrouiller : jamais retouchée">' +
+            (e.verrouillee ? "🔒" : "🔓") + '</button>' +
+          '<button class="traduction-exclure" title="Exclure de la traduction">✖ exclure</button>' +
+          '<button class="traduction-retraduire" title="Retraduire cette réplique">🔄</button>' +
+        '</div>' +
+        '<div class="traduction-scores">score ' + Math.round(e.score_global) +
+          ' · ' + e.source_syllabes + '→' + e.target_syllabes + ' syllabes' +
+          (explications ? '<span class="traduction-explications"> · ' +
+                          explications + '</span>' : '') +
+        '</div>';
+      zone.querySelector(".traduction-champ-cible").addEventListener("change", ev => {
+        editerTraduction(rid, { target_text: ev.target.value });
+      });
+      zone.querySelector(".traduction-verrou").onclick = () =>
+        verrouillerTraduction(rid, !e.verrouillee);
+      zone.querySelector(".traduction-exclure").onclick = () =>
+        exclureTraduction(rid, true);
+      zone.querySelector(".traduction-retraduire").onclick = () =>
+        retraduireReplique(rid);
+    });
+  }
+
+  async function editerTraduction(rid, corps) {
+    // Édition manuelle d'une entrée de traduction (cible, candidat…).
+    if (!jobCourant) return;
+    try {
+      await fetch("/api/jobs/" + jobCourant + "/traductions/" + rid, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(corps),
+      });
+    } catch (err) { /* l'état est rechargé à la prochaine lecture */ }
+  }
+
+  async function verrouillerTraduction(rid, verrou) {
+    if (!jobCourant) return;
+    try {
+      await fetch("/api/jobs/" + jobCourant + "/traductions/" + rid, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ verrouillee: verrou }),
+      });
+    } catch (err) { return; }
+    rechargerTraductions();
+  }
+
+  async function exclureTraduction(rid, exclu) {
+    if (!jobCourant) return;
+    try {
+      await fetch("/api/jobs/" + jobCourant + "/traductions/" + rid, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exclue: exclu }),
+      });
+    } catch (err) { return; }
+    rechargerTraductions();
+  }
+
+  async function retraduireReplique(rid) {
+    // Retraduction ciblée (slice 7) : la réplique repart au moteur.
+    if (!jobCourant) return;
+    const etat = $("#etat-traduction");
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/traductions/retraduire", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.assign({ repliques: [rid] },
+                                           configMoteurTraduction())),
+      });
+      if (rep.ok) afficherTraductions(await rep.json());
+      else etat.textContent = "retraduction refusée (HTTP " + rep.status + ")";
+    } catch (err) {
+      etat.textContent = "serveur injoignable : " + err.message;
+    }
+  }
+
+  async function rechargerTraductions() {
+    if (!jobCourant) return;
+    const rep = await fetch("/api/jobs/" + jobCourant + "/traductions");
+    if (rep.ok) afficherTraductions(await rep.json());
+  }
+
+  $("#bouton-traduire").addEventListener("click", traduireRepliques);
+
+  // ——— config du moteur distant (slice 2) : champs URL/clé visibles
+  // uniquement pour « API compatible OpenAI », jamais de clé enregistrée. ———
+  function configMoteurTraduction() {
+    const v = id => { const el = $(id); return el ? el.value.trim() : ""; };
+    const url = v("#traduction-url"), cle = v("#traduction-cle-api"),
+          modele = v("#traduction-modele-api");
+    return { url: url || undefined, cle_api: cle || undefined,
+             modele_api: modele || undefined };
+  }
+
+  function majChampsMoteur() {
+    const el = $("#config-moteur-ouvert");
+    if (!el) return;
+    el.hidden = $("#traduction-modele").value !== "openai_compatible";
+  }
+  $("#traduction-modele").addEventListener("change", majChampsMoteur);
+  majChampsMoteur();
+
+  async function commandeTraduction(action) {
+    // Pause / reprise / annulation de la passe en cours (slice 2).
+    if (!jobCourant) return;
+    const etat = $("#etat-traduction");
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/traductions/" + action,
+                              { method: "POST" });
+      if (!rep.ok) {
+        const d = await rep.json().catch(() => ({}));
+        const detail = d.detail || {};
+        etat.textContent = detail.message || ("refus (HTTP " + rep.status + ")");
+      }
+    } catch (err) {
+      etat.textContent = "serveur injoignable : " + err.message;
+    }
+  }
+
+  $("#bouton-traduction-pause").addEventListener("click", () => commandeTraduction("pause"));
+  $("#bouton-traduction-reprendre").addEventListener("click", () => commandeTraduction("reprendre"));
+  $("#bouton-traduction-annuler").addEventListener("click", () => commandeTraduction("annuler"));
+
+  async function rendreBandeTraduite() {
+    // Slice 9 : rend la bande doublée (timecodes identiques) ; l'original intact.
+    if (!jobCourant) return;
+    const etat = $("#etat-traduction");
+    const bouton = $("#bouton-rendre-traduction");
+    bouton.disabled = true;
+    etat.textContent = "rendu de la bande traduite…";
+    let rep;
+    try {
+      rep = await fetch("/api/jobs/" + jobCourant + "/traductions/rendre",
+                        { method: "POST" });
+    } catch (err) {
+      bouton.disabled = false;
+      etat.textContent = "serveur injoignable : " + err.message;
+      return;
+    }
+    bouton.disabled = false;
+    if (rep.status === 202) {
+      editionModifiee = false;
+      majEtatEdition();
+      $("#editeur").style.display = "none";
+      $("#progress").style.display = "block";
+      progression(80, "rendu de la bande traduite en cours…");
+      if (sourceCourante) { sourceCourante.close(); sourceCourante = null; }
+      suivre(jobCourant);
+      return;
+    }
+    const d = await rep.json().catch(() => ({}));
+    const detail = d.detail || {};
+    etat.textContent = detail.message || ("refus du serveur (HTTP " + rep.status + ")");
+  }
+
+  function exporterSrtTraduit() {
+    // Slice 9 : sous-titres traduits (texte cible + horodatages d'origine).
+    if (!jobCourant) return;
+    const lien = document.createElement("a");
+    lien.href = "/api/jobs/" + jobCourant + "/traductions/srt?m=" + Date.now();
+    lien.download = "rythmo_" + jobCourant + "_traduit.srt";
+    lien.click();
+  }
+
+  $("#bouton-rendre-traduction").addEventListener("click", rendreBandeTraduite);
+  $("#bouton-srt-traduction").addEventListener("click", exporterSrtTraduit);
+
   function formaterTempsSRT(s) {
     const ms = Math.max(0, Math.round(Number(s) * 1000));
     const h = Math.floor(ms / 3600000),
@@ -530,9 +1215,11 @@
 
   function exporterSrt() {
     const repliques = collecterRepliques();
-    const erreurs = validerLocal(repliques);
+    // on exporte même avec des chevauchements ou une fin au-delà de la vidéo :
+    // un .srt reste lisible par n'importe quel lecteur
+    const erreurs = validerLocal(repliques, { pourFichier: true });
     afficherErreursEdition(erreurs);
-    if (erreurs.length) return;  // on n'exporte pas un brouillon invalide
+    if (erreurs.length) return;
     const blocs = repliques.map((r, i) =>
       (i + 1) + "\n" + formaterTempsSRT(r.debut) + " --> " + formaterTempsSRT(r.fin) +
       "\n" + String(r.texte).trim());
@@ -545,6 +1232,52 @@
     URL.revokeObjectURL(lien.href);
   }
 
+  async function relancerSynchronisation() {
+    if (!jobCourant) return;
+    const repliques = collecterRepliques();
+    // on peut resynchroniser un brouillon même avec des chevauchements ou une
+    // fin hors vidéo : seuls les champs structurels (texte, début < fin) comptent
+    const erreurs = validerLocal(repliques, { pourFichier: true });
+    afficherErreursEdition(erreurs);
+    if (erreurs.length) return;
+    const bouton = $("#bouton-synchroniser");
+    bouton.disabled = true;
+    const libelle = bouton.textContent;
+    bouton.textContent = "🔄 Synchronisation…";
+    let rep;
+    try {
+      rep = await fetch("/api/jobs/" + jobCourant + "/synchroniser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repliques, personnages: collecterPersonnages() }),
+      });
+    } catch (err) {
+      bouton.disabled = false; bouton.textContent = libelle;
+      return afficherErreursEdition(["serveur injoignable : " + err.message]);
+    }
+    bouton.disabled = false; bouton.textContent = libelle;
+    if (!rep.ok) {
+      const d = await rep.json().catch(() => ({}));
+      const detail = d.detail || {};
+      return afficherErreursEdition([
+        detail.message_utilisateur || detail.message ||
+        ("synchronisation refusée (HTTP " + rep.status + ")")]);
+    }
+    const donnees = await rep.json();
+    // les mots renvoyés sont calés sur l'audio : on reconstruit l'éditeur
+    const vues = (donnees.repliques || []).map(r => ({
+      id: r.id != null ? String(r.id) : undefined,
+      texte: String(r.texte ?? ""),
+      debut: Number(r.debut), fin: Number(r.fin),
+      personnage: r.personnage,
+      verrouillee: !!r.verrouillee,
+      mots: Array.isArray(r.mots) ? r.mots : undefined,
+    }));
+    remplacerListeRepliques(vues);
+    rendererToutesLesPistes();
+  }
+
+  $("#bouton-synchroniser").addEventListener("click", relancerSynchronisation);
   $("#bouton-export-srt").addEventListener("click", exporterSrt);
   $("#bouton-sauvegarde-repliques").addEventListener("click", sauvegarderRepliques);
   $("#bouton-sauvegarde-projet").addEventListener("click", enregistrerProjet);
@@ -559,6 +1292,12 @@
   $("#charge-repliques-fichier").addEventListener("change", e => {
     if (e.target.files.length) chargerRepliques(e.target.files[0]);
     e.target.value = "";  // permet de recharger le même fichier ensuite
+  });
+  $("#bouton-importer-srt").addEventListener("click",
+    () => $("#charge-srt-fichier").click());
+  $("#charge-srt-fichier").addEventListener("change", e => {
+    if (e.target.files.length) importerSrt(e.target.files[0]);
+    e.target.value = "";  // permet de réimporter le même fichier ensuite
   });
   $("#bouton-reediter").addEventListener("click", reediterRepliques);
   $("#bouton-ajouter-replique").addEventListener("click", () => {
@@ -575,6 +1314,31 @@
     try { await fetch("/api/jobs/" + jobCourant + "/cancel", { method: "POST" }); } catch (_) {}
     editionModifiee = false;
     majEtatEdition();
+  });
+
+  // nombre de personnages de la scène : on redimensionne la liste des noms
+  $("#nb-personnages").addEventListener("input", () => {
+    const nb = Math.min(12, Math.max(1, parseInt($("#nb-personnages").value) || 1));
+    nomsPersonnages = Array.from({ length: nb },
+      (_, i) => nomsPersonnages[i] || ("Personnage " + (i + 1)));
+    majChampsNoms();
+    marquerModifiee();
+  });
+
+  // clic droit sur un mot : attribuer ce mot à un personnage (parole simultanée)
+  $("#liste-repliques").addEventListener("contextmenu", e => {
+    const blocMot = e.target.closest(".bloc-mot");
+    if (!blocMot) return;
+    const piste = blocMot.closest(".piste-mots");
+    const blocRepl = blocMot.closest(".bloc-replique");
+    if (!piste || !piste.mots || !blocRepl || blocRepl.classList.contains("clone"))
+      return;  // on n'attribue pas un mot déjà cloné
+    const index = [...piste.querySelectorAll(".bloc-mot")].indexOf(blocMot);
+    if (index >= 0) ouvrirMenuPersonnage(e, piste, index);
+  });
+  document.addEventListener("click", fermerMenuPersonnage);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") fermerMenuPersonnage();
   });
 
   /* ——————— timeline mot-à-mot : onde + blocs draggables (T60–T66) ——————— */
@@ -852,6 +1616,10 @@
       bloc.title = marqueur ? "Symbole de respiration — non prononcé" : "";
       bloc.style.left = (m.debut - d0) / duree * 100 + "%";
       bloc.style.width = Math.max((m.fin - m.debut) / duree * 100, 4) + "%";
+      const poigneeGauche = document.createElement("i");
+      poigneeGauche.className = "poignee-gauche";
+      poigneeGauche.title = "Étirer le début du mot";
+      bloc.appendChild(poigneeGauche);
       const poignee = document.createElement("i");
       poignee.className = "poignee-mot";
       poignee.title = "Étirer la fin du mot";
@@ -884,7 +1652,7 @@
       bApres.disabled = (i === 0 || !suivante);
       bApres.onclick = () => deplacerMotsVersReplique(piste, i, +1);
       bloc.appendChild(bApres);
-      attacherGlisser(piste, bloc, i, poignee);
+      attacherGlisser(piste, bloc, i, poignee, poigneeGauche);
       piste.appendChild(bloc);
     });
   }
@@ -894,7 +1662,7 @@
       .forEach(rendererPiste);
   }
 
-  function attacherGlisser(piste, bloc, i, poignee) {
+  function attacherGlisser(piste, bloc, i, poignee, poigneeGauche) {
     const ligne = piste.closest(".bloc-replique")
       ? piste.closest(".bloc-replique").querySelector(".ligne-replique")
       : piste.previousElementSibling;
@@ -910,7 +1678,9 @@
       }
       e.preventDefault();
       deplace = false;
-      mode = e.target === poignee ? "etirer" : "deplacer";
+      if (e.target === poignee) mode = "etirer-droite";
+      else if (e.target === poigneeGauche) mode = "etirer-gauche";
+      else mode = "deplacer";
       x0 = e.clientX;
       bloc.setPointerCapture(e.pointerId);
     });
@@ -923,16 +1693,17 @@
       const secParPx = (d1 - d0) / Math.max(rect.width, 1);
       const delta = (e.clientX - x0) * secParPx;
       const m = piste.mots[i];
+      const duree = m.fin - m.debut;
       if (mode === "deplacer") {
-        const duree = m.fin - m.debut;
         const min = i > 0 ? piste.mots[i - 1].fin : d0;
         const max = i + 1 < piste.mots.length ? piste.mots[i + 1].debut - duree
                                               : d1 - duree;
         m.debut = Math.min(Math.max(m.debut + delta, min), max);
         m.fin = m.debut + duree;
-        if (i === 0) ligne.querySelector(".champ-debut").value = m.debut.toFixed(3);
-        // dernier mot : la fenêtre ne suit pas pendant le geste (voir relacher)
-      } else {
+        // ni le premier ni le dernier mot ne déplacent la fenêtre pendant le
+        // geste (sinon le mot « recolle » au bord et cette bordure devient
+        // inutilisable) : la fenêtre ne suit qu'à la relâche, vers l'extérieur.
+      } else if (mode === "etirer-droite") {
         const min = m.debut + 0.04;
         let max;
         if (i + 1 < piste.mots.length) {
@@ -953,6 +1724,26 @@
           }
         }
         m.fin = Math.min(Math.max(m.fin + delta, min), max);
+      } else {  // etirer-gauche
+        const max = m.fin - 0.04;  // durée minimale conservée
+        let min;
+        if (i > 0) {
+          min = piste.mots[i - 1].fin;  // jamais avant le mot précédent
+        } else {
+          // premier mot : on peut l'étirer vers la gauche jusqu'à la fin de la
+          // réplique précédente (jamais de chevauchement) ou à 0 ; la fenêtre
+          // reste stable pendant le geste (sinon le mot « recolle » au bord
+          // gauche et le début de la réplique devient inutilisable)
+          const blocRepl = ligne.closest(".bloc-replique");
+          const precedente = blocRepl && blocRepl.previousElementSibling;
+          if (precedente) {
+            const fPrev = parseFloat(precedente.querySelector(".champ-fin").value);
+            min = (!isNaN(fPrev) && fPrev < m.fin - 0.05) ? fPrev + 0.05 : 0;
+          } else {
+            min = 0;
+          }
+        }
+        m.debut = Math.min(Math.max(m.debut + delta, min), max);
       }
       bloc.style.left = (m.debut - d0) / (d1 - d0) * 100 + "%";
       bloc.style.width = Math.max((m.fin - m.debut) / (d1 - d0) * 100, 4) + "%";
@@ -962,13 +1753,23 @@
       if (mode === "bouton") { mode = null; return; }  // le clic du bouton se gère lui-même
       const simpleClic = mode !== null && !deplace;  // clic sans glisser : écouter le mot
       mode = null;
-      if (i === piste.mots.length - 1 && piste.mots.length) {
+      if (piste.mots.length) {
         // la fenêtre ne suit le dernier mot QUE vers l'extérieur : étendre le
         // mot allonge la réplique, le raccourcir laisse un espace travaillable
         // à la fin (bug signalé : la fenêtre « recollait » au mot)
-        const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
-        const finMot = piste.mots[i].fin;
-        if (finMot > d1) ligne.querySelector(".champ-fin").value = finMot.toFixed(3);
+        if (i === piste.mots.length - 1) {
+          const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
+          const finMot = piste.mots[i].fin;
+          if (finMot > d1) ligne.querySelector(".champ-fin").value = finMot.toFixed(3);
+        }
+        // symétrique pour le PREMIER mot : la fenêtre ne suit que vers
+        // l'extérieur gauche (étirer le mot allonge la réplique vers l'avant,
+        // le raccourcir laisse un espace travaillable au début)
+        if (i === 0) {
+          const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
+          const debutMot = piste.mots[i].debut;
+          if (debutMot < d0) ligne.querySelector(".champ-debut").value = debutMot.toFixed(3);
+        }
       }
       rendererPiste(piste);
       rafraichirApercu();
@@ -1054,6 +1855,7 @@
   }
 
   async function jouerSegment(debut, fin, cible) {
+    if (lecteurBande) pauseBandeLecteur();  // écoute d'un mot : on coupe la bande
     arreterLecture();
     try {
       if (!ctxAudio)
@@ -1077,6 +1879,234 @@
       arreterLecture();
     }
   }
+
+  /* ——————— mini-lecteur : piste temporelle rigide + audio réel ———————
+     La bande d'en-tête devient un vrai lecteur : les mots du job sont posés
+     sur une piste temporelle rigide (même loi que le rendu serveur :
+     s = v·début, anti-chevauchement) et défilent au rythme de l'AUDIO —
+     lecture/pause, timecode, clic pour se déplacer. Jamais le WAV entier :
+     des tranches de 20 s via /audio (comme l'écoute d'un mot, T67). */
+  const cacheLargeurs = new Map();   // largeur d'un mot déjà mesuré
+  function largeurMot(texte) {
+    if (cacheLargeurs.has(texte)) return cacheLargeurs.get(texte);
+    let jauge = document.querySelector("#jauge-bande");
+    if (!jauge) {
+      jauge = document.createElement("span");
+      jauge.id = "jauge-bande";
+      jauge.className = "bande-mot";
+      jauge.style.cssText = "position:fixed;left:-9999px;top:0;visibility:hidden;" +
+        "white-space:nowrap;font-size:1.35rem;padding:6px 12px";
+      document.body.appendChild(jauge);
+    }
+    jauge.textContent = texte;
+    const w = jauge.offsetWidth;
+    cacheLargeurs.set(texte, w);
+    return w;
+  }
+
+  function construireMotsBande(donnees) {
+    // mots horodatés de toutes les répliques ; une réplique sans mots reçoit
+    // la même distribution uniforme que le repli serveur
+    const bruts = [];
+    (donnees.repliques || []).forEach(r => {
+      const d0 = Number(r.debut) || 0, d1 = Number(r.fin) || d0;
+      let ms = r.mots;
+      if (!Array.isArray(ms) || !ms.length)
+        ms = distribuerUniforme(String(r.texte || "").split(/\s+/).filter(Boolean), d0, d1);
+      (ms || []).forEach(m => {
+        const debut = Number(m.debut), fin = Number(m.fin);
+        if (isFinite(debut) && isFinite(fin) && String(m.texte || "").trim())
+          bruts.push({ texte: String(m.texte), debut, fin });
+      });
+    });
+    bruts.sort((a, b) => a.debut - b.debut || a.fin - b.fin);
+    if (!bruts.length) return { mots: [], v: 0, duree: 0 };
+    const largeur = bandeFenetre.clientWidth || 900;
+    const v = Math.max(largeur * VITESSE_BANDE, 20);
+    let s = 0;
+    const mots = bruts.map(m => {
+      const w = largeurMot(m.texte);
+      s = Math.max(v * m.debut, s);   // ancrage temporel + anti-chevauchement
+      const o = { ...m, s, w };
+      s = s + w + ESPACE_BANDE;
+      return o;
+    });
+    return { mots, v, duree: Math.max(Number(donnees.duree_video) || 0,
+                                      ...bruts.map(b => b.fin)) };
+  }
+
+  function fmtBande(s) {
+    s = Math.max(0, Math.floor(s));
+    const m = Math.floor(s / 60), r = s % 60;
+    return m + ":" + String(r).padStart(2, "0");
+  }
+
+  function majBandeLecteur() {
+    const L = lecteurBande;
+    if (!L) return;
+    const largeur = bandeFenetre.clientWidth || 900;
+    const curseur = largeur * 0.15;
+    bandePiste.style.transform = "translateX(" + (curseur - L.v * L.position) + "px)";
+    // mots visibles (fenêtre ± marge) : recherche binaire sur s (croissant)
+    const sMin = L.v * L.position - curseur - 60;
+    const sMax = sMin + largeur + 120;
+    const mots = L.mots;
+    let lo = 0, hi = mots.length;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (mots[mid].s < sMin) lo = mid + 1; else hi = mid; }
+    let ro = 0, rh = mots.length;
+    while (ro < rh) { const mid = (ro + rh) >> 1; if (mots[mid].s <= sMax) ro = mid + 1; else rh = mid; }
+    while (L.rendus.length && L.rendus[0].i < lo) L.rendus.shift().el.remove();
+    while (L.rendus.length && L.rendus[L.rendus.length - 1].i >= ro) L.rendus.pop().el.remove();
+    const present = new Set(L.rendus.map(r => r.i));
+    for (let i = lo; i < ro; i++) {
+      if (present.has(i)) continue;
+      const m = mots[i];
+      const el = document.createElement("span");
+      el.className = "bande-mot";
+      el.textContent = m.texte;
+      el.style.left = m.s + "px";
+      bandePiste.appendChild(el);
+      L.rendus.push({ i, el });
+    }
+    L.rendus.sort((a, b) => a.i - b.i);
+    const t = L.position;
+    L.rendus.forEach(r => {
+      const m = mots[r.i];
+      r.el.classList.toggle("actif", t >= m.debut && t <= m.fin);
+      r.el.classList.toggle("passe", m.fin < t - 0.05);
+    });
+    if (bandeTemps) bandeTemps.textContent = fmtBande(t) + " / " + fmtBande(L.duree);
+  }
+
+  function cadreBandeLecteur() {
+    const L = lecteurBande;
+    if (!L) return;
+    if (L.lecture && ctxAudio) {
+      L.position = L.basePos + (ctxAudio.currentTime - L.baseCtx);
+      if (L.position >= L.duree) { L.position = L.duree; pauseBandeLecteur(); }
+    }
+    majBandeLecteur();
+    L.raf = requestAnimationFrame(cadreBandeLecteur);
+  }
+
+  function activerBandeLecteur(donnees) {
+    if (!bandeFenetre || !bandePiste || !donnees || !(donnees.repliques || []).length) return;
+    const construit = construireMotsBande(donnees);
+    if (!construit.mots.length) return;
+    if (rafHero) { cancelAnimationFrame(rafHero); rafHero = null; }
+    if (lecteurBande) { pauseBandeLecteur(); if (lecteurBande.raf) cancelAnimationFrame(lecteurBande.raf); }
+    lecteurBande = { ...construit, position: 0, lecture: false, basePos: 0, baseCtx: 0,
+                     sources: [], minuterie: null, rendus: [], raf: null };
+    bandeFenetre.classList.add("mode-lecteur");
+    bandePiste.innerHTML = "";
+    const bande = document.querySelector(".bande");
+    if (bande) bande.setAttribute("aria-hidden", "false");
+    if (bandeControles) bandeControles.hidden = false;
+    if (bandeJouer) bandeJouer.textContent = "▶";
+    majBandeLecteur();
+    lecteurBande.raf = requestAnimationFrame(cadreBandeLecteur);
+  }
+
+  function jouerBandeLecteur() {
+    const L = lecteurBande;
+    if (!L || !jobCourant) return;
+    arreterLecture();   // coupe l'écoute d'un mot de l'éditeur
+    if (!ctxAudio)
+      ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctxAudio.state === "suspended") ctxAudio.resume().catch(() => {});
+    if (L.position >= L.duree - 0.1) L.position = 0;
+    L.lecture = true;
+    L.basePos = L.position;
+    L.baseCtx = ctxAudio.currentTime + 0.1;
+    L.sources = [];
+    if (bandeJouer) bandeJouer.textContent = "❚❚";
+    jouerTrancheBande(L.position);
+  }
+
+  function jouerTrancheBande(debut) {
+    const L = lecteurBande;
+    if (!L || !L.lecture || !jobCourant) return;
+    const fin = Math.min(debut + DUREE_TRANCHE, L.duree);
+    fetch("/api/jobs/" + jobCourant + "/audio?debut=" + debut.toFixed(3) +
+          "&fin=" + fin.toFixed(3))
+      .then(r => r.ok ? r.arrayBuffer() : null)
+      .then(brut => brut ? ctxAudio.decodeAudioData(brut) : null)
+      .then(buffer => {
+        if (!buffer || lecteurBande !== L || !L.lecture) return;
+        const source = ctxAudio.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctxAudio.destination);
+        const quand = Math.max(L.baseCtx + (debut - L.basePos),
+                               ctxAudio.currentTime + 0.02);
+        source.start(quand);
+        L.sources.push(source);
+        source.onended = () => { L.sources = L.sources.filter(s => s !== source); };
+        if (fin < L.duree - 0.1) {
+          // pré-charge la tranche suivante quand la fin approche
+          const delai = Math.max(0, (quand + (fin - debut)) - ctxAudio.currentTime - 1.5) * 1000;
+          L.minuterie = setTimeout(() => jouerTrancheBande(fin), Math.min(delai, 2000));
+        }
+      })
+      .catch(() => {});
+  }
+
+  function pauseBandeLecteur() {
+    const L = lecteurBande;
+    if (!L) return;
+    if (L.lecture && ctxAudio)
+      L.position = L.basePos + (ctxAudio.currentTime - L.baseCtx);
+    L.lecture = false;
+    L.sources.forEach(s => { try { s.stop(); } catch (_) {} });
+    L.sources = [];
+    if (L.minuterie) { clearTimeout(L.minuterie); L.minuterie = null; }
+    if (bandeJouer) bandeJouer.textContent = "▶";
+    majBandeLecteur();
+  }
+
+  function seBandeLecteur(ts) {
+    const L = lecteurBande;
+    if (!L) return;
+    const enLecture = L.lecture;
+    if (enLecture) {
+      L.lecture = false;
+      L.sources.forEach(s => { try { s.stop(); } catch (_) {} });
+      L.sources = [];
+      if (L.minuterie) { clearTimeout(L.minuterie); L.minuterie = null; }
+    }
+    L.position = Math.min(Math.max(ts, 0), L.duree);
+    if (enLecture) jouerBandeLecteur();
+    majBandeLecteur();
+  }
+
+  function arreterBandeLecteur() {
+    const L = lecteurBande;
+    if (!L) return;
+    pauseBandeLecteur();
+    if (L.raf) cancelAnimationFrame(L.raf);
+    lecteurBande = null;
+    bandeFenetre.classList.remove("mode-lecteur");
+    bandePiste.innerHTML = "";
+    if (bandeControles) bandeControles.hidden = true;
+    const bande = document.querySelector(".bande");
+    if (bande) bande.setAttribute("aria-hidden", "true");
+    demarrerBandeHero();
+  }
+
+  if (bandeFenetre)
+    bandeFenetre.addEventListener("click", e => {
+      if (!lecteurBande || !bandeFenetre.classList.contains("mode-lecteur")) return;
+      if (e.target.closest("#bande-controles")) return;
+      const rect = bandeFenetre.getBoundingClientRect();
+      if (!rect.width) return;
+      const x = e.clientX - rect.left;
+      seBandeLecteur(lecteurBande.position + (x - rect.width * 0.15) / lecteurBande.v);
+    });
+  if (bandeJouer)
+    bandeJouer.addEventListener("click", e => {
+      e.stopPropagation();
+      if (!lecteurBande) return;
+      if (lecteurBande.lecture) pauseBandeLecteur(); else jouerBandeLecteur();
+    });
 
   let minuterieRedessin = null;
   window.addEventListener("resize", () => {
@@ -1104,6 +2134,7 @@
 
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
+      if (lecteurBande && lecteurBande.lecture) pauseBandeLecteur();
       if (sourceLecture || blocEnLecture) arreterLecture();
       return;
     }
@@ -1143,6 +2174,7 @@
       if (d.statut === "annule") {
         source.close();
         if (sourceCourante === source) sourceCourante = null;
+        arreterBandeLecteur();  // plus de job : bande héros
         $("#editeur").style.display = "none";
         afficherErreur("Traitement annulé.");
         $("#bouton-lancer").disabled = false;
@@ -1151,6 +2183,7 @@
       if (d.statut === "erreur") {
         source.close();
         if (sourceCourante === source) sourceCourante = null;
+        arreterBandeLecteur();  // plus de job : bande héros
         $("#editeur").style.display = "none";
         afficherErreur((d.erreur && (d.erreur.message_utilisateur || d.erreur.message))
                        || "échec du traitement");
@@ -1184,6 +2217,11 @@
         $("#meta").textContent = "Traitement 100 % local • job " + job_id;
         $("#bouton-lancer").disabled = false;
         $("#resultat").scrollIntoView({ behavior: "smooth" });
+        // bande finale : les répliques validées, défilantes au rythme de l'audio
+        fetch("/api/jobs/" + job_id + "/repliques")
+          .then(r => r.ok ? r.json() : null)
+          .then(d => { if (d) activerBandeLecteur(d); })
+          .catch(() => {});
       }
     };
     source.onerror = () => {

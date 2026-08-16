@@ -8,121 +8,160 @@
 </head>
 <body>
 <div class="carte">
-  <header>
-    <div class="pastille">R▶</div>
-    <div>
-      <h1>Rythmo Dub</h1>
-      <p>Bande rythmo automatique par IA locale — avec synchronisation labiale</p>
+  <header class="tete">
+    <div class="bande" aria-hidden="true">
+      <div class="bande-fenetre" id="bande-fenetre">
+        <div class="bande-piste" id="bande-piste">
+          <span class="bande-mot">Le</span>
+          <span class="bande-mot">doublage</span>
+          <span class="bande-mot">mot</span>
+          <span class="bande-mot">par</span>
+          <span class="bande-mot">mot</span>
+          <span class="bande-mot">100&nbsp;%</span>
+          <span class="bande-mot">local</span>
+        </div>
+        <div class="bande-ligne" aria-hidden="true"></div>
+        <div class="bande-curseur" aria-hidden="true"><i></i></div>
+        <div class="bande-controles" id="bande-controles" hidden>
+          <button type="button" id="bande-jouer" class="bande-jouer"
+                  aria-label="Lire ou mettre en pause la bande du job">▶</button>
+          <span id="bande-temps" class="bande-temps" aria-hidden="true">0:00 / 0:00</span>
+        </div>
+      </div>
     </div>
-    <div class="badge" id="badge-device">moteur&nbsp;: <b id="device">…</b> · <span id="version"></span></div>
+    <div class="tete-identite">
+      <div class="marque" aria-hidden="true">
+        <i class="marque-mot"></i><i class="marque-curseur"></i><i class="marque-fleche"></i>
+      </div>
+      <div class="tete-titre">
+        <h1>Rythmo <span>Dub</span></h1>
+        <p>Bande rythmo automatique par IA locale — synchronisation labiale mot à mot</p>
+      </div>
+      <div class="badge">moteur&nbsp;: <b id="device">…</b> · <span id="version"></span></div>
+    </div>
   </header>
 
   <div id="erreur" role="alert"></div>
 
   <section>
-    <h2>1 · Vidéo à doubler</h2>
+    <h2><span class="pas">01</span><span class="h2-titre">Vidéo à doubler</span></h2>
     <form id="upload">
       <div id="zone-depot">
-        <div class="gros">🎬 Déposer la vidéo ici</div>
+        <div class="gros">Déposer la vidéo ici</div>
         <div class="petit">ou cliquer pour choisir — MP4, MKV, MOV, AVI, WEBM</div>
         <input type="file" id="champ-fichier" accept="video/mp4,video/quicktime,video/x-matroska,.mkv,.avi,.mov,.m4v,.webm,.mp4" hidden>
         <div class="fichier-choisi" id="nom-fichier"></div>
       </div>
     </form>
+    <div class="bloc-projets" id="section-projets" hidden>
+      <p class="aide">🎬 Déjà analysés sur cette machine : rouvrez un projet
+        pour reprendre répliques, timings et audio — sans ré-upload ni ré-analyse.</p>
+      <ul id="liste-projets"></ul>
+    </div>
   </section>
 
   <section id="options">
-    <div>
-      <label for="opt-modele">Modèle IA</label>
-      <select id="opt-modele">
-        <option value="tiny">tiny (très rapide)</option>
-        <option value="base" selected>base (rapide)</option>
-        <option value="small">small (recommandé)</option>
-        <option value="medium">medium (précis, GPU conseillé)</option>
-        <option value="large-v3">large-v3 (max qualité, GPU)</option>
-      </select>
+    <h2><span class="pas">02</span><span class="h2-titre">Réglages de la bande</span></h2>
+    <div class="grille-options">
+      <div>
+        <label for="opt-modele">Modèle IA</label>
+        <select id="opt-modele">
+          <option value="tiny">tiny (très rapide)</option>
+          <option value="base">base (rapide)</option>
+          <option value="small" selected>small (recommandé)</option>
+          <option value="medium">medium (précis, GPU conseillé)</option>
+          <option value="large-v3">large-v3 (max qualité, GPU)</option>
+        </select>
+      </div>
+      <div>
+        <label for="opt-asr">Moteur de transcription</label>
+        <select id="opt-asr">
+          <option value="local" selected>Local (faster-whisper — 100 % privé)</option>
+          <option value="auto">Cloud avec repli local (auto)</option>
+          <option value="cloud">Cloud uniquement (API)</option>
+        </select>
+      </div>
+      <div>
+        <label for="opt-langue">Langue parlée</label>
+        <select id="opt-langue">
+          <option value="" selected>Détection auto</option>
+          <option value="fr">Français</option>
+          <option value="en">Anglais</option>
+          <option value="es">Espagnol</option>
+          <option value="de">Allemand</option>
+          <option value="it">Italien</option>
+        </select>
+      </div>
+      <div>
+        <label for="opt-style">Style de bande</label>
+        <select id="opt-style">
+          <option value="RYTHMO" selected>Rythmo défilant (curseur)</option>
+          <option value="REPLIQUE">Par réplique (studio)</option>
+        </select>
+      </div>
+      <div>
+        <label for="opt-theme">Thème de bande</label>
+        <select id="opt-theme">
+          <option value="STUDIO" selected>Studio (bande claire, mot surligné)</option>
+          <option value="SOMBRE">Sombre (karaoké noir)</option>
+        </select>
+      </div>
+      <div>
+        <label for="opt-taille">Hauteur bande (px)</label>
+        <input type="number" id="opt-taille" min="60" max="260" value="110">
+        <label for="opt-taille-police-min">Police min. (px)</label>
+        <input type="number" id="opt-taille-police-min" min="10" max="200"
+               placeholder="auto"
+               title="Taille de police minimale garantie dans la bande (jamais illisible) — vide = auto : max(14, 0,22 × hauteur de bande)">
+      </div>
+      <div>
+        <label for="opt-curseur">Position curseur (%) — style défilant</label>
+        <input type="number" id="opt-curseur" min="5" max="50" value="15">
+      </div>
+      <div>
+        <label for="opt-vitesse">Vitesse de défilement — style défilant</label>
+        <select id="opt-vitesse">
+          <option value="" selected>Auto (référence pro, 32 % largeur/s)</option>
+          <option value="0.24">Lente (24 % largeur/s)</option>
+          <option value="0.32">Normale (32 % largeur/s)</option>
+          <option value="0.45">Rapide (45 % largeur/s)</option>
+          <option value="dynamique">Dynamique (par réplique, calée sur l'audio)</option>
+        </select>
+      </div>
+      <label class="interrupteur">
+        <input type="checkbox" id="opt-lipsync" checked>
+        <span class="interrupteur-piste"></span>
+        <span class="interrupteur-texte">Synchronisation labiale</span>
+      </label>
+      <label class="interrupteur">
+        <input type="checkbox" id="opt-etirer" checked>
+        <span class="interrupteur-piste"></span>
+        <span class="interrupteur-texte">Étirer les syllabes allongées (tempo réel)</span>
+      </label>
+      <label class="interrupteur">
+        <input type="checkbox" id="opt-edition">
+        <span class="interrupteur-piste"></span>
+        <span class="interrupteur-texte">✏️ Corriger les répliques avant le rendu</span>
+      </label>
+      <label class="interrupteur">
+        <input type="checkbox" id="opt-diariser" checked>
+        <span class="interrupteur-piste"></span>
+        <span class="interrupteur-texte">🎭 Séparer les voix automatiquement (pistes par personnage)</span>
+      </label>
     </div>
-    <div>
-      <label for="opt-asr">Moteur de transcription</label>
-      <select id="opt-asr">
-        <option value="local" selected>Local (faster-whisper — 100 % privé)</option>
-        <option value="auto">Cloud avec repli local (auto)</option>
-        <option value="cloud">Cloud uniquement (API)</option>
-      </select>
-    </div>
-    <div>
-      <label for="opt-langue">Langue parlée</label>
-      <select id="opt-langue">
-        <option value="" selected>Détection auto</option>
-        <option value="fr">Français</option>
-        <option value="en">Anglais</option>
-        <option value="es">Espagnol</option>
-        <option value="de">Allemand</option>
-        <option value="it">Italien</option>
-      </select>
-    </div>
-    <div>
-      <label for="opt-style">Style de bande</label>
-      <select id="opt-style">
-        <option value="RYTHMO" selected>Rythmo défilant (curseur)</option>
-        <option value="REPLIQUE">Par réplique (studio)</option>
-      </select>
-    </div>
-    <div>
-      <label for="opt-theme">Thème de bande</label>
-      <select id="opt-theme">
-        <option value="STUDIO" selected>Studio (bande claire, mot surligné)</option>
-        <option value="SOMBRE">Sombre (karaoké noir)</option>
-      </select>
-    </div>
-    <div>
-      <label for="opt-taille">Hauteur bande (px)</label>
-      <input type="number" id="opt-taille" min="60" max="260" value="110">
-    </div>
-    <div>
-      <label for="opt-curseur">Position curseur (%) — style défilant</label>
-      <input type="number" id="opt-curseur" min="5" max="50" value="15">
-    </div>
-    <div>
-      <label for="opt-vitesse">Vitesse de défilement — style défilant</label>
-      <select id="opt-vitesse">
-        <option value="" selected>Auto (référence pro, 32 % largeur/s)</option>
-        <option value="0.24">Lente (24 % largeur/s)</option>
-        <option value="0.32">Normale (32 % largeur/s)</option>
-        <option value="0.45">Rapide (45 % largeur/s)</option>
-      </select>
-    </div>
-    <div class="interrupteur">
-      <input type="checkbox" id="opt-lipsync" checked>
-      <label for="opt-lipsync" style="margin:0">Synchronisation labiale</label>
-    </div>
-    <div class="interrupteur">
-      <input type="checkbox" id="opt-etirer" checked>
-      <label for="opt-etirer" style="margin:0">Étirer les syllabes allongées (tempo réel)</label>
-    </div>
-    <div class="interrupteur">
-      <input type="checkbox" id="opt-edition">
-      <label for="opt-edition" style="margin:0">✏️ Corriger les répliques avant le rendu</label>
-    </div>
-    <div class="interrupteur">
-      <input type="checkbox" id="opt-diariser" checked>
-      <label for="opt-diariser" style="margin:0">🎭 Séparer les voix automatiquement (pistes par personnage)</label>
-    </div>
-  </section>
-
-  <section>
     <button id="bouton-lancer" disabled>▶ Générer la bande rythmo</button>
   </section>
 
   <section id="progress">
-    <h2>2 · Traitement IA local</h2>
+    <h2><span class="pas">03</span><span class="h2-titre">Traitement IA local</span></h2>
     <div class="barre"><div id="barre-remplie"></div></div>
     <div id="etape"><span id="etape-texte">…</span><b id="pct">0 %</b></div>
     <button id="bouton-annuler" title="Annuler le traitement en cours">✖ Annuler</button>
   </section>
 
   <section id="editeur" style="display:none">
-    <h2>3 · Correction des répliques <span id="etat-edition" class="etat-edition"></span></h2>
+    <h2 class="h2-editeur"><span class="pas">04</span><span class="h2-titre">Correction des répliques</span>
+      <span id="etat-edition" class="etat-edition"></span></h2>
     <p class="aide">Le texte vient de l'IA locale : il peut contenir des coquilles
       (noms propres, liaisons…). Corrigez le texte, ajustez les horaires, et
       glissez chaque mot sur sa piste (timeline) pour un calage parfait —
@@ -137,33 +176,98 @@
     <div id="apercu-timeline" title="Cliquez pour sauter à une réplique">
       <canvas id="onde-globale"></canvas>
     </div>
+    <div id="bloc-personnages" class="bloc-personnages">
+      <label for="nb-personnages">Personnages de la scène</label>
+      <input type="number" id="nb-personnages" min="1" max="12" value="2"
+             title="Nombre de personnages présents dans la scène">
+      <div id="noms-personnages" class="noms-personnages"></div>
+      <p class="aide-personnages">Clic droit sur un mot de la timeline →
+        attribuez-le à un personnage : la réplique est clonée avec ce mot
+        (parole simultanée). Attribuer un autre mot au même personnage
+        l'ajoute au clone existant.</p>
+    </div>
     <div class="lg-labels"><span>#</span><span>début (s)</span><span>fin (s)</span>
-      <span>texte de la réplique</span><span></span></div>
+      <span>texte de la réplique</span><span>voix</span><span></span></div>
     <div id="liste-repliques"></div>
+    <div class="bloc-traduction">
+      <label for="traduction-langue-source">🌐 Traduire</label>
+      <select id="traduction-langue-source" title="Langue de la bande originale">
+        <option value="en">Anglais</option>
+        <option value="fr">Français</option>
+        <option value="es">Espagnol</option>
+        <option value="de">Allemand</option>
+        <option value="it">Italien</option>
+      </select>
+      <span class="fleche">→</span>
+      <select id="traduction-langue-cible" title="Langue de la bande doublée">
+        <option value="fr">Français</option>
+        <option value="en">Anglais</option>
+        <option value="es">Espagnol</option>
+        <option value="de">Allemand</option>
+        <option value="it">Italien</option>
+      </select>
+      <select id="traduction-modele" title="Moteur de traduction (100 % local par défaut, ou votre propre serveur)">
+        <option value="deterministe">Moteur déterministe (repli)</option>
+        <option value="llama_cpp">LLM local (GGUF · llama-cpp)</option>
+        <option value="ollama">Ollama (serveur local)</option>
+        <option value="openai_compatible">API compatible OpenAI (URL + clé)</option>
+      </select>
+      <span class="config-moteur" id="config-moteur-ouvert" hidden>
+        <input type="text" id="traduction-url"
+               placeholder="URL de base du serveur (ex. http://…/v1)"
+               title="URL de base du serveur OpenAI-compatible (requise pour ce moteur)">
+        <input type="password" id="traduction-cle-api"
+               placeholder="Clé API (vide si le serveur local n'exige rien)"
+               title="Clé API envoyée en en-tête Authorization Bearer — jamais enregistrée">
+        <input type="text" id="traduction-modele-api"
+               placeholder="Nom du modèle (ex. llama-3.1-8b)"
+               title="Nom du modèle à appeler sur le serveur OpenAI-compatible">
+      </span>
+      <label for="traduction-temperature">Température</label>
+      <input type="number" id="traduction-temperature" min="0" max="2" step="0.1"
+             value="0.7" title="Température du modèle (créativité de la traduction)">
+      <button id="bouton-traduire" type="button"
+              title="Traduire les répliques dans la langue cible (100 % local) — l'original reste intact">
+        🌐 Traduire</button>
+      <button id="bouton-traduction-pause" type="button" title="Mettre la traduction en pause">⏸ Pause</button>
+      <button id="bouton-traduction-reprendre" type="button" title="Reprendre la traduction">▶ Reprendre</button>
+      <button id="bouton-traduction-annuler" type="button" title="Annuler la traduction en cours">✖ Annuler</button>
+      <span id="etat-traduction" class="etat-traduction"></span>
+      <button id="bouton-rendre-traduction" type="button"
+              title="Rendre la bande doublée avec les traductions (mêmes timecodes) — l'original reste générable">
+        🎬 Rendre la bande traduite</button>
+      <button id="bouton-srt-traduction" type="button"
+              title="Exporter les sous-titres traduits (.srt) avec les horodatages d'origine">
+        💬 Exporter .srt traduit</button>
+      <p class="aide">La traduction est une couche séparée (traduction.json) :
+        la bande originale n'est jamais modifiée.</p>
+    </div>
     <div id="erreurs-edition" role="alert"></div>
     <div class="rangee-boutons">
       <button id="bouton-valider-edition">▶ Lancer le rendu avec ces corrections</button>
       <button id="bouton-ajouter-replique" title="Ajouter une réplique après la dernière">＋ Ajouter</button>
-      <button id="bouton-sauvegarde-repliques" title="Sauvegarder ces répliques dans un fichier">💾 Sauvegarder</button>
-      <button id="bouton-charge-repliques" title="Charger des répliques depuis un fichier">📂 Charger</button>
-      <button id="bouton-export-srt" title="Exporter ces répliques en sous-titres (.srt)">💬 Exporter .srt</button>
-      <button id="bouton-sauvegarde-projet" title="Enregistrer le projet complet (répliques corrigées, timings, options) dans un fichier portable">📦 Enregistrer le projet</button>
-      <button id="bouton-charge-projet" title="Restaurer un projet depuis un fichier (reprend le rendu avec le travail sauvegardé)">📂 Charger un projet</button>
+      <button id="bouton-sauvegarde-repliques" class="bouton-rangee" title="Sauvegarder ces répliques dans un fichier">💾 Sauvegarder</button>
+      <button id="bouton-charge-repliques" class="bouton-rangee" title="Charger des répliques depuis un fichier">📂 Charger</button>
+      <button id="bouton-export-srt" class="bouton-rangee" title="Exporter ces répliques en sous-titres (.srt)">💬 Exporter .srt</button>
+      <button id="bouton-importer-srt" class="bouton-rangee" title="Importer des sous-titres (.srt) : chaque cue devient une réplique dans l'éditeur">📂 Importer .srt</button>
+      <button id="bouton-synchroniser" class="bouton-rangee" title="Réaligner les mots des répliques sur l'audio (utile après un import .srt, dont les mots sont sinon répartis uniformément)">🔄 Resynchroniser</button>
+      <button id="bouton-sauvegarde-projet" class="bouton-rangee" title="Enregistrer le projet complet (répliques corrigées, timings, options) dans un fichier portable">📦 Enregistrer le projet</button>
+      <button id="bouton-charge-projet" class="bouton-rangee" title="Restaurer un projet depuis un fichier (reprend le rendu avec le travail sauvegardé)">📂 Charger un projet</button>
       <button id="bouton-annuler-edition" title="Abandonner ce job">✖ Abandonner</button>
       <input type="file" id="charge-repliques-fichier" accept=".json" hidden>
+      <input type="file" id="charge-srt-fichier" accept=".srt" hidden>
       <input type="file" id="charge-projet-fichier" accept=".json" hidden>
     </div>
   </section>
 
   <section id="resultat">
-    <h2>3 · Résultat</h2>
+    <h2><span class="pas">05</span><span class="h2-titre">Résultat</span></h2>
     <video id="preview" controls preload="metadata"></video>
     <br>
     <a id="download" href="#" download>⬇ Télécharger la vidéo avec bande rythmo</a>
     <a id="download-srt" href="#" download>⬇ Télécharger les sous-titres (.srt)</a>
-    <button id="bouton-reediter" title="Rouvrir l'éditeur de répliques et re-générer la vidéo"
-            style="margin-left:10px;padding:12px 18px;background:transparent;border:1px solid var(--accent);
-                   color:var(--accent);border-radius:10px;cursor:pointer;font-weight:700;font-size:.9rem">
+    <button id="bouton-reediter" class="bouton-reediter"
+            title="Rouvrir l'éditeur de répliques et re-générer la vidéo">
       ✏️ Corriger les répliques</button>
     <div id="meta"></div>
   </section>
