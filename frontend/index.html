@@ -68,8 +68,8 @@
         <select id="opt-modele">
           <option value="tiny">tiny (très rapide)</option>
           <option value="base">base (rapide)</option>
-          <option value="small" selected>small (recommandé)</option>
-          <option value="medium">medium (précis, GPU conseillé)</option>
+          <option value="small">small (rapide)</option>
+          <option value="medium" selected>medium (recommandé)</option>
           <option value="large-v3">large-v3 (max qualité, GPU)</option>
         </select>
       </div>
@@ -91,6 +91,12 @@
           <option value="de">Allemand</option>
           <option value="it">Italien</option>
         </select>
+      </div>
+      <div>
+        <label for="opt-vocabulaire">Vocabulaire du projet (noms propres, mots rares)</label>
+        <input type="text" id="opt-vocabulaire"
+               placeholder="Francis, Kaamelott, chéri — séparés par des virgules"
+               title="Mots du projet séparés par des virgules : biaisent la transcription française (prompt + correcteur phonétique). Vide = auto (personnages + glossaire).">
       </div>
       <div>
         <label for="opt-style">Style de bande</label>
@@ -186,6 +192,53 @@
         (parole simultanée). Attribuer un autre mot au même personnage
         l'ajoute au clone existant.</p>
     </div>
+    <div id="bloc-glossaire" class="bloc-glossaire">
+      <label for="glossaire-terme">📖 Glossaire du projet (mots rares, noms propres)</label>
+      <div class="glossaire-saisie">
+        <input type="text" id="glossaire-terme"
+               placeholder="Francis, Kaamelott, chéri…"
+               title="Mot ou nom propre du projet : oriente la reconnaissance française (prompt + correcteur phonétique) à la resynchronisation">
+        <button id="bouton-ajouter-glossaire" type="button"
+                title="Ajouter ce terme au glossaire">＋ Ajouter</button>
+      </div>
+      <div id="liste-glossaire" class="liste-glossaire"></div>
+      <div class="glossaire-actions">
+        <button id="bouton-enregistrer-glossaire" type="button"
+                title="Enregistrer le glossaire dans le dossier du projet">💾 Enregistrer le glossaire</button>
+        <span id="etat-glossaire" class="etat-glossaire"></span>
+      </div>
+      <div class="glossaire-import">
+        <label for="wikipedia-titre">🌐 Importer depuis Wikipédia</label>
+        <div class="glossaire-saisie">
+          <input type="text" id="wikipedia-titre"
+                 placeholder="Titre du film/série ou URL fr/en.wikipedia.org"
+                 title="Récupère les noms propres et termes importants de cette page pour proposer des candidats au glossaire">
+          <button id="bouton-importer-wikipedia" type="button"
+                  title="Récupérer les termes importants de cette page">🔎 Importer</button>
+        </div>
+        <div class="glossaire-saisie">
+          <select id="wikipedia-langue" title="Langue de la page Wikipédia (repli automatique si la page n'existe pas)">
+            <option value="fr">Français (fr)</option>
+            <option value="en">Anglais (en)</option>
+          </select>
+          <select id="wikipedia-methode" title="Méthode d'extraction du vocabulaire">
+            <option value="wikipedia">API Wikipédia (sans LLM)</option>
+            <option value="llm">LLM (moteur du panneau Traduire)</option>
+          </select>
+        </div>
+        <span id="etat-import-wikipedia" class="etat-glossaire"></span>
+        <div id="candidats-wikipedia" class="liste-glossaire"></div>
+        <div class="glossaire-actions" id="actions-candidats-wikipedia" hidden>
+          <button id="bouton-ajouter-selection" type="button"
+                  title="Ajouter les termes cochés au glossaire">＋ Ajouter la sélection</button>
+          <button id="bouton-reessayer-wikipedia" type="button" hidden
+                  title="Réessayer avec l'API Wikipédia">↺ Réessayer avec Wikipédia</button>
+        </div>
+      </div>
+      <p class="aide-glossaire">Ces mots orientent la reconnaissance française lors de la
+        resynchronisation (noms propres massacrés — « Francis » → « processie » —,
+        mots rares). Ils sont enregistrés dans le dossier du projet.</p>
+    </div>
     <div class="lg-labels"><span>#</span><span>début (s)</span><span>fin (s)</span>
       <span>texte de la réplique</span><span>voix</span><span></span></div>
     <div id="liste-repliques"></div>
@@ -218,7 +271,7 @@
                title="URL de base du serveur OpenAI-compatible (requise pour ce moteur)">
         <input type="password" id="traduction-cle-api"
                placeholder="Clé API (vide si le serveur local n'exige rien)"
-               title="Clé API envoyée en en-tête Authorization Bearer — jamais enregistrée">
+               title="Clé API envoyée en en-tête Authorization Bearer — mémorisée localement sur ce poste pour pré-remplir le champ, jamais envoyée au serveur pour stockage">
         <input type="text" id="traduction-modele-api"
                placeholder="Nom du modèle (ex. llama-3.1-8b)"
                title="Nom du modèle à appeler sur le serveur OpenAI-compatible">
@@ -275,6 +328,7 @@
   <footer>Rythmo Dub · 100 % local — aucune donnée ne quitte cette machine.</footer>
 </div>
 
+<script src="timeline.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

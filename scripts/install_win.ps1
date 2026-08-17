@@ -26,8 +26,8 @@ if (-not (Test-Path ".venv")) { python -m venv .venv }
 $cuda = $false
 try { & nvidia-smi | Out-Null; $cuda = $true } catch { $cuda = $false }
 if ($cuda) {
-    Write-Host "GPU NVIDIA detecte -> torch CUDA" -ForegroundColor Green
-    .\.venv\Scripts\python.exe -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu124
+    Write-Host "GPU NVIDIA detecte -> torch CUDA (cu126)" -ForegroundColor Green
+    .\.venv\Scripts\python.exe -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu126
 } else {
     Write-Host "Pas de GPU NVIDIA -> torch CPU" -ForegroundColor Yellow
     .\.venv\Scripts\python.exe -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
@@ -92,6 +92,15 @@ try {
     Write-Host "  navigateur seront skippes. Rejouez plus tard :" -ForegroundColor Yellow
     Write-Host "  .\.venv\Scripts\python.exe -m pip install playwright" -ForegroundColor Yellow
     Write-Host "  .\.venv\Scripts\python.exe -m playwright install chromium" -ForegroundColor Yellow
+}
+
+# 10) Verification GPU : un GPU NVIDIA present avec un torch build CPU
+#     (bug « GPU non detecte ») fait echouer l'installation, message clair.
+Write-Host ""
+Write-Host "== Verification GPU ==" -ForegroundColor Cyan
+.\.venv\Scripts\python.exe scripts\verifier_gpu.py
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "torch n'utilise pas CUDA alors qu'un GPU NVIDIA est present : rejouez l'etape 4 ou la commande indiquee ci-dessus."
 }
 
 Write-Host ""

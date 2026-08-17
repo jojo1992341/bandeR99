@@ -76,10 +76,22 @@
   let sourceCourante = null;    // EventSource de suivi (jamais deux à la fois)
   let editionModifiee = false;   // corrections non encore validées côté serveur
   let nomsPersonnages = [];     // noms des personnages de la scène (index 0 = voix 1)
+  let termesGlossaire = [];     // termes du glossaire du projet (panneau éditeur)
+  let candidatsWikipedia = [];  // candidats proposés par l'import Wikipédia
+  let candidatsWikipediaCategories = null;  // classement LLM {essentiels, difficiles, termes}
+  let importWikipediaEnCours = false;  // garde anti-double-clic de l'import
   let menuPersonnage = null;    // menu contextuel « attribuer ce mot à un personnage »
 
+  const RAISONS_DEVICE = {
+    torch_absent: "torch absent",
+    torch_sans_cuda: "torch sans CUDA",
+  };
   fetch("/api/health").then(r => r.json()).then(h => {
-    $("#device").textContent = h.device.toUpperCase();
+    let libelle = h.device.toUpperCase();
+    if (h.device_raison) {
+      libelle += " · " + (RAISONS_DEVICE[h.device_raison] || h.device_raison);
+    }
+    $("#device").textContent = libelle;
     $("#version").textContent = "v" + h.version;
   }).catch(() => { $("#device").textContent = "?"; });
 
@@ -213,6 +225,8 @@
       modele: $("#opt-modele").value,
       asr: $("#opt-asr").value,
       langue: $("#opt-langue").value || null,
+      vocabulaire: ($("#opt-vocabulaire").value || "")
+        .split(",").map(s => s.trim()).filter(Boolean),
       style: $("#opt-style").value,
       theme: $("#opt-theme").value,
       hauteur_bande: parseInt($("#opt-taille").value) || 110,
@@ -305,7 +319,6 @@
         texte: String(r.texte ?? ""),
         debut: Number(r.debut), fin: Number(r.fin),
         personnage: r.personnage,
-        verrouillee: !!r.verrouillee,
         mots: Array.isArray(r.mots) ? r.mots : undefined,
       }));
       const erreurs = validerLocal(vues, { pourFichier: true });
@@ -387,8 +400,8 @@
         texte: r.texte,
         debut: r.debut,
         fin: r.fin,
-        mots: distribuerUniforme(r.texte.split(/\s+/).filter(Boolean),
-                                 r.debut, r.fin),
+        mots: RythmoTimeline.distribuerUniforme(
+          r.texte.split(/\s+/).filter(Boolean), r.debut, r.fin),
       }));
       const erreurs = validerLocal(vues, { pourFichier: true });
       if (erreurs.length)
@@ -519,6 +532,223 @@
     return nomsPersonnages.slice();
   }
 
+  /* ——————— glossaire du projet (panneau d'édition, Slice 18) ——————— */
+
+  function cleGlossaire(terme) {
+    return String(terme || "").toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function rendererGlossaire() {
+    const conteneur = $("#liste-glossaire");
+    if (!conteneur) return;
+    conteneur.innerHTML = "";
+    termesGlossaire.forEach((terme, i) => {
+      const badge = document.createElement("span");
+      badge.className = "terme-glossaire";
+      const texte = document.createElement("span");
+      texte.textContent = terme;
+      const retirer = document.createElement("button");
+      retirer.type = "button";
+      retirer.className = "retirer-glossaire";
+      retirer.textContent = "✕";
+      retirer.title = "Retirer « " + terme + " »";
+      retirer.addEventListener("click", () => {
+        termesGlossaire.splice(i, 1);
+        rendererGlossaire();
+        marquerGlossaireModifie();
+      });
+      badge.appendChild(texte);
+      badge.appendChild(retirer);
+      conteneur.appendChild(badge);
+    });
+  }
+
+  function marquerGlossaireModifie() {
+    const etat = $("#etat-glossaire");
+    etat.textContent = "modifié — non enregistré";
+    etat.className = "etat-glossaire modifie";
+  }
+
+  function ajouterTermeGlossaire() {
+    const champ = $("#glossaire-terme");
+    const valeur = (champ.value || "").trim();
+    if (!valeur) return;
+    const cle = cleGlossaire(valeur);
+    if (!termesGlossaire.some(t => cleGlossaire(t) === cle)) {
+      termesGlossaire.push(valeur);
+    }
+    champ.value = "";
+    rendererGlossaire();
+    marquerGlossaireModifie();
+  }
+
+  async function chargerGlossaire() {
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/glossaire");
+      if (!rep.ok) return;
+      const donnees = await rep.json();
+      termesGlossaire = Array.isArray(donnees.termes) ? donnees.termes : [];
+      rendererGlossaire();
+      const etat = $("#etat-glossaire");
+      etat.textContent = "";
+      etat.className = "etat-glossaire";
+    } catch (_) { /* glossaire indisponible : la liste reste vide */ }
+  }
+
+  async function enregistrerGlossaire() {
+    const etat = $("#etat-glossaire");
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/glossaire", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ termes: termesGlossaire }),
+      });
+      if (!rep.ok) {
+        const d = await rep.json().catch(() => ({}));
+        etat.textContent = "échec : " + (d.detail || ("HTTP " + rep.status));
+        etat.className = "etat-glossaire erreur";
+        return;
+      }
+      const donnees = await rep.json();
+      termesGlossaire = Array.isArray(donnees.termes) ? donnees.termes : termesGlossaire;
+      rendererGlossaire();
+      etat.textContent = "enregistré ✓";
+      etat.className = "etat-glossaire enregistre";
+    } catch (err) {
+      etat.textContent = "serveur injoignable : " + err.message;
+      etat.className = "etat-glossaire erreur";
+    }
+  }
+
+  /* ——————— import Wikipédia (candidats → glossaire, Slice 1) ——————— */
+
+  const CATEGORIES_WIKIPEDIA = ["essentiels", "difficiles", "termes"];
+  const LIBELLES_CATEGORIES = { essentiels: "★ Essentiels",
+                                 difficiles: "⚠ Difficiles", termes: "Termes" };
+
+  function badgeCandidat(terme) {
+    const badge = document.createElement("label");
+    badge.className = "candidat-wikipedia";
+    const caseCoche = document.createElement("input");
+    caseCoche.type = "checkbox";
+    caseCoche.value = terme;
+    caseCoche.checked = true;
+    const texte = document.createElement("span");
+    texte.textContent = terme;
+    badge.appendChild(caseCoche);
+    badge.appendChild(texte);
+    return badge;
+  }
+
+  function rendererCandidatsWikipedia() {
+    const conteneur = $("#candidats-wikipedia");
+    const actions = $("#actions-candidats-wikipedia");
+    if (!conteneur) return;
+    conteneur.innerHTML = "";
+    const categories = candidatsWikipediaCategories;
+    const categoriesFournies = categories &&
+      CATEGORIES_WIKIPEDIA.some(c => Array.isArray(categories[c]) && categories[c].length);
+    if (categoriesFournies) {
+      CATEGORIES_WIKIPEDIA.forEach(categorie => {
+        const termes = Array.isArray(categories[categorie]) ? categories[categorie] : [];
+        if (!termes.length) return;
+        const titre = document.createElement("div");
+        titre.className = "categorie-wikipedia";
+        titre.textContent = LIBELLES_CATEGORIES[categorie] + " (" + termes.length + ")";
+        conteneur.appendChild(titre);
+        termes.forEach(terme => conteneur.appendChild(badgeCandidat(terme)));
+      });
+    } else {
+      candidatsWikipedia.forEach(terme => conteneur.appendChild(badgeCandidat(terme)));
+    }
+    if (actions) actions.hidden = candidatsWikipedia.length === 0;
+  }
+
+  async function importerWikipedia() {
+    if (!jobCourant || importWikipediaEnCours) return;
+    const champ = $("#wikipedia-titre");
+    const etat = $("#etat-import-wikipedia");
+    const bouton = $("#bouton-importer-wikipedia");
+    const boutonReessayer = $("#bouton-reessayer-wikipedia");
+    const saisie = (champ.value || "").trim();
+    if (!saisie) return;
+    const langue = ($("#wikipedia-langue") ? $("#wikipedia-langue").value : "") || "fr";
+    const methode = ($("#wikipedia-methode") ? $("#wikipedia-methode").value : "") || "wikipedia";
+    importWikipediaEnCours = true;
+    if (bouton) { bouton.disabled = true; bouton.textContent = "récupération…"; }
+    if (etat) { etat.textContent = "récupération…"; etat.className = "etat-glossaire"; }
+    if (boutonReessayer) boutonReessayer.hidden = true;
+    const corps = { titre: saisie, langue: langue, methode: methode };
+    if (methode === "llm") {
+      corps.modele = ($("#traduction-modele") ? $("#traduction-modele").value : "") || undefined;
+      Object.assign(corps, configMoteurTraduction());
+    }
+    try {
+      const rep = await fetch("/api/jobs/" + jobCourant + "/glossaire/candidats-wikipedia", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(corps),
+      });
+      if (!rep.ok) {
+        const d = await rep.json().catch(() => ({}));
+        const detail = d.detail || {};
+        if (etat) {
+          etat.textContent = detail.message_utilisateur || detail.message ||
+            ("HTTP " + rep.status);
+          etat.className = "etat-glossaire erreur";
+        }
+        if (boutonReessayer) boutonReessayer.hidden = false;
+        return;
+      }
+      const donnees = await rep.json();
+      candidatsWikipedia = Array.isArray(donnees.candidats) ? donnees.candidats : [];
+      candidatsWikipediaCategories =
+        donnees.categories && typeof donnees.categories === "object"
+          ? donnees.categories : null;
+      rendererCandidatsWikipedia();
+      if (etat) {
+        etat.textContent = candidatsWikipedia.length
+          ? candidatsWikipedia.length + " candidats proposés — cochez puis ajoutez (" +
+            (donnees.langue || "fr") + ")"
+          : "aucun terme trouvé pour cette page";
+        etat.className = "etat-glossaire";
+      }
+    } catch (err) {
+      if (etat) {
+        etat.textContent = "serveur injoignable : " + err.message;
+        etat.className = "etat-glossaire erreur";
+      }
+      if (boutonReessayer) boutonReessayer.hidden = false;
+    } finally {
+      importWikipediaEnCours = false;
+      if (bouton) { bouton.disabled = false; bouton.textContent = "🔎 Importer"; }
+    }
+  }
+
+  function reessayerAvecWikipedia() {
+    const sel = $("#wikipedia-methode");
+    if (sel && sel.value === "llm") sel.value = "wikipedia";
+    importerWikipedia();
+  }
+
+  function ajouterSelectionWikipedia() {
+    const coches = [...document.querySelectorAll("#candidats-wikipedia input:checked")]
+      .map(c => c.value);
+    let ajoutes = 0;
+    coches.forEach(terme => {
+      const cle = cleGlossaire(terme);
+      if (!termesGlossaire.some(t => cleGlossaire(t) === cle)) {
+        termesGlossaire.push(terme);
+        ajoutes++;
+      }
+    });
+    if (ajoutes) {
+      rendererGlossaire();
+      marquerGlossaireModifie();
+    }
+  }
+
   function fermerMenuPersonnage() {
     if (menuPersonnage) { menuPersonnage.remove(); menuPersonnage = null; }
   }
@@ -604,8 +834,6 @@
   function ligneReplique(replique, index, nouvelle) {
     const bloc = document.createElement("div");
     bloc.className = "bloc-replique";
-    bloc.verrouillee = !!replique.verrouillee;
-    if (bloc.verrouillee) bloc.classList.add("verrouillee");
     const ligne = document.createElement("div");
     ligne.className = "ligne-replique" + (nouvelle ? " nouvelle" : "");
     if (replique.id != null) ligne.dataset.id = replique.id;
@@ -624,24 +852,13 @@
         '<button class="bouton-suggestions" title="Proposer des corrections">✨</button>' +
         '<button class="bouton-inserer" title="Insérer une réplique après celle-ci">＋</button>' +
         '<button class="bouton-suppr" title="Supprimer cette réplique">🗑</button>' +
-        '<button class="bouton-verrou" title="Verrouiller cette réplique : ignorée par la resynchronisation">' +
-          (bloc.verrouillee ? "🔒" : "🔓") +
-        '</button>' +
+        '<button class="bouton-resync" title="Resynchroniser cette réplique sur son audio (fenêtre [début, fin] uniquement)">🔄</button>' +
       '</div>';
     if (replique.personnage != null)
       ligne.querySelector(".champ-voix").value =
         String(Number(replique.personnage) + 1);
     ligne.querySelector(".champ-voix").addEventListener("change", marquerModifiee);
-    const verrou = ligne.querySelector(".bouton-verrou");
-    verrou.onclick = () => {
-      bloc.verrouillee = !bloc.verrouillee;
-      bloc.classList.toggle("verrouillee", bloc.verrouillee);
-      verrou.textContent = bloc.verrouillee ? "🔒" : "🔓";
-      verrou.title = bloc.verrouillee
-        ? "Réplique verrouillée : la resynchronisation l'ignore"
-        : "Verrouiller cette réplique : la resynchronisation l'ignore";
-      marquerModifiee();
-    };
+    ligne.querySelector(".bouton-resync").onclick = () => resynchroniserReplique(bloc);
     ligne.querySelector(".champ-texte").value = replique.texte;
     ligne.querySelector(".bouton-inserer").onclick = () => insererLigneReplique(bloc);
     ligne.querySelector(".bouton-suppr").onclick = () => {
@@ -666,7 +883,7 @@
       const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
       const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
       if (isFinite(d0) && isFinite(d1) && d1 > d0) {
-        piste.mots = resynchroniserMots(
+        piste.mots = RythmoTimeline.resynchroniserMots(
           piste.mots, ligne.querySelector(".champ-texte").value, d0, d1);
       } else {
         // horaires en cours de saisie : on ne recalcule pas la timeline, on
@@ -690,6 +907,7 @@
     bloc.appendChild(ligne);
     bloc.appendChild(panneauSuggs);
     bloc.appendChild(piste);
+    creerControlesZoom(piste, ligne);
     rendererPiste(piste);
     return bloc;
   }
@@ -819,6 +1037,7 @@
   function ouvrirEditeur(donnees) {
     dureeVideoJob = donnees.duree_video || 0;
     initialiserPersonnages(donnees);
+    chargerGlossaire();
     $("#liste-repliques").innerHTML = "";
     (donnees.repliques || []).forEach(r => ajouterLigneReplique(r, false));
     $("#erreurs-edition").style.display = "none";
@@ -832,29 +1051,33 @@
     $("#editeur").scrollIntoView({ behavior: "smooth" });
   }
 
+  function collecterReplique(bloc) {
+    const lg = bloc.querySelector(".ligne-replique");
+    const r = {
+      texte: lg.querySelector(".champ-texte").value,
+      debut: parseFloat(lg.querySelector(".champ-debut").value),
+      fin: parseFloat(lg.querySelector(".champ-fin").value),
+    };
+    if (lg.dataset.id != null) r.id = lg.dataset.id;
+    // voix choisie au sélecteur : nombre, ou null explicite pour la retirer
+    const choixVoix = lg.querySelector(".champ-voix");
+    if (choixVoix) r.personnage = choixVoix.value === "" ? null
+                                                         : Number(choixVoix.value) - 1;
+    const piste = bloc.querySelector(".piste-mots");
+    if (piste && piste.mots && piste.mots.length)
+      r.mots = piste.mots.map(m => ({
+        texte: m.texte,
+        debut: +m.debut.toFixed(3),
+        fin: +m.fin.toFixed(3),
+        ...(m.incertain ? { incertain: true } : {}),
+      }));
+    return r;
+  }
+
   function collecterRepliques() {
     const sortie = [];
     $("#liste-repliques").querySelectorAll(".bloc-replique").forEach(bloc => {
-      const lg = bloc.querySelector(".ligne-replique");
-      const r = {
-        texte: lg.querySelector(".champ-texte").value,
-        debut: parseFloat(lg.querySelector(".champ-debut").value),
-        fin: parseFloat(lg.querySelector(".champ-fin").value),
-      };
-      if (lg.dataset.id != null) r.id = lg.dataset.id;
-      if (bloc.verrouillee) r.verrouillee = true;  // le bouton Resynchroniser l'ignore
-      // voix choisie au sélecteur : nombre, ou null explicite pour la retirer
-      const choixVoix = lg.querySelector(".champ-voix");
-      if (choixVoix) r.personnage = choixVoix.value === "" ? null
-                                                           : Number(choixVoix.value) - 1;
-      const piste = bloc.querySelector(".piste-mots");
-      if (piste && piste.mots && piste.mots.length)
-        r.mots = piste.mots.map(m => ({
-          texte: m.texte,
-          debut: +m.debut.toFixed(3),
-          fin: +m.fin.toFixed(3),
-        }));
-      sortie.push(r);
+      sortie.push(collecterReplique(bloc));
     });
     return sortie;
   }
@@ -941,6 +1164,17 @@
   }
 
   $("#bouton-valider-edition").addEventListener("click", envoyerRepliques);
+  $("#bouton-ajouter-glossaire").addEventListener("click", ajouterTermeGlossaire);
+  $("#bouton-enregistrer-glossaire").addEventListener("click", enregistrerGlossaire);
+  $("#glossaire-terme").addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); ajouterTermeGlossaire(); }
+  });
+  $("#bouton-importer-wikipedia").addEventListener("click", importerWikipedia);
+  $("#bouton-ajouter-selection").addEventListener("click", ajouterSelectionWikipedia);
+  $("#bouton-reessayer-wikipedia").addEventListener("click", reessayerAvecWikipedia);
+  $("#wikipedia-titre").addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); importerWikipedia(); }
+  });
 
   async function traduireRepliques() {
     // Slice 1 : une passe de traduction locale, couche séparée (traduction.json).
@@ -1121,7 +1355,9 @@
   $("#bouton-traduire").addEventListener("click", traduireRepliques);
 
   // ——— config du moteur distant (slice 2) : champs URL/clé visibles
-  // uniquement pour « API compatible OpenAI », jamais de clé enregistrée. ———
+  // uniquement pour « API compatible OpenAI ». La config n'est jamais envoyée
+  // au serveur pour être STOCKÉE : elle est seulement mémorisée côté navigateur
+  // pour pré-remplir les champs entre deux imports/traductions. ———
   function configMoteurTraduction() {
     const v = id => { const el = $(id); return el ? el.value.trim() : ""; };
     const url = v("#traduction-url"), cle = v("#traduction-cle-api"),
@@ -1129,6 +1365,40 @@
     return { url: url || undefined, cle_api: cle || undefined,
              modele_api: modele || undefined };
   }
+
+  // ——— mémorisation du dernier moteur distant (URL + modèle + clé) ———
+  const CLE_CONFIG_MOTEUR = "rythmo.config-moteur";
+
+  function restaurerConfigMoteur() {
+    let stocke = null;
+    try { stocke = JSON.parse(localStorage.getItem(CLE_CONFIG_MOTEUR) || "null"); }
+    catch (_) { stocke = null; }
+    if (!stocke || typeof stocke !== "object") return;
+    const remplir = (id, valeur) => {
+      const el = $(id);
+      if (el && typeof valeur === "string" && valeur.trim()) el.value = valeur;
+    };
+    remplir("#traduction-url", stocke.url);
+    remplir("#traduction-cle-api", stocke.cle_api);
+    remplir("#traduction-modele-api", stocke.modele_api);
+  }
+
+  function sauvegarderConfigMoteur() {
+    const config = configMoteurTraduction();
+    try {
+      localStorage.setItem(CLE_CONFIG_MOTEUR, JSON.stringify({
+        url: config.url || "",
+        cle_api: config.cle_api || "",
+        modele_api: config.modele_api || "",
+      }));
+    } catch (_) { /* stockage indisponible (navigateur restreint) : silencieux */ }
+  }
+
+  ["#traduction-url", "#traduction-cle-api", "#traduction-modele-api"].forEach(id => {
+    const el = $(id);
+    if (el) el.addEventListener("input", sauvegarderConfigMoteur);
+  });
+  restaurerConfigMoteur();
 
   function majChampsMoteur() {
     const el = $("#config-moteur-ouvert");
@@ -1270,11 +1540,51 @@
       texte: String(r.texte ?? ""),
       debut: Number(r.debut), fin: Number(r.fin),
       personnage: r.personnage,
-      verrouillee: !!r.verrouillee,
       mots: Array.isArray(r.mots) ? r.mots : undefined,
     }));
     remplacerListeRepliques(vues);
     rendererToutesLesPistes();
+  }
+
+  async function resynchroniserReplique(bloc) {
+    if (!jobCourant) return;
+    const replique = collecterReplique(bloc);
+    // même règle que la resynchronisation globale : seuls les champs
+    // structurels (texte, début < fin) comptent pour un brouillon
+    const erreurs = validerLocal([replique], { pourFichier: true });
+    if (erreurs.length) return afficherErreursEdition(erreurs);
+    const bouton = bloc.querySelector(".bouton-resync");
+    bouton.disabled = true;
+    const libelle = bouton.textContent;
+    bouton.textContent = "⏳";
+    let rep;
+    try {
+      rep = await fetch("/api/jobs/" + jobCourant + "/synchroniser-replique", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ replique }),
+      });
+    } catch (err) {
+      bouton.disabled = false; bouton.textContent = libelle;
+      return afficherErreursEdition(["serveur injoignable : " + err.message]);
+    }
+    bouton.disabled = false; bouton.textContent = libelle;
+    if (!rep.ok) {
+      const d = await rep.json().catch(() => ({}));
+      const detail = d.detail || {};
+      return afficherErreursEdition([
+        detail.message_utilisateur || detail.message ||
+        ("synchronisation refusée (HTTP " + rep.status + ")")]);
+    }
+    const donnees = await rep.json();
+    const resync = donnees.replique || {};
+    const piste = bloc.querySelector(".piste-mots");
+    if (piste) {
+      piste.mots = RythmoTimeline.vuesMots(resync.mots || []);
+      rendererPiste(piste);
+    }
+    rafraichirApercu();
+    marquerModifiee();
   }
 
   $("#bouton-synchroniser").addEventListener("click", relancerSynchronisation);
@@ -1438,145 +1748,85 @@
     if (cible) cible.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  /* ——————— resynchronisation mot-à-mot à la frappe (miroir client du serveur) ———————
-     Le comédien corrige le texte d'une réplique : la timeline se met à jour
-     immédiatement avec la même logique que `resynchroniser_mots` côté serveur
-     (difflib) — les mots inchangés gardent leurs timings, un mot inséré
-     occupe le silence entre ses voisins, un mot supprimé disparaît. */
-  const DUREE_MOT_MIN = 0.04;
+  /* Resynchronisation mot-à-mot à la frappe : logique pure déplacée dans
+     timeline.js (`RythmoTimeline.resynchroniserMots`, `distribuerUniforme`),
+     testée par node:test — le client ne garde ici que le DOM. */
 
-  function arrondir3(v) {
-    return Math.round(Number(v) * 1000) / 1000;
+  /* ——————— zoom des timelines par réplique (1×–60×) ———————
+     La géométrie (bornes, fenêtre visible, position des mots) est dans
+     timeline.js (logique pure, testée par node:test). Ici : état `zoom`/
+     `ancrage` PORTÉ PAR CHAQUE piste (zoom indépendant par réplique) et
+     contrôles −/N×/+. Zoomer ne modifie jamais début/fin ni les mots :
+     c'est un cadrage d'affichage. */
+  const PALIERS_ZOOM = [1, 2, 4, 8, 15, 30, 60];
+
+  function ligneDePiste(piste) {
+    const bloc = piste.closest(".bloc-replique");
+    return bloc ? bloc.querySelector(".ligne-replique") : piste.previousElementSibling;
   }
 
-  function normaliserToken(t) {
-    return String(t || "")
-      .toLowerCase()
-      .normalize("NFKD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^\p{L}\p{N}]/gu, "");
+  function zoomSuivant(z) {
+    const c = RythmoTimeline.bornesZoom(z);
+    for (const p of PALIERS_ZOOM) if (p > c) return p;
+    return RythmoTimeline.ZOOM_MAX;
   }
 
-  function distribuerUniforme(tokens, debut, fin) {
-    const n = tokens.length;
-    const largeur = Math.max((fin - debut) / n, DUREE_MOT_MIN);
-    return tokens.map((t, i) => ({
-      texte: t,
-      debut: arrondir3(Math.min(debut + i * largeur, fin - DUREE_MOT_MIN)),
-      fin: arrondir3(Math.min(debut + (i + 1) * largeur, fin)),
-    }));
+  function zoomPrecedent(z) {
+    const c = RythmoTimeline.bornesZoom(z);
+    for (let i = PALIERS_ZOOM.length - 1; i >= 0; i--)
+      if (PALIERS_ZOOM[i] < c) return PALIERS_ZOOM[i];
+    return RythmoTimeline.ZOOM_MIN;
   }
 
-  function diffOpcodes(a, b) {
-    // Diff LCS entre deux listes de tokens normalisés → opcodes
-    // {type:'equal'|'replace'|'insert'|'delete', i1,i2,j1,j2} (runs fusionnés ;
-    // un « replace » = une suppression immédiatement suivie d'une insertion).
-    const n = a.length, m = b.length;
-    const dp = [];
-    for (let i = 0; i <= n; i++) dp.push(new Array(m + 1).fill(0));
-    for (let i = n - 1; i >= 0; i--)
-      for (let j = m - 1; j >= 0; j--)
-        dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1
-                                 : Math.max(dp[i + 1][j], dp[i][j + 1]);
-    const bruts = [];
-    let i = 0, j = 0;
-    while (i < n || j < m) {
-      if (i < n && j < m && a[i] === b[j]) { bruts.push(["equal", i, j]); i++; j++; }
-      else if (i < n && (j >= m || dp[i + 1][j] >= dp[i][j + 1])) { bruts.push(["delete", i, j]); i++; }
-      else { bruts.push(["insert", i, j]); j++; }
-    }
-    const opcodes = [];
-    for (const [type, oi, oj] of bruts) {
-      const prec = opcodes[opcodes.length - 1];
-      if (prec && prec.type === type) { prec.i2 = oi + 1; prec.j2 = oj + 1; continue; }
-      opcodes.push({ type, i1: oi, i2: oi + 1, j1: oj, j2: oj + 1 });
-    }
-    for (let k = 0; k + 1 < opcodes.length; k++) {
-      if (opcodes[k].type === "delete" && opcodes[k + 1].type === "insert" &&
-          opcodes[k].i2 === opcodes[k + 1].i1) {
-        opcodes[k] = { type: "replace", i1: opcodes[k].i1, i2: opcodes[k].i2,
-                       j1: opcodes[k + 1].j1, j2: opcodes[k + 1].j2 };
-        opcodes.splice(k + 1, 1);
-      }
-    }
-    return opcodes;
+  function fmtZoom(z) {
+    const r = Math.round(z * 10) / 10;
+    return (Number.isInteger(r) ? String(r) : r.toFixed(1)) + "×";
   }
 
-  function forcerMonotonie(mots, debut, fin) {
-    // Invariants de rendu : debut ≤ d < f ≤ fin et débuts non décroissants.
-    mots.forEach(m => {
-      m.debut = Math.min(Math.max(Number(m.debut), debut), fin - DUREE_MOT_MIN);
-      m.fin = Math.min(Math.max(Number(m.fin), m.debut + DUREE_MOT_MIN), fin);
-    });
-    let precedent = debut;
-    mots.forEach(m => {
-      if (m.debut < precedent - 1e-9) {
-        const glisser = precedent - m.debut;
-        m.debut = precedent;
-        m.fin = Math.min(m.fin + glisser, fin);
-        if (m.fin <= m.debut) {
-          m.debut = Math.min(m.debut, fin - DUREE_MOT_MIN);
-          m.fin = m.debut + DUREE_MOT_MIN;
-        }
-      }
-      precedent = m.fin > precedent ? m.fin : precedent;
-      m.debut = arrondir3(m.debut);
-      m.fin = arrondir3(m.fin);
-    });
-    return mots;
+  function majControlesZoom(piste) {
+    const valeur = piste.__zoomValeur;
+    if (valeur) valeur.textContent = fmtZoom(piste.zoom || 1);
+    piste.classList.toggle("zoomable", (piste.zoom || 1) > 1);
   }
 
-  function resynchroniserMots(motsActuels, nouveauTexte, debut, fin) {
-    const tokens = String(nouveauTexte || "").split(/\s+/).filter(t => t.length);
-    if (!tokens.length) return [];
-    debut = Number(debut); fin = Number(fin);
-    if (!isFinite(debut) || !isFinite(fin) || fin <= debut) return [];
-    if (!motsActuels || !motsActuels.length)
-      return distribuerUniforme(tokens, debut, fin);
-    const seqO = motsActuels.map(m => normaliserToken(m.texte));
-    const seqN = tokens.map(normaliserToken);
-    if (seqO.length === seqN.length && seqO.every((t, i) => t === seqN[i])) {
-      // même liste de mots (hors casse/ponctuation) : timings conservés
-      return tokens.map((t, i) => ({
-        texte: t, debut: motsActuels[i].debut, fin: motsActuels[i].fin,
-      }));
-    }
-    const intervalles = new Array(tokens.length).fill(null);
-    diffOpcodes(seqO, seqN).forEach(op => {
-      if (op.type === "equal") {
-        for (let k = 0; k < op.i2 - op.i1; k++) {
-          const m = motsActuels[op.i1 + k];
-          intervalles[op.j1 + k] = [m.debut, m.fin];
-        }
-      } else if (op.type === "replace") {
-        const g0 = op.i1 < motsActuels.length ? motsActuels[op.i1].debut : debut;
-        const g1 = op.i2 > op.i1 ? motsActuels[op.i2 - 1].fin : g0;
-        const nRep = Math.max(op.j2 - op.j1, 1);
-        const tranche = Math.max(g1 - g0, DUREE_MOT_MIN) / nRep;
-        for (let j = op.j1; j < op.j2; j++)
-          intervalles[j] = [g0 + (j - op.j1) * tranche,
-                            g0 + (j - op.j1 + 1) * tranche];
-      } else if (op.type === "insert") {
-        let lo = op.i1 > 0 ? motsActuels[op.i1 - 1].fin : debut;
-        let hi = op.i1 < motsActuels.length ? motsActuels[op.i1].debut : fin;
-        if (hi - lo < 2 * DUREE_MOT_MIN) {
-          lo = op.i1 > 0 ? motsActuels[op.i1 - 1].debut : debut;
-          hi = op.i1 > 0 ? motsActuels[op.i1 - 1].fin : lo + DUREE_MOT_MIN;
-        }
-        const nIns = op.j2 - op.j1;
-        const tranche = (hi - lo) / (nIns + 2);
-        for (let j = op.j1; j < op.j2; j++)
-          intervalles[j] = [lo + (j - op.j1 + 1) * tranche,
-                            lo + (j - op.j1 + 2) * tranche];
-      }
-      // delete : mot supprimé, rien à reporter
-    });
-    const comble = distribuerUniforme(tokens, debut, fin);
-    return forcerMonotonie(tokens.map((t, i) => ({
-      texte: t,
-      debut: intervalles[i] ? intervalles[i][0] : comble[i].debut,
-      fin: intervalles[i] ? intervalles[i][1] : comble[i].fin,
-    })), debut, fin);
+  function creerControlesZoom(piste, ligne) {
+    const actions = ligne.querySelector(".actions-replique");
+    if (!actions) return;
+    const groupe = document.createElement("div");
+    groupe.className = "zoom-replique";
+    groupe.title = "Zoom de la timeline de cette réplique (1×–60×) — indépendant des autres répliques";
+    const moins = document.createElement("button");
+    moins.type = "button";
+    moins.className = "zoom-moins";
+    moins.textContent = "−";
+    moins.title = "Dézoomer";
+    moins.onclick = () => {
+      piste.zoom = zoomPrecedent(piste.zoom);
+      rendererPiste(piste);
+    };
+    const valeur = document.createElement("button");
+    valeur.type = "button";
+    valeur.className = "zoom-valeur";
+    valeur.title = "Réinitialiser le zoom à 1×";
+    valeur.onclick = () => {
+      piste.zoom = 1;
+      piste.ancrage = 0.5;
+      rendererPiste(piste);
+    };
+    const plus = document.createElement("button");
+    plus.type = "button";
+    plus.className = "zoom-plus";
+    plus.textContent = "+";
+    plus.title = "Zoomer";
+    plus.onclick = () => {
+      piste.zoom = zoomSuivant(piste.zoom);
+      rendererPiste(piste);
+    };
+    groupe.appendChild(moins);
+    groupe.appendChild(valeur);
+    groupe.appendChild(plus);
+    actions.appendChild(groupe);
+    piste.__zoomValeur = valeur;
   }
 
   function construirePisteMots(replique) {
@@ -1585,23 +1835,24 @@
     const canvas = document.createElement("canvas");
     canvas.className = "onde-piste";
     piste.appendChild(canvas);
-    piste.mots = (replique.mots || []).map(m => ({
-      texte: String(m.texte ?? ""),
-      debut: Number(m.debut), fin: Number(m.fin),
-    }));
+    piste.mots = RythmoTimeline.vuesMots(replique.mots || []);
+    piste.zoom = 1;       // zoom par réplique, borné 1×–60× (timeline.js)
+    piste.ancrage = 0.5;  // 0.5 = fenêtre visible centrée quand zoom > 1
+    attacherNavigationPiste(piste);
     return piste;  // rendu différé : la piste n'est pas encore dans le DOM
   }
 
   function rendererPiste(piste) {
     // la piste n'est pas le voisin immédiat de la ligne (panneau de suggestions
     // entre les deux) : on remonte au bloc pour retrouver la ligne (T74).
-    const ligne = piste.closest(".bloc-replique")
-      ? piste.closest(".bloc-replique").querySelector(".ligne-replique")
-      : piste.previousElementSibling;
+    const ligne = ligneDePiste(piste);
     const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
     const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
-    const duree = Math.max(d1 - d0, 0.001);
-    dessinerOnde(piste.querySelector("canvas"), d0, d1, "rgba(120,180,255,.6)",
+    piste.zoom = RythmoTimeline.bornesZoom(piste.zoom != null ? piste.zoom : 1);
+    if (piste.ancrage == null) piste.ancrage = 0.5;
+    // fenêtre visible = fenêtre de la réplique / zoom, ancrée dans [d0, d1]
+    const vue = RythmoTimeline.fenetreZoom(d0, d1, piste.zoom, piste.ancrage);
+    dessinerOnde(piste.querySelector("canvas"), vue.t0, vue.t1, "rgba(120,180,255,.6)",
                  jobCourant, Math.max(120, Math.round(piste.clientWidth || 600)));
     piste.querySelectorAll(".bloc-mot").forEach(b => b.remove());
     piste.mots.forEach((m, i) => {
@@ -1609,13 +1860,17 @@
       bloc.className = "bloc-mot";
       const marqueur = /^\([^()]{1,60}\)$/.test(String(m.texte).trim());
       if (marqueur) bloc.classList.add("bloc-marqueur");
+      if (m.incertain) bloc.classList.add("bloc-incertain");
       const texteMot = document.createElement("span");
       texteMot.className = "texte-mot";
       texteMot.textContent = m.texte;
       bloc.appendChild(texteMot);
-      bloc.title = marqueur ? "Symbole de respiration — non prononcé" : "";
-      bloc.style.left = (m.debut - d0) / duree * 100 + "%";
-      bloc.style.width = Math.max((m.fin - m.debut) / duree * 100, 4) + "%";
+      bloc.title = marqueur ? "Symbole de respiration — non prononcé"
+                 : m.incertain ? "Mot incertain — probabilité de reconnaissance faible"
+                 : "";
+      const pos = RythmoTimeline.positionMot(m.debut, m.fin, vue.t0, vue.t1);
+      bloc.style.left = pos.left + "%";
+      bloc.style.width = Math.max(pos.width, 4) + "%";
       const poigneeGauche = document.createElement("i");
       poigneeGauche.className = "poignee-gauche";
       poigneeGauche.title = "Étirer le début du mot";
@@ -1655,6 +1910,7 @@
       attacherGlisser(piste, bloc, i, poignee, poigneeGauche);
       piste.appendChild(bloc);
     });
+    majControlesZoom(piste);
   }
 
   function rendererToutesLesPistes() {
@@ -1663,9 +1919,7 @@
   }
 
   function attacherGlisser(piste, bloc, i, poignee, poigneeGauche) {
-    const ligne = piste.closest(".bloc-replique")
-      ? piste.closest(".bloc-replique").querySelector(".ligne-replique")
-      : piste.previousElementSibling;
+    const ligne = ligneDePiste(piste);
     let mode = null, x0 = 0, deplace = false;
     bloc.addEventListener("pointerdown", e => {
       if (e.target.closest("button")) {
@@ -1690,7 +1944,10 @@
       const rect = piste.getBoundingClientRect();
       const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
       const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
-      const secParPx = (d1 - d0) / Math.max(rect.width, 1);
+      // échelle de la fenêtre VISIBLE (zoom compris) : déplacer de N px déplace
+      // le mot du bon nombre de secondes à n'importe quel niveau de zoom
+      const vue = RythmoTimeline.fenetreZoom(d0, d1, piste.zoom, piste.ancrage);
+      const secParPx = RythmoTimeline.echelle(vue.t0, vue.t1, rect.width);
       const delta = (e.clientX - x0) * secParPx;
       const m = piste.mots[i];
       const duree = m.fin - m.debut;
@@ -1745,8 +2002,9 @@
         }
         m.debut = Math.min(Math.max(m.debut + delta, min), max);
       }
-      bloc.style.left = (m.debut - d0) / (d1 - d0) * 100 + "%";
-      bloc.style.width = Math.max((m.fin - m.debut) / (d1 - d0) * 100, 4) + "%";
+      const pos = RythmoTimeline.positionMot(m.debut, m.fin, vue.t0, vue.t1);
+      bloc.style.left = pos.left + "%";
+      bloc.style.width = Math.max(pos.width, 4) + "%";
       x0 = e.clientX;
     });
     const relacher = () => {
@@ -1780,6 +2038,75 @@
     };
     bloc.addEventListener("pointerup", relacher);
     bloc.addEventListener("pointercancel", relacher);
+  }
+
+  function attacherNavigationPiste(piste) {
+    // Pan : glisser le FOND VIDE de la piste (ni un mot, ni un bouton) quand
+    // zoom > 1. La fenêtre visible reste bornée à la réplique (decalerAncrage).
+    let pan = null;
+    piste.addEventListener("pointerdown", e => {
+      if (e.target.closest(".bloc-mot")) return;
+      if ((piste.zoom || 1) <= 1) return;
+      e.preventDefault();
+      const ligne = ligneDePiste(piste);
+      const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
+      const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
+      const vue = RythmoTimeline.fenetreZoom(d0, d1, piste.zoom, piste.ancrage);
+      const rect = piste.getBoundingClientRect();
+      pan = {
+        x0: e.clientX,
+        ancrage0: piste.ancrage,
+        duree: Math.max(d1 - d0, 0.001),
+        secParPx: RythmoTimeline.echelle(vue.t0, vue.t1, rect.width),
+        zoom: piste.zoom,
+      };
+      piste.setPointerCapture(e.pointerId);
+    });
+    piste.addEventListener("pointermove", e => {
+      if (!pan) return;
+      const deltaSec = (e.clientX - pan.x0) * pan.secParPx;
+      piste.ancrage = RythmoTimeline.decalerAncrage(
+        pan.ancrage0, deltaSec, pan.duree, pan.zoom);
+      rendererPiste(piste);
+    });
+    const finPan = () => { pan = null; };
+    piste.addEventListener("pointerup", finPan);
+    piste.addEventListener("pointercancel", finPan);
+
+    // Molette : Ctrl = zoom autour du curseur ; sinon pan horizontal si zoomé
+    // (à 1×, la molette laisse la page défiler normalement).
+    piste.addEventListener("wheel", e => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const rect = piste.getBoundingClientRect();
+        const f = rect.width > 0
+          ? Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+          : 0.5;
+        const ligne = ligneDePiste(piste);
+        const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
+        const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
+        const duree = Math.max(d1 - d0, 0.001);
+        const pivot = RythmoTimeline.pivoter(
+          f, duree, piste.zoom, piste.ancrage, e.deltaY < 0 ? 2 : 0.5);
+        piste.zoom = pivot.zoom;
+        piste.ancrage = pivot.ancrage;
+        rendererPiste(piste);
+        return;
+      }
+      if ((piste.zoom || 1) <= 1) return;
+      e.preventDefault();
+      const ligne = ligneDePiste(piste);
+      const d0 = parseFloat(ligne.querySelector(".champ-debut").value);
+      const d1 = parseFloat(ligne.querySelector(".champ-fin").value);
+      const duree = Math.max(d1 - d0, 0.001);
+      const vue = RythmoTimeline.fenetreZoom(d0, d1, piste.zoom, piste.ancrage);
+      const rect = piste.getBoundingClientRect();
+      const secParPx = RythmoTimeline.echelle(vue.t0, vue.t1, rect.width);
+      const deltaSec = (e.deltaX || e.deltaY || 0) * secParPx;
+      piste.ancrage = RythmoTimeline.decalerAncrage(
+        piste.ancrage, deltaSec, duree, piste.zoom);
+      rendererPiste(piste);
+    }, { passive: false });
   }
 
   /* ——————— suggestions de correction FR (T71–T75) ——————— */
@@ -1912,7 +2239,8 @@
       const d0 = Number(r.debut) || 0, d1 = Number(r.fin) || d0;
       let ms = r.mots;
       if (!Array.isArray(ms) || !ms.length)
-        ms = distribuerUniforme(String(r.texte || "").split(/\s+/).filter(Boolean), d0, d1);
+        ms = RythmoTimeline.distribuerUniforme(
+          String(r.texte || "").split(/\s+/).filter(Boolean), d0, d1);
       (ms || []).forEach(m => {
         const debut = Number(m.debut), fin = Number(m.fin);
         if (isFinite(debut) && isFinite(fin) && String(m.texte || "").trim())
