@@ -1,0 +1,8648 @@
+{
+  "version": 1,
+  "duree_video": 420.032,
+  "job": "46d2608acf96",
+  "repliques": [
+    {
+      "texte": "Bon aller beau-père, on se remet au boulot?",
+      "debut": 2.72,
+      "fin": 4.9,
+      "id": "r0",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Bon",
+          "debut": 2.8,
+          "fin": 3.14
+        },
+        {
+          "texte": "aller",
+          "debut": 3.16,
+          "fin": 3.26
+        },
+        {
+          "texte": "beau-père,",
+          "debut": 3.28,
+          "fin": 3.88
+        },
+        {
+          "texte": "on",
+          "debut": 3.95,
+          "fin": 4.12
+        },
+        {
+          "texte": "se",
+          "debut": 4.14,
+          "fin": 4.2
+        },
+        {
+          "texte": "remet",
+          "debut": 4.22,
+          "fin": 4.32
+        },
+        {
+          "texte": "au",
+          "debut": 4.34,
+          "fin": 4.4
+        },
+        {
+          "texte": "boulot?",
+          "debut": 4.42,
+          "fin": 4.9
+        }
+      ]
+    },
+    {
+      "texte": "Ouais, ça va pas à se faire tout seul.",
+      "debut": 4.9,
+      "fin": 6.5,
+      "id": "r1",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Ouais,",
+          "debut": 4.92,
+          "fin": 5.32
+        },
+        {
+          "texte": "ça",
+          "debut": 5.46,
+          "fin": 5.52
+        },
+        {
+          "texte": "va",
+          "debut": 5.52,
+          "fin": 5.58
+        },
+        {
+          "texte": "pas",
+          "debut": 5.6,
+          "fin": 5.66
+        },
+        {
+          "texte": "à",
+          "debut": 5.66,
+          "fin": 5.7
+        },
+        {
+          "texte": "se",
+          "debut": 5.7,
+          "fin": 5.76
+        },
+        {
+          "texte": "faire",
+          "debut": 5.78,
+          "fin": 5.9
+        },
+        {
+          "texte": "tout",
+          "debut": 5.92,
+          "fin": 6.1
+        },
+        {
+          "texte": "seul.",
+          "debut": 6.12,
+          "fin": 6.38
+        }
+      ]
+    },
+    {
+      "texte": "Aujourd'hui, il y a du dessert.",
+      "debut": 6.51,
+      "fin": 7.94,
+      "id": "r2",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Aujourd'hui,",
+          "debut": 6.59,
+          "fin": 7.06
+        },
+        {
+          "texte": "il",
+          "debut": 7.08,
+          "fin": 7.12
+        },
+        {
+          "texte": "y",
+          "debut": 7.12,
+          "fin": 7.16
+        },
+        {
+          "texte": "a",
+          "debut": 7.16,
+          "fin": 7.2
+        },
+        {
+          "texte": "du",
+          "debut": 7.22,
+          "fin": 7.4
+        },
+        {
+          "texte": "dessert.",
+          "debut": 7.4,
+          "fin": 7.82
+        }
+      ]
+    },
+    {
+      "texte": "Euh non, non, moi ça va, merci.",
+      "debut": 8.17,
+      "fin": 10.02,
+      "id": "r3",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Euh",
+          "debut": 8.25,
+          "fin": 8.5
+        },
+        {
+          "texte": "non,",
+          "debut": 8.52,
+          "fin": 8.76
+        },
+        {
+          "texte": "non,",
+          "debut": 8.86,
+          "fin": 9.06
+        },
+        {
+          "texte": "moi",
+          "debut": 9.08,
+          "fin": 9.16
+        },
+        {
+          "texte": "ça",
+          "debut": 9.22,
+          "fin": 9.32
+        },
+        {
+          "texte": "va,",
+          "debut": 9.34,
+          "fin": 9.44
+        },
+        {
+          "texte": "merci.",
+          "debut": 9.56,
+          "fin": 9.9
+        }
+      ]
+    },
+    {
+      "texte": "Il y a des gens qui ont pris la peine de faire un dessert, la moindre des",
+      "debut": 10.04,
+      "fin": 13.2,
+      "id": "r4",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Il",
+          "debut": 10.12,
+          "fin": 10.26
+        },
+        {
+          "texte": "y",
+          "debut": 10.26,
+          "fin": 10.3
+        },
+        {
+          "texte": "a",
+          "debut": 10.3,
+          "fin": 10.4
+        },
+        {
+          "texte": "des",
+          "debut": 10.4,
+          "fin": 10.64
+        },
+        {
+          "texte": "gens",
+          "debut": 10.66,
+          "fin": 10.82
+        },
+        {
+          "texte": "qui",
+          "debut": 10.9,
+          "fin": 10.98
+        },
+        {
+          "texte": "ont",
+          "debut": 11,
+          "fin": 11.14
+        },
+        {
+          "texte": "pris",
+          "debut": 11.2,
+          "fin": 11.3
+        },
+        {
+          "texte": "la",
+          "debut": 11.32,
+          "fin": 11.48
+        },
+        {
+          "texte": "peine",
+          "debut": 11.5,
+          "fin": 11.62
+        },
+        {
+          "texte": "de",
+          "debut": 11.64,
+          "fin": 11.78
+        },
+        {
+          "texte": "faire",
+          "debut": 11.8,
+          "fin": 11.92
+        },
+        {
+          "texte": "un",
+          "debut": 11.94,
+          "fin": 12.16
+        },
+        {
+          "texte": "dessert,",
+          "debut": 12.16,
+          "fin": 12.4
+        },
+        {
+          "texte": "la",
+          "debut": 12.43,
+          "fin": 12.62
+        },
+        {
+          "texte": "moindre",
+          "debut": 12.64,
+          "fin": 12.86
+        },
+        {
+          "texte": "des",
+          "debut": 12.88,
+          "fin": 13.2
+        }
+      ]
+    },
+    {
+      "texte": "choses, c'est de rester pour le manger.",
+      "debut": 13.2,
+      "fin": 15.22,
+      "id": "r5",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "choses,",
+          "debut": 13.22,
+          "fin": 13.44
+        },
+        {
+          "texte": "c'est",
+          "debut": 13.56,
+          "fin": 13.72
+        },
+        {
+          "texte": "de",
+          "debut": 13.72,
+          "fin": 13.82
+        },
+        {
+          "texte": "rester",
+          "debut": 13.84,
+          "fin": 14.26
+        },
+        {
+          "texte": "pour",
+          "debut": 14.26,
+          "fin": 14.48
+        },
+        {
+          "texte": "le",
+          "debut": 14.5,
+          "fin": 14.68
+        },
+        {
+          "texte": "manger.",
+          "debut": 14.7,
+          "fin": 15.1
+        }
+      ]
+    },
+    {
+      "texte": "Il y en a marre de se comporter comme des sagouins avec tout le monde sous",
+      "debut": 15.36,
+      "fin": 18.26,
+      "id": "r6",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Il",
+          "debut": 15.44,
+          "fin": 15.52
+        },
+        {
+          "texte": "y",
+          "debut": 15.52,
+          "fin": 15.56
+        },
+        {
+          "texte": "en",
+          "debut": 15.56,
+          "fin": 15.62
+        },
+        {
+          "texte": "a",
+          "debut": 15.64,
+          "fin": 15.88
+        },
+        {
+          "texte": "marre",
+          "debut": 15.9,
+          "fin": 16.24
+        },
+        {
+          "texte": "de",
+          "debut": 16.26,
+          "fin": 16.38
+        },
+        {
+          "texte": "se",
+          "debut": 16.4,
+          "fin": 16.56
+        },
+        {
+          "texte": "comporter",
+          "debut": 16.6,
+          "fin": 16.88
+        },
+        {
+          "texte": "comme",
+          "debut": 16.9,
+          "fin": 17.02
+        },
+        {
+          "texte": "des",
+          "debut": 17.04,
+          "fin": 17.3
+        },
+        {
+          "texte": "sagouins",
+          "debut": 17.32,
+          "fin": 17.54
+        },
+        {
+          "texte": "avec",
+          "debut": 17.56,
+          "fin": 17.72
+        },
+        {
+          "texte": "tout",
+          "debut": 17.74,
+          "fin": 17.84
+        },
+        {
+          "texte": "le",
+          "debut": 17.86,
+          "fin": 17.94
+        },
+        {
+          "texte": "monde",
+          "debut": 17.96,
+          "fin": 18.06
+        },
+        {
+          "texte": "sous",
+          "debut": 18.12,
+          "fin": 18.26
+        }
+      ]
+    },
+    {
+      "texte": "prétexte qu'on a des responsabilités.",
+      "debut": 18.26,
+      "fin": 19.98,
+      "id": "r7",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "prétexte",
+          "debut": 18.28,
+          "fin": 18.66
+        },
+        {
+          "texte": "qu'on",
+          "debut": 18.68,
+          "fin": 18.82
+        },
+        {
+          "texte": "a",
+          "debut": 18.84,
+          "fin": 18.9
+        },
+        {
+          "texte": "des",
+          "debut": 18.92,
+          "fin": 19.1
+        },
+        {
+          "texte": "responsabilités.",
+          "debut": 19.18,
+          "fin": 19.86
+        }
+      ]
+    },
+    {
+      "texte": "C'est proposé si gentiment.",
+      "debut": 22.35,
+      "fin": 23.57,
+      "id": "r9",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 22.441,
+          "fin": 22.615
+        },
+        {
+          "texte": "proposé",
+          "debut": 22.615,
+          "fin": 22.913
+        },
+        {
+          "texte": "si",
+          "debut": 22.97,
+          "fin": 23.041
+        },
+        {
+          "texte": "gentiment.",
+          "debut": 23.07,
+          "fin": 23.47
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 25.44,
+      "fin": 31.95,
+      "id": "r10",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 25.52,
+          "fin": 31.9
+        }
+      ]
+    },
+    {
+      "texte": "Qu'est-ce que c'est, ce machin?",
+      "debut": 31.95,
+      "fin": 33.2,
+      "id": "r11",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Qu'est-ce",
+          "debut": 32.03,
+          "fin": 32.44
+        },
+        {
+          "texte": "que",
+          "debut": 32.44,
+          "fin": 32.54
+        },
+        {
+          "texte": "c'est,",
+          "debut": 32.56,
+          "fin": 32.68
+        },
+        {
+          "texte": "ce",
+          "debut": 32.7,
+          "fin": 32.78
+        },
+        {
+          "texte": "machin?",
+          "debut": 32.84,
+          "fin": 33.2
+        }
+      ]
+    },
+    {
+      "texte": "C'est une tarte aux myrtilles.",
+      "debut": 33.2,
+      "fin": 34.44,
+      "id": "r12",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 33.24,
+          "fin": 33.42
+        },
+        {
+          "texte": "une",
+          "debut": 33.44,
+          "fin": 33.56
+        },
+        {
+          "texte": "tarte",
+          "debut": 33.56,
+          "fin": 33.8
+        },
+        {
+          "texte": "aux",
+          "debut": 33.82,
+          "fin": 33.88
+        },
+        {
+          "texte": "myrtilles.",
+          "debut": 33.9,
+          "fin": 34.36
+        }
+      ]
+    },
+    {
+      "texte": "Pourquoi elle vous revient pas?",
+      "debut": 34.44,
+      "fin": 35.4,
+      "id": "r13",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Pourquoi",
+          "debut": 34.52,
+          "fin": 34.74
+        },
+        {
+          "texte": "elle",
+          "debut": 34.76,
+          "fin": 34.86
+        },
+        {
+          "texte": "vous",
+          "debut": 34.88,
+          "fin": 35
+        },
+        {
+          "texte": "revient",
+          "debut": 35.02,
+          "fin": 35.16
+        },
+        {
+          "texte": "pas?",
+          "debut": 35.18,
+          "fin": 35.4
+        }
+      ]
+    },
+    {
+      "texte": "Mais ça va!",
+      "debut": 35.4,
+      "fin": 35.99,
+      "id": "r14",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 35.42,
+          "fin": 35.62
+        },
+        {
+          "texte": "ça",
+          "debut": 35.64,
+          "fin": 35.74
+        },
+        {
+          "texte": "va!",
+          "debut": 35.8,
+          "fin": 35.99
+        }
+      ]
+    },
+    {
+      "texte": "Pourquoi vous m'agressez?",
+      "debut": 36,
+      "fin": 37.06,
+      "id": "r15",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Pourquoi",
+          "debut": 36.003,
+          "fin": 36.241
+        },
+        {
+          "texte": "vous",
+          "debut": 36.241,
+          "fin": 36.281
+        },
+        {
+          "texte": "m'agressez?",
+          "debut": 36.34,
+          "fin": 37.06
+        }
+      ]
+    },
+    {
+      "texte": "Parce que vous regardez ça comme si c'était du purin.",
+      "debut": 37.06,
+      "fin": 38.86,
+      "id": "r16",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Parce",
+          "debut": 37.1,
+          "fin": 37.24
+        },
+        {
+          "texte": "que",
+          "debut": 37.26,
+          "fin": 37.34
+        },
+        {
+          "texte": "vous",
+          "debut": 37.36,
+          "fin": 37.42
+        },
+        {
+          "texte": "regardez",
+          "debut": 37.42,
+          "fin": 37.7
+        },
+        {
+          "texte": "ça",
+          "debut": 37.74,
+          "fin": 37.86
+        },
+        {
+          "texte": "comme",
+          "debut": 37.88,
+          "fin": 38
+        },
+        {
+          "texte": "si",
+          "debut": 38,
+          "fin": 38.08
+        },
+        {
+          "texte": "c'était",
+          "debut": 38.16,
+          "fin": 38.34
+        },
+        {
+          "texte": "du",
+          "debut": 38.36,
+          "fin": 38.58
+        },
+        {
+          "texte": "purin.",
+          "debut": 38.6,
+          "fin": 38.86
+        }
+      ]
+    },
+    {
+      "texte": "Mais qu'est-ce que ça peut vous foutre?",
+      "debut": 38.86,
+      "fin": 39.85,
+      "id": "r17",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 38.88,
+          "fin": 39.08
+        },
+        {
+          "texte": "qu'est-ce",
+          "debut": 39.08,
+          "fin": 39.22
+        },
+        {
+          "texte": "que",
+          "debut": 39.22,
+          "fin": 39.28
+        },
+        {
+          "texte": "ça",
+          "debut": 39.3,
+          "fin": 39.38
+        },
+        {
+          "texte": "peut",
+          "debut": 39.4,
+          "fin": 39.46
+        },
+        {
+          "texte": "vous",
+          "debut": 39.48,
+          "fin": 39.62
+        },
+        {
+          "texte": "foutre?",
+          "debut": 39.64,
+          "fin": 39.849
+        }
+      ]
+    },
+    {
+      "texte": "De toute façon, c'est pas vous qui l'avez faite, si?",
+      "debut": 39.87,
+      "fin": 41.18,
+      "id": "r18",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "De",
+          "debut": 39.865,
+          "fin": 39.939
+        },
+        {
+          "texte": "toute",
+          "debut": 39.939,
+          "fin": 40
+        },
+        {
+          "texte": "façon,",
+          "debut": 40.02,
+          "fin": 40.16
+        },
+        {
+          "texte": "c'est",
+          "debut": 40.2,
+          "fin": 40.32
+        },
+        {
+          "texte": "pas",
+          "debut": 40.34,
+          "fin": 40.4
+        },
+        {
+          "texte": "vous",
+          "debut": 40.42,
+          "fin": 40.48
+        },
+        {
+          "texte": "qui",
+          "debut": 40.5,
+          "fin": 40.6
+        },
+        {
+          "texte": "l'avez",
+          "debut": 40.62,
+          "fin": 40.82
+        },
+        {
+          "texte": "faite,",
+          "debut": 40.84,
+          "fin": 41
+        },
+        {
+          "texte": "si?",
+          "debut": 41.04,
+          "fin": 41.18
+        }
+      ]
+    },
+    {
+      "texte": "Bah si, justement, c'est moi.",
+      "debut": 41.18,
+      "fin": 42.42,
+      "id": "r19",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Bah",
+          "debut": 41.18,
+          "fin": 41.4
+        },
+        {
+          "texte": "si,",
+          "debut": 41.42,
+          "fin": 41.54
+        },
+        {
+          "texte": "justement,",
+          "debut": 41.6,
+          "fin": 41.9
+        },
+        {
+          "texte": "c'est",
+          "debut": 42,
+          "fin": 42.16
+        },
+        {
+          "texte": "moi.",
+          "debut": 42.18,
+          "fin": 42.3
+        }
+      ]
+    },
+    {
+      "texte": "Ah bon?",
+      "debut": 42.85,
+      "fin": 43.53,
+      "id": "r20",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ah",
+          "debut": 42.86,
+          "fin": 43.01
+        },
+        {
+          "texte": "bon?",
+          "debut": 43.03,
+          "fin": 43.41
+        }
+      ]
+    },
+    {
+      "texte": "elle y a passé la matinée.",
+      "debut": 43.65,
+      "fin": 44.88,
+      "id": "r21",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "elle",
+          "debut": 43.66,
+          "fin": 43.74
+        },
+        {
+          "texte": "y",
+          "debut": 43.74,
+          "fin": 43.78
+        },
+        {
+          "texte": "a",
+          "debut": 43.78,
+          "fin": 43.88
+        },
+        {
+          "texte": "passé",
+          "debut": 43.88,
+          "fin": 44.12
+        },
+        {
+          "texte": "la",
+          "debut": 44.12,
+          "fin": 44.36
+        },
+        {
+          "texte": "matinée.",
+          "debut": 44.36,
+          "fin": 44.84
+        }
+      ]
+    },
+    {
+      "texte": "Vous faites des tartes, vous maintenant?",
+      "debut": 44.88,
+      "fin": 46.24,
+      "id": "r22",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 44.96,
+          "fin": 45.06
+        },
+        {
+          "texte": "faites",
+          "debut": 45.14,
+          "fin": 45.2
+        },
+        {
+          "texte": "des",
+          "debut": 45.2,
+          "fin": 45.44
+        },
+        {
+          "texte": "tartes,",
+          "debut": 45.46,
+          "fin": 45.66
+        },
+        {
+          "texte": "vous",
+          "debut": 45.68,
+          "fin": 45.72
+        },
+        {
+          "texte": "maintenant?",
+          "debut": 45.74,
+          "fin": 46.24
+        }
+      ]
+    },
+    {
+      "texte": "Et alors, faut un permis?",
+      "debut": 46.24,
+      "fin": 47.32,
+      "id": "r23",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 46.26,
+          "fin": 46.4
+        },
+        {
+          "texte": "alors,",
+          "debut": 46.42,
+          "fin": 46.56
+        },
+        {
+          "texte": "faut",
+          "debut": 46.58,
+          "fin": 46.66
+        },
+        {
+          "texte": "un",
+          "debut": 46.68,
+          "fin": 46.78
+        },
+        {
+          "texte": "permis?",
+          "debut": 46.8,
+          "fin": 47.32
+        }
+      ]
+    },
+    {
+      "texte": "La vache, ça vous rend pas aimable en tous cas hein!",
+      "debut": 47.32,
+      "fin": 49.3,
+      "id": "r24",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "La",
+          "debut": 47.42,
+          "fin": 47.562
+        },
+        {
+          "texte": "vache,",
+          "debut": 47.582,
+          "fin": 47.805
+        },
+        {
+          "texte": "ça",
+          "debut": 47.846,
+          "fin": 47.906
+        },
+        {
+          "texte": "vous",
+          "debut": 47.926,
+          "fin": 48.048
+        },
+        {
+          "texte": "rend",
+          "debut": 48.068,
+          "fin": 48.19
+        },
+        {
+          "texte": "pas",
+          "debut": 48.21,
+          "fin": 48.311
+        },
+        {
+          "texte": "aimable",
+          "debut": 48.331,
+          "fin": 48.635
+        },
+        {
+          "texte": "en",
+          "debut": 48.655,
+          "fin": 48.736
+        },
+        {
+          "texte": "tous",
+          "debut": 48.756,
+          "fin": 48.857
+        },
+        {
+          "texte": "cas",
+          "debut": 48.877,
+          "fin": 48.978
+        },
+        {
+          "texte": "hein!",
+          "debut": 48.998,
+          "fin": 49.3
+        }
+      ]
+    },
+    {
+      "texte": "Il doit y avoir 80 larbins au château",
+      "debut": 49.2,
+      "fin": 50.47,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Il",
+          "debut": 49.203,
+          "fin": 49.304
+        },
+        {
+          "texte": "doit",
+          "debut": 49.344,
+          "fin": 49.385
+        },
+        {
+          "texte": "y",
+          "debut": 49.405,
+          "fin": 49.546
+        },
+        {
+          "texte": "avoir",
+          "debut": 49.566,
+          "fin": 49.747
+        },
+        {
+          "texte": "80",
+          "debut": 49.767,
+          "fin": 49.928
+        },
+        {
+          "texte": "larbins",
+          "debut": 49.948,
+          "fin": 50.19
+        },
+        {
+          "texte": "au",
+          "debut": 50.21,
+          "fin": 50.291
+        },
+        {
+          "texte": "château",
+          "debut": 50.36,
+          "fin": 50.472
+        }
+      ]
+    },
+    {
+      "texte": "et c'est vous qui tapez la tambouille?",
+      "debut": 50.51,
+      "fin": 51.78,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "et",
+          "debut": 50.512,
+          "fin": 50.552
+        },
+        {
+          "texte": "c'est",
+          "debut": 50.572,
+          "fin": 50.713
+        },
+        {
+          "texte": "vous",
+          "debut": 50.733,
+          "fin": 50.834
+        },
+        {
+          "texte": "qui",
+          "debut": 50.854,
+          "fin": 50.935
+        },
+        {
+          "texte": "tapez",
+          "debut": 50.955,
+          "fin": 51.217
+        },
+        {
+          "texte": "la",
+          "debut": 51.217,
+          "fin": 51.257
+        },
+        {
+          "texte": "tambouille?",
+          "debut": 51.26,
+          "fin": 51.78
+        }
+      ]
+    },
+    {
+      "texte": "Ça me détend",
+      "debut": 51.78,
+      "fin": 52.54,
+      "id": "r26",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Ça",
+          "debut": 51.78,
+          "fin": 51.84
+        },
+        {
+          "texte": "me",
+          "debut": 51.86,
+          "fin": 52.02
+        },
+        {
+          "texte": "détend",
+          "debut": 52.04,
+          "fin": 52.42
+        }
+      ]
+    },
+    {
+      "texte": "Bon, et bien qu'est-ce que vous attendez pour la couper qu'il fasse nuit ?",
+      "debut": 58.68,
+      "fin": 60.64,
+      "id": "r28",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Bon,",
+          "debut": 58.76,
+          "fin": 58.82
+        },
+        {
+          "texte": "et",
+          "debut": 58.84,
+          "fin": 58.9
+        },
+        {
+          "texte": "bien",
+          "debut": 58.9,
+          "fin": 58.96
+        },
+        {
+          "texte": "qu'est-ce",
+          "debut": 58.96,
+          "fin": 59.08
+        },
+        {
+          "texte": "que",
+          "debut": 59.08,
+          "fin": 59.14
+        },
+        {
+          "texte": "vous",
+          "debut": 59.2,
+          "fin": 59.26
+        },
+        {
+          "texte": "attendez",
+          "debut": 59.32,
+          "fin": 59.54
+        },
+        {
+          "texte": "pour",
+          "debut": 59.56,
+          "fin": 59.64
+        },
+        {
+          "texte": "la",
+          "debut": 59.66,
+          "fin": 59.8
+        },
+        {
+          "texte": "couper",
+          "debut": 59.82,
+          "fin": 60
+        },
+        {
+          "texte": "qu'il",
+          "debut": 60.02,
+          "fin": 60.16
+        },
+        {
+          "texte": "fasse",
+          "debut": 60.16,
+          "fin": 60.28
+        },
+        {
+          "texte": "nuit",
+          "debut": 60.3,
+          "fin": 60.52
+        },
+        {
+          "texte": "?",
+          "debut": 60.56,
+          "fin": 60.6
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 62.15,
+      "fin": 63.3,
+      "id": "r29",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 62.18,
+          "fin": 63.271
+        }
+      ]
+    },
+    {
+      "texte": "Vous dites rien!",
+      "debut": 63.46,
+      "fin": 64.98,
+      "id": "r30",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 63.46,
+          "fin": 63.5
+        },
+        {
+          "texte": "dites",
+          "debut": 63.52,
+          "fin": 63.72
+        },
+        {
+          "texte": "rien!",
+          "debut": 63.74,
+          "fin": 64.98
+        }
+      ]
+    },
+    {
+      "texte": "Faudrait pouvoir, hein!",
+      "debut": 64.95,
+      "fin": 66.02,
+      "id": "r31",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Faudrait",
+          "debut": 64.98,
+          "fin": 65.24
+        },
+        {
+          "texte": "pouvoir,",
+          "debut": 65.26,
+          "fin": 65.56
+        },
+        {
+          "texte": "hein!",
+          "debut": 65.58,
+          "fin": 66.02
+        }
+      ]
+    },
+    {
+      "texte": "Non, le fruit est bon, hein!",
+      "debut": 66.02,
+      "fin": 67.18,
+      "id": "r32",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 66.04,
+          "fin": 66.14
+        },
+        {
+          "texte": "le",
+          "debut": 66.16,
+          "fin": 66.36
+        },
+        {
+          "texte": "fruit",
+          "debut": 66.4,
+          "fin": 66.56
+        },
+        {
+          "texte": "est",
+          "debut": 66.56,
+          "fin": 66.6
+        },
+        {
+          "texte": "bon,",
+          "debut": 66.62,
+          "fin": 66.9
+        },
+        {
+          "texte": "hein!",
+          "debut": 66.92,
+          "fin": 67.18
+        }
+      ]
+    },
+    {
+      "texte": "C'est pas la peine de faire des rondes jambes, si c'est pas bon",
+      "debut": 67.18,
+      "fin": 68.74,
+      "id": "r33",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 67.2,
+          "fin": 67.26
+        },
+        {
+          "texte": "pas",
+          "debut": 67.28,
+          "fin": 67.36
+        },
+        {
+          "texte": "la",
+          "debut": 67.38,
+          "fin": 67.44
+        },
+        {
+          "texte": "peine",
+          "debut": 67.46,
+          "fin": 67.52
+        },
+        {
+          "texte": "de",
+          "debut": 67.54,
+          "fin": 67.68
+        },
+        {
+          "texte": "faire",
+          "debut": 67.7,
+          "fin": 67.76
+        },
+        {
+          "texte": "des",
+          "debut": 67.78,
+          "fin": 67.86
+        },
+        {
+          "texte": "rondes",
+          "debut": 67.88,
+          "fin": 68.14
+        },
+        {
+          "texte": "jambes,",
+          "debut": 68.16,
+          "fin": 68.26
+        },
+        {
+          "texte": "si",
+          "debut": 68.3,
+          "fin": 68.38
+        },
+        {
+          "texte": "c'est",
+          "debut": 68.4,
+          "fin": 68.52
+        },
+        {
+          "texte": "pas",
+          "debut": 68.54,
+          "fin": 68.62
+        },
+        {
+          "texte": "bon",
+          "debut": 68.64,
+          "fin": 68.74
+        }
+      ]
+    },
+    {
+      "texte": "vous avez qu'à le dire!",
+      "debut": 68.74,
+      "fin": 69.72,
+      "id": "r34",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "vous",
+          "debut": 68.74,
+          "fin": 68.8
+        },
+        {
+          "texte": "avez",
+          "debut": 68.82,
+          "fin": 68.96
+        },
+        {
+          "texte": "qu'à",
+          "debut": 69,
+          "fin": 69.1
+        },
+        {
+          "texte": "le",
+          "debut": 69.12,
+          "fin": 69.22
+        },
+        {
+          "texte": "dire!",
+          "debut": 69.24,
+          "fin": 69.6
+        }
+      ]
+    },
+    {
+      "texte": "C'est pas bon!",
+      "debut": 69.86,
+      "fin": 70.71,
+      "id": "r35",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 69.94,
+          "fin": 70.05
+        },
+        {
+          "texte": "pas",
+          "debut": 70.07,
+          "fin": 70.21
+        },
+        {
+          "texte": "bon!",
+          "debut": 70.23,
+          "fin": 70.71
+        }
+      ]
+    },
+    {
+      "texte": "Merci bien!",
+      "debut": 70.71,
+      "fin": 71.68,
+      "id": "r36",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Merci",
+          "debut": 70.71,
+          "fin": 71.03
+        },
+        {
+          "texte": "bien!",
+          "debut": 71.05,
+          "fin": 71.56
+        }
+      ]
+    },
+    {
+      "texte": "Vous posez la question!",
+      "debut": 71.68,
+      "fin": 72.78,
+      "id": "r37",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 71.76,
+          "fin": 72
+        },
+        {
+          "texte": "posez",
+          "debut": 72,
+          "fin": 72.12
+        },
+        {
+          "texte": "la",
+          "debut": 72.14,
+          "fin": 72.22
+        },
+        {
+          "texte": "question!",
+          "debut": 72.24,
+          "fin": 72.78
+        }
+      ]
+    },
+    {
+      "texte": "Eh ben je la pose pas à vous!",
+      "debut": 72.78,
+      "fin": 73.76,
+      "id": "r38",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Eh",
+          "debut": 72.78,
+          "fin": 72.82
+        },
+        {
+          "texte": "ben",
+          "debut": 72.82,
+          "fin": 72.86
+        },
+        {
+          "texte": "je",
+          "debut": 72.86,
+          "fin": 72.92
+        },
+        {
+          "texte": "la",
+          "debut": 72.94,
+          "fin": 73.04
+        },
+        {
+          "texte": "pose",
+          "debut": 73.06,
+          "fin": 73.16
+        },
+        {
+          "texte": "pas",
+          "debut": 73.2,
+          "fin": 73.34
+        },
+        {
+          "texte": "à",
+          "debut": 73.36,
+          "fin": 73.44
+        },
+        {
+          "texte": "vous!",
+          "debut": 73.46,
+          "fin": 73.64
+        }
+      ]
+    },
+    {
+      "texte": "La pâte est probablement un peu sèche...",
+      "debut": 73.89,
+      "fin": 76,
+      "id": "r39",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "La",
+          "debut": 73.97,
+          "fin": 74.12
+        },
+        {
+          "texte": "pâte",
+          "debut": 74.14,
+          "fin": 74.28
+        },
+        {
+          "texte": "est",
+          "debut": 74.28,
+          "fin": 74.52
+        },
+        {
+          "texte": "probablement",
+          "debut": 74.54,
+          "fin": 75.04
+        },
+        {
+          "texte": "un",
+          "debut": 75.04,
+          "fin": 75.16
+        },
+        {
+          "texte": "peu",
+          "debut": 75.18,
+          "fin": 75.38
+        },
+        {
+          "texte": "sèche...",
+          "debut": 75.38,
+          "fin": 76
+        }
+      ]
+    },
+    {
+      "texte": "Probablement oui, ça doit jouer!",
+      "debut": 76,
+      "fin": 77.54,
+      "id": "r40",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Probablement",
+          "debut": 76.02,
+          "fin": 76.48
+        },
+        {
+          "texte": "oui,",
+          "debut": 76.5,
+          "fin": 76.7
+        },
+        {
+          "texte": "ça",
+          "debut": 76.92,
+          "fin": 77.04
+        },
+        {
+          "texte": "doit",
+          "debut": 77.06,
+          "fin": 77.16
+        },
+        {
+          "texte": "jouer!",
+          "debut": 77.18,
+          "fin": 77.42
+        }
+      ]
+    },
+    {
+      "texte": "J'ai envie de faire des tartes, voilà!",
+      "debut": 77.78,
+      "fin": 79.2,
+      "id": "r41",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "J'ai",
+          "debut": 77.86,
+          "fin": 78.02
+        },
+        {
+          "texte": "envie",
+          "debut": 78.04,
+          "fin": 78.12
+        },
+        {
+          "texte": "de",
+          "debut": 78.12,
+          "fin": 78.24
+        },
+        {
+          "texte": "faire",
+          "debut": 78.24,
+          "fin": 78.3
+        },
+        {
+          "texte": "des",
+          "debut": 78.32,
+          "fin": 78.52
+        },
+        {
+          "texte": "tartes,",
+          "debut": 78.52,
+          "fin": 78.78
+        },
+        {
+          "texte": "voilà!",
+          "debut": 78.81,
+          "fin": 79.08
+        }
+      ]
+    },
+    {
+      "texte": "Vous n'allez pas m'obliger à me justifier?",
+      "debut": 79.38,
+      "fin": 81.06,
+      "id": "r42",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 79.46,
+          "fin": 79.54
+        },
+        {
+          "texte": "n'allez",
+          "debut": 79.56,
+          "fin": 79.7
+        },
+        {
+          "texte": "pas",
+          "debut": 79.72,
+          "fin": 79.8
+        },
+        {
+          "texte": "m'obliger",
+          "debut": 79.82,
+          "fin": 80.24
+        },
+        {
+          "texte": "à",
+          "debut": 80.24,
+          "fin": 80.3
+        },
+        {
+          "texte": "me",
+          "debut": 80.32,
+          "fin": 80.42
+        },
+        {
+          "texte": "justifier?",
+          "debut": 80.42,
+          "fin": 81.06
+        }
+      ]
+    },
+    {
+      "texte": "Non, tant que vous nous obligez pas à les manger!",
+      "debut": 81.06,
+      "fin": 82.96,
+      "id": "r43",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 81.08,
+          "fin": 81.3
+        },
+        {
+          "texte": "tant",
+          "debut": 81.32,
+          "fin": 81.54
+        },
+        {
+          "texte": "que",
+          "debut": 81.56,
+          "fin": 81.62
+        },
+        {
+          "texte": "vous",
+          "debut": 81.64,
+          "fin": 81.72
+        },
+        {
+          "texte": "nous",
+          "debut": 81.74,
+          "fin": 81.95
+        },
+        {
+          "texte": "obligez",
+          "debut": 81.95,
+          "fin": 82.16
+        },
+        {
+          "texte": "pas",
+          "debut": 82.16,
+          "fin": 82.22
+        },
+        {
+          "texte": "à",
+          "debut": 82.22,
+          "fin": 82.28
+        },
+        {
+          "texte": "les",
+          "debut": 82.3,
+          "fin": 82.36
+        },
+        {
+          "texte": "manger!",
+          "debut": 82.38,
+          "fin": 82.96
+        }
+      ]
+    },
+    {
+      "texte": "J'ai toujours rêvé de faire des tartes pour mes petits-enfants!",
+      "debut": 82.96,
+      "fin": 84.9,
+      "id": "r44",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "J'ai",
+          "debut": 82.98,
+          "fin": 83.1
+        },
+        {
+          "texte": "toujours",
+          "debut": 83.12,
+          "fin": 83.34
+        },
+        {
+          "texte": "rêvé",
+          "debut": 83.36,
+          "fin": 83.54
+        },
+        {
+          "texte": "de",
+          "debut": 83.56,
+          "fin": 83.64
+        },
+        {
+          "texte": "faire",
+          "debut": 83.64,
+          "fin": 83.7
+        },
+        {
+          "texte": "des",
+          "debut": 83.7,
+          "fin": 83.82
+        },
+        {
+          "texte": "tartes",
+          "debut": 83.84,
+          "fin": 83.96
+        },
+        {
+          "texte": "pour",
+          "debut": 83.98,
+          "fin": 84.08
+        },
+        {
+          "texte": "mes",
+          "debut": 84.1,
+          "fin": 84.18
+        },
+        {
+          "texte": "petits-enfants!",
+          "debut": 84.22,
+          "fin": 84.9
+        }
+      ]
+    },
+    {
+      "texte": "Seulement des petits-enfants, il n'y en a pas!",
+      "debut": 84.9,
+      "fin": 85.98,
+      "id": "r45",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Seulement",
+          "debut": 84.9,
+          "fin": 85.06
+        },
+        {
+          "texte": "des",
+          "debut": 85.08,
+          "fin": 85.14
+        },
+        {
+          "texte": "petits-enfants,",
+          "debut": 85.18,
+          "fin": 85.46
+        },
+        {
+          "texte": "il",
+          "debut": 85.46,
+          "fin": 85.5
+        },
+        {
+          "texte": "n'y",
+          "debut": 85.5,
+          "fin": 85.54
+        },
+        {
+          "texte": "en",
+          "debut": 85.54,
+          "fin": 85.58
+        },
+        {
+          "texte": "a",
+          "debut": 85.6,
+          "fin": 85.72
+        },
+        {
+          "texte": "pas!",
+          "debut": 85.74,
+          "fin": 85.98
+        }
+      ]
+    },
+    {
+      "texte": "Ils arrivent jamais!",
+      "debut": 85.98,
+      "fin": 86.76,
+      "id": "r46",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Ils",
+          "debut": 86,
+          "fin": 86.12
+        },
+        {
+          "texte": "arrivent",
+          "debut": 86.14,
+          "fin": 86.32
+        },
+        {
+          "texte": "jamais!",
+          "debut": 86.34,
+          "fin": 86.76
+        }
+      ]
+    },
+    {
+      "texte": "J'attends, j'attends rien!",
+      "debut": 86.76,
+      "fin": 87.96,
+      "id": "r47",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "J'attends,",
+          "debut": 86.78,
+          "fin": 87.08
+        },
+        {
+          "texte": "j'attends",
+          "debut": 87.1,
+          "fin": 87.42
+        },
+        {
+          "texte": "rien!",
+          "debut": 87.44,
+          "fin": 87.84
+        }
+      ]
+    },
+    {
+      "texte": "Si vous les accueillez avec ça, ils ne sont pas près d'arriver!",
+      "debut": 88.11,
+      "fin": 90.01,
+      "id": "r48",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Si",
+          "debut": 88.19,
+          "fin": 88.29
+        },
+        {
+          "texte": "vous",
+          "debut": 88.31,
+          "fin": 88.39
+        },
+        {
+          "texte": "les",
+          "debut": 88.41,
+          "fin": 88.57
+        },
+        {
+          "texte": "accueillez",
+          "debut": 88.6,
+          "fin": 88.99
+        },
+        {
+          "texte": "avec",
+          "debut": 88.99,
+          "fin": 89.03
+        },
+        {
+          "texte": "ça,",
+          "debut": 89.05,
+          "fin": 89.15
+        },
+        {
+          "texte": "ils",
+          "debut": 89.15,
+          "fin": 89.19
+        },
+        {
+          "texte": "ne",
+          "debut": 89.19,
+          "fin": 89.23
+        },
+        {
+          "texte": "sont",
+          "debut": 89.23,
+          "fin": 89.27
+        },
+        {
+          "texte": "pas",
+          "debut": 89.29,
+          "fin": 89.37
+        },
+        {
+          "texte": "près",
+          "debut": 89.39,
+          "fin": 89.45
+        },
+        {
+          "texte": "d'arriver!",
+          "debut": 89.47,
+          "fin": 90.01
+        }
+      ]
+    },
+    {
+      "texte": "On aime toujours les tartes de sa mamie!",
+      "debut": 90.01,
+      "fin": 91.95,
+      "id": "r49",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "On",
+          "debut": 90.03,
+          "fin": 90.23
+        },
+        {
+          "texte": "aime",
+          "debut": 90.25,
+          "fin": 90.39
+        },
+        {
+          "texte": "toujours",
+          "debut": 90.46,
+          "fin": 90.75
+        },
+        {
+          "texte": "les",
+          "debut": 90.82,
+          "fin": 90.93
+        },
+        {
+          "texte": "tartes",
+          "debut": 90.95,
+          "fin": 91.17
+        },
+        {
+          "texte": "de",
+          "debut": 91.17,
+          "fin": 91.31
+        },
+        {
+          "texte": "sa",
+          "debut": 91.33,
+          "fin": 91.43
+        },
+        {
+          "texte": "mamie!",
+          "debut": 91.45,
+          "fin": 91.955
+        }
+      ]
+    },
+    {
+      "texte": "Exactement!",
+      "debut": 91.99,
+      "fin": 92.43,
+      "id": "r50",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Exactement!",
+          "debut": 91.994,
+          "fin": 92.43
+        }
+      ]
+    },
+    {
+      "texte": "C'est comme d'aller à la pêche avec son papy!",
+      "debut": 92.43,
+      "fin": 94.03,
+      "id": "r51",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 92.46,
+          "fin": 92.55
+        },
+        {
+          "texte": "comme",
+          "debut": 92.57,
+          "fin": 92.69
+        },
+        {
+          "texte": "d'aller",
+          "debut": 92.71,
+          "fin": 92.83
+        },
+        {
+          "texte": "à",
+          "debut": 92.85,
+          "fin": 92.93
+        },
+        {
+          "texte": "la",
+          "debut": 92.95,
+          "fin": 93.05
+        },
+        {
+          "texte": "pêche",
+          "debut": 93.05,
+          "fin": 93.19
+        },
+        {
+          "texte": "avec",
+          "debut": 93.21,
+          "fin": 93.31
+        },
+        {
+          "texte": "son",
+          "debut": 93.33,
+          "fin": 93.45
+        },
+        {
+          "texte": "papy!",
+          "debut": 93.47,
+          "fin": 94.03
+        }
+      ]
+    },
+    {
+      "texte": "C'est dans les gènes ça!",
+      "debut": 94.03,
+      "fin": 94.99,
+      "id": "r52",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 94.06,
+          "fin": 94.17
+        },
+        {
+          "texte": "dans",
+          "debut": 94.19,
+          "fin": 94.25
+        },
+        {
+          "texte": "les",
+          "debut": 94.27,
+          "fin": 94.47
+        },
+        {
+          "texte": "gènes",
+          "debut": 94.52,
+          "fin": 94.69
+        },
+        {
+          "texte": "ça!",
+          "debut": 94.74,
+          "fin": 94.99
+        }
+      ]
+    },
+    {
+      "texte": "Quoi?",
+      "debut": 94.85,
+      "fin": 95.53,
+      "id": "r53",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Quoi?",
+          "debut": 94.971,
+          "fin": 95.336
+        }
+      ]
+    },
+    {
+      "texte": "Mais oui... mon petit père y faudra bien vous y coller,",
+      "debut": 95.68,
+      "fin": 97.78,
+      "id": "r54",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 95.76,
+          "fin": 95.952
+        },
+        {
+          "texte": "oui...",
+          "debut": 95.972,
+          "fin": 96.113
+        },
+        {
+          "texte": "mon",
+          "debut": 96.133,
+          "fin": 96.214
+        },
+        {
+          "texte": "petit",
+          "debut": 96.234,
+          "fin": 96.355
+        },
+        {
+          "texte": "père",
+          "debut": 96.395,
+          "fin": 96.496
+        },
+        {
+          "texte": "y",
+          "debut": 96.516,
+          "fin": 96.577
+        },
+        {
+          "texte": "faudra",
+          "debut": 96.6,
+          "fin": 96.778
+        },
+        {
+          "texte": "bien",
+          "debut": 96.798,
+          "fin": 96.92
+        },
+        {
+          "texte": "vous",
+          "debut": 96.94,
+          "fin": 97.061
+        },
+        {
+          "texte": "y",
+          "debut": 97.081,
+          "fin": 97.141
+        },
+        {
+          "texte": "coller,",
+          "debut": 97.161,
+          "fin": 97.383
+        }
+      ]
+    },
+    {
+      "texte": "à moins que vous préfériez vous taper les tartes!",
+      "debut": 97.78,
+      "fin": 99.42,
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "à",
+          "debut": 97.78,
+          "fin": 97.86
+        },
+        {
+          "texte": "moins",
+          "debut": 97.86,
+          "fin": 97.96
+        },
+        {
+          "texte": "que",
+          "debut": 97.96,
+          "fin": 98.06
+        },
+        {
+          "texte": "vous",
+          "debut": 98.06,
+          "fin": 98.1
+        },
+        {
+          "texte": "préfériez",
+          "debut": 98.1,
+          "fin": 98.38
+        },
+        {
+          "texte": "vous",
+          "debut": 98.4,
+          "fin": 98.5
+        },
+        {
+          "texte": "taper",
+          "debut": 98.52,
+          "fin": 98.62
+        },
+        {
+          "texte": "les",
+          "debut": 98.68,
+          "fin": 98.84
+        },
+        {
+          "texte": "tartes!",
+          "debut": 98.86,
+          "fin": 99.42
+        }
+      ]
+    },
+    {
+      "texte": "C'est dingue cette histoire!",
+      "debut": 99.42,
+      "fin": 100.42,
+      "id": "r55",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 99.46,
+          "fin": 99.58
+        },
+        {
+          "texte": "dingue",
+          "debut": 99.6,
+          "fin": 99.78
+        },
+        {
+          "texte": "cette",
+          "debut": 99.8,
+          "fin": 99.94
+        },
+        {
+          "texte": "histoire!",
+          "debut": 99.98,
+          "fin": 100.42
+        }
+      ]
+    },
+    {
+      "texte": "C'est pas parce que vous faites des tartes pour des petits enfants qui",
+      "debut": 100.42,
+      "fin": 102.26,
+      "id": "r56",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 100.44,
+          "fin": 100.52
+        },
+        {
+          "texte": "pas",
+          "debut": 100.54,
+          "fin": 100.6
+        },
+        {
+          "texte": "parce",
+          "debut": 100.62,
+          "fin": 100.7
+        },
+        {
+          "texte": "que",
+          "debut": 100.72,
+          "fin": 100.78
+        },
+        {
+          "texte": "vous",
+          "debut": 100.78,
+          "fin": 100.82
+        },
+        {
+          "texte": "faites",
+          "debut": 100.86,
+          "fin": 101.02
+        },
+        {
+          "texte": "des",
+          "debut": 101.04,
+          "fin": 101.26
+        },
+        {
+          "texte": "tartes",
+          "debut": 101.28,
+          "fin": 101.54
+        },
+        {
+          "texte": "pour",
+          "debut": 101.56,
+          "fin": 101.74
+        },
+        {
+          "texte": "des",
+          "debut": 101.76,
+          "fin": 101.9
+        },
+        {
+          "texte": "petits",
+          "debut": 101.92,
+          "fin": 102.04
+        },
+        {
+          "texte": "enfants",
+          "debut": 102.06,
+          "fin": 102.18
+        },
+        {
+          "texte": "qui",
+          "debut": 102.2,
+          "fin": 102.26
+        }
+      ]
+    },
+    {
+      "texte": "n'existent pas que je dois les emmener à la pêche, non?",
+      "debut": 102.26,
+      "fin": 104.2,
+      "id": "r57",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "n'existent",
+          "debut": 102.28,
+          "fin": 102.7
+        },
+        {
+          "texte": "pas",
+          "debut": 102.72,
+          "fin": 102.8
+        },
+        {
+          "texte": "que",
+          "debut": 102.82,
+          "fin": 103
+        },
+        {
+          "texte": "je",
+          "debut": 103,
+          "fin": 103.04
+        },
+        {
+          "texte": "dois",
+          "debut": 103.06,
+          "fin": 103.18
+        },
+        {
+          "texte": "les",
+          "debut": 103.2,
+          "fin": 103.32
+        },
+        {
+          "texte": "emmener",
+          "debut": 103.34,
+          "fin": 103.42
+        },
+        {
+          "texte": "à",
+          "debut": 103.44,
+          "fin": 103.5
+        },
+        {
+          "texte": "la",
+          "debut": 103.52,
+          "fin": 103.66
+        },
+        {
+          "texte": "pêche,",
+          "debut": 103.7,
+          "fin": 103.78
+        },
+        {
+          "texte": "non?",
+          "debut": 103.8,
+          "fin": 104.2
+        }
+      ]
+    },
+    {
+      "texte": "C'est pourtant avec ça qu'on leur fait des souvenirs, aux petits!",
+      "debut": 104.2,
+      "fin": 106.1,
+      "id": "r58",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 104.2,
+          "fin": 104.42
+        },
+        {
+          "texte": "pourtant",
+          "debut": 104.5,
+          "fin": 104.62
+        },
+        {
+          "texte": "avec",
+          "debut": 104.64,
+          "fin": 104.76
+        },
+        {
+          "texte": "ça",
+          "debut": 104.78,
+          "fin": 104.88
+        },
+        {
+          "texte": "qu'on",
+          "debut": 104.9,
+          "fin": 104.98
+        },
+        {
+          "texte": "leur",
+          "debut": 105,
+          "fin": 105.08
+        },
+        {
+          "texte": "fait",
+          "debut": 105.1,
+          "fin": 105.18
+        },
+        {
+          "texte": "des",
+          "debut": 105.18,
+          "fin": 105.32
+        },
+        {
+          "texte": "souvenirs,",
+          "debut": 105.34,
+          "fin": 105.64
+        },
+        {
+          "texte": "aux",
+          "debut": 105.66,
+          "fin": 105.78
+        },
+        {
+          "texte": "petits!",
+          "debut": 105.8,
+          "fin": 106.1
+        }
+      ]
+    },
+    {
+      "texte": "La pêche, les tartes, tout ça c'est du patrimoine!",
+      "debut": 106.1,
+      "fin": 107.9,
+      "id": "r59",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "La",
+          "debut": 106.12,
+          "fin": 106.26
+        },
+        {
+          "texte": "pêche,",
+          "debut": 106.3,
+          "fin": 106.44
+        },
+        {
+          "texte": "les",
+          "debut": 106.46,
+          "fin": 106.6
+        },
+        {
+          "texte": "tartes,",
+          "debut": 106.62,
+          "fin": 106.76
+        },
+        {
+          "texte": "tout",
+          "debut": 106.78,
+          "fin": 106.9
+        },
+        {
+          "texte": "ça",
+          "debut": 106.92,
+          "fin": 107.02
+        },
+        {
+          "texte": "c'est",
+          "debut": 107.04,
+          "fin": 107.14
+        },
+        {
+          "texte": "du",
+          "debut": 107.14,
+          "fin": 107.24
+        },
+        {
+          "texte": "patrimoine!",
+          "debut": 107.26,
+          "fin": 107.9
+        }
+      ]
+    },
+    {
+      "texte": "C'est du patrimoine ça?",
+      "debut": 107.9,
+      "fin": 109.38,
+      "id": "r60",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 107.92,
+          "fin": 108.04
+        },
+        {
+          "texte": "du",
+          "debut": 108.08,
+          "fin": 108.18
+        },
+        {
+          "texte": "patrimoine",
+          "debut": 108.2,
+          "fin": 108.72
+        },
+        {
+          "texte": "ça?",
+          "debut": 108.74,
+          "fin": 109.26
+        }
+      ]
+    },
+    {
+      "texte": "Enfin moi je sais pas si je leur laisserais manger ça mes enfants...",
+      "debut": 109.44,
+      "fin": 112.45,
+      "id": "r61",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "Enfin",
+          "debut": 109.52,
+          "fin": 109.73
+        },
+        {
+          "texte": "moi",
+          "debut": 109.75,
+          "fin": 109.89
+        },
+        {
+          "texte": "je",
+          "debut": 109.89,
+          "fin": 109.93
+        },
+        {
+          "texte": "sais",
+          "debut": 109.93,
+          "fin": 110.09
+        },
+        {
+          "texte": "pas",
+          "debut": 110.11,
+          "fin": 110.23
+        },
+        {
+          "texte": "si",
+          "debut": 110.28,
+          "fin": 110.37
+        },
+        {
+          "texte": "je",
+          "debut": 110.42,
+          "fin": 110.49
+        },
+        {
+          "texte": "leur",
+          "debut": 110.51,
+          "fin": 110.57
+        },
+        {
+          "texte": "laisserais",
+          "debut": 110.59,
+          "fin": 110.87
+        },
+        {
+          "texte": "manger",
+          "debut": 110.89,
+          "fin": 111.11
+        },
+        {
+          "texte": "ça",
+          "debut": 111.11,
+          "fin": 111.37
+        },
+        {
+          "texte": "mes",
+          "debut": 111.39,
+          "fin": 111.53
+        },
+        {
+          "texte": "enfants...",
+          "debut": 111.55,
+          "fin": 112.45
+        }
+      ]
+    },
+    {
+      "texte": "Eh bein vous, occupez-vous de les faire, ça sera déjà pas mal!",
+      "debut": 112.45,
+      "fin": 114.25,
+      "id": "r62",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Eh",
+          "debut": 112.45,
+          "fin": 112.51
+        },
+        {
+          "texte": "bein",
+          "debut": 112.51,
+          "fin": 112.55
+        },
+        {
+          "texte": "vous,",
+          "debut": 112.55,
+          "fin": 112.81
+        },
+        {
+          "texte": "occupez-vous",
+          "debut": 112.81,
+          "fin": 113.17
+        },
+        {
+          "texte": "de",
+          "debut": 113.17,
+          "fin": 113.23
+        },
+        {
+          "texte": "les",
+          "debut": 113.25,
+          "fin": 113.33
+        },
+        {
+          "texte": "faire,",
+          "debut": 113.33,
+          "fin": 113.41
+        },
+        {
+          "texte": "ça",
+          "debut": 113.44,
+          "fin": 113.55
+        },
+        {
+          "texte": "sera",
+          "debut": 113.57,
+          "fin": 113.65
+        },
+        {
+          "texte": "déjà",
+          "debut": 113.67,
+          "fin": 113.81
+        },
+        {
+          "texte": "pas",
+          "debut": 113.83,
+          "fin": 113.89
+        },
+        {
+          "texte": "mal!",
+          "debut": 113.91,
+          "fin": 114.13
+        }
+      ]
+    },
+    {
+      "texte": "Ouais! Y'a pas à dire, dès qu'il y a du dessert,",
+      "debut": 115.31,
+      "fin": 117.13,
+      "id": "r64",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ouais!",
+          "debut": 115.31,
+          "fin": 115.59
+        },
+        {
+          "texte": "Y'a",
+          "debut": 115.61,
+          "fin": 115.89
+        },
+        {
+          "texte": "pas",
+          "debut": 115.91,
+          "fin": 115.97
+        },
+        {
+          "texte": "à",
+          "debut": 116.02,
+          "fin": 116.09
+        },
+        {
+          "texte": "dire,",
+          "debut": 116.11,
+          "fin": 116.23
+        },
+        {
+          "texte": "dès",
+          "debut": 116.25,
+          "fin": 116.51
+        },
+        {
+          "texte": "qu'il",
+          "debut": 116.56,
+          "fin": 116.63
+        },
+        {
+          "texte": "y",
+          "debut": 116.63,
+          "fin": 116.67
+        },
+        {
+          "texte": "a",
+          "debut": 116.67,
+          "fin": 116.71
+        },
+        {
+          "texte": "du",
+          "debut": 116.71,
+          "fin": 116.87
+        },
+        {
+          "texte": "dessert,",
+          "debut": 116.87,
+          "fin": 117.13
+        }
+      ]
+    },
+    {
+      "texte": "le repas est tout de suite plus chaleureux!",
+      "debut": 117.18,
+      "fin": 118.85,
+      "id": "r65",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "le",
+          "debut": 117.18,
+          "fin": 117.33
+        },
+        {
+          "texte": "repas",
+          "debut": 117.35,
+          "fin": 117.55
+        },
+        {
+          "texte": "est",
+          "debut": 117.57,
+          "fin": 117.69
+        },
+        {
+          "texte": "tout",
+          "debut": 117.69,
+          "fin": 117.81
+        },
+        {
+          "texte": "de",
+          "debut": 117.81,
+          "fin": 117.85
+        },
+        {
+          "texte": "suite",
+          "debut": 117.85,
+          "fin": 117.91
+        },
+        {
+          "texte": "plus",
+          "debut": 117.96,
+          "fin": 118.13
+        },
+        {
+          "texte": "chaleureux!",
+          "debut": 118.15,
+          "fin": 118.73
+        }
+      ]
+    },
+    {
+      "texte": "Vous savez, c'est quand même pas grave de pas savoir faire des tartes, hein!",
+      "debut": 123.72,
+      "fin": 126.43,
+      "id": "r67",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 123.8,
+          "fin": 124.05
+        },
+        {
+          "texte": "savez,",
+          "debut": 124.07,
+          "fin": 124.25
+        },
+        {
+          "texte": "c'est",
+          "debut": 124.27,
+          "fin": 124.47
+        },
+        {
+          "texte": "quand",
+          "debut": 124.47,
+          "fin": 124.53
+        },
+        {
+          "texte": "même",
+          "debut": 124.55,
+          "fin": 124.71
+        },
+        {
+          "texte": "pas",
+          "debut": 124.73,
+          "fin": 124.93
+        },
+        {
+          "texte": "grave",
+          "debut": 124.95,
+          "fin": 125.07
+        },
+        {
+          "texte": "de",
+          "debut": 125.09,
+          "fin": 125.23
+        },
+        {
+          "texte": "pas",
+          "debut": 125.25,
+          "fin": 125.37
+        },
+        {
+          "texte": "savoir",
+          "debut": 125.39,
+          "fin": 125.55
+        },
+        {
+          "texte": "faire",
+          "debut": 125.6,
+          "fin": 125.71
+        },
+        {
+          "texte": "des",
+          "debut": 125.71,
+          "fin": 125.91
+        },
+        {
+          "texte": "tartes,",
+          "debut": 125.93,
+          "fin": 126.09
+        },
+        {
+          "texte": "hein!",
+          "debut": 126.14,
+          "fin": 126.43
+        }
+      ]
+    },
+    {
+      "texte": "Non, vous en faites pas!",
+      "debut": 126.43,
+      "fin": 127.91,
+      "id": "r68",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 126.45,
+          "fin": 126.61
+        },
+        {
+          "texte": "vous",
+          "debut": 126.68,
+          "fin": 126.85
+        },
+        {
+          "texte": "en",
+          "debut": 126.85,
+          "fin": 126.99
+        },
+        {
+          "texte": "faites",
+          "debut": 126.99,
+          "fin": 127.23
+        },
+        {
+          "texte": "pas!",
+          "debut": 127.26,
+          "fin": 127.91
+        }
+      ]
+    },
+    {
+      "texte": "Oh mais je m'en fais pas, je m'entraînais jusqu'à ce que ça marche!",
+      "debut": 127.91,
+      "fin": 130.47,
+      "id": "r69",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Oh",
+          "debut": 127.93,
+          "fin": 128.07
+        },
+        {
+          "texte": "mais",
+          "debut": 128.09,
+          "fin": 128.15
+        },
+        {
+          "texte": "je",
+          "debut": 128.17,
+          "fin": 128.25
+        },
+        {
+          "texte": "m'en",
+          "debut": 128.27,
+          "fin": 128.41
+        },
+        {
+          "texte": "fais",
+          "debut": 128.43,
+          "fin": 128.51
+        },
+        {
+          "texte": "pas,",
+          "debut": 128.54,
+          "fin": 128.67
+        },
+        {
+          "texte": "je",
+          "debut": 128.69,
+          "fin": 128.79
+        },
+        {
+          "texte": "m'entraînais",
+          "debut": 128.81,
+          "fin": 129.19
+        },
+        {
+          "texte": "jusqu'à",
+          "debut": 129.19,
+          "fin": 129.39
+        },
+        {
+          "texte": "ce",
+          "debut": 129.39,
+          "fin": 129.43
+        },
+        {
+          "texte": "que",
+          "debut": 129.43,
+          "fin": 129.49
+        },
+        {
+          "texte": "ça",
+          "debut": 129.54,
+          "fin": 129.65
+        },
+        {
+          "texte": "marche!",
+          "debut": 129.67,
+          "fin": 130.35
+        }
+      ]
+    },
+    {
+      "texte": "Vous voulez dire que vous allez en refaire?",
+      "debut": 130.48,
+      "fin": 131.76,
+      "id": "r70",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 130.56,
+          "fin": 130.64
+        },
+        {
+          "texte": "voulez",
+          "debut": 130.66,
+          "fin": 130.74
+        },
+        {
+          "texte": "dire",
+          "debut": 130.76,
+          "fin": 130.86
+        },
+        {
+          "texte": "que",
+          "debut": 130.88,
+          "fin": 130.92
+        },
+        {
+          "texte": "vous",
+          "debut": 130.92,
+          "fin": 130.96
+        },
+        {
+          "texte": "allez",
+          "debut": 130.98,
+          "fin": 131.12
+        },
+        {
+          "texte": "en",
+          "debut": 131.12,
+          "fin": 131.28
+        },
+        {
+          "texte": "refaire?",
+          "debut": 131.3,
+          "fin": 131.76
+        }
+      ]
+    },
+    {
+      "texte": "Tous les jours!",
+      "debut": 131.76,
+      "fin": 132.56,
+      "id": "r71",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Tous",
+          "debut": 131.78,
+          "fin": 131.88
+        },
+        {
+          "texte": "les",
+          "debut": 131.9,
+          "fin": 132.06
+        },
+        {
+          "texte": "jours!",
+          "debut": 132.08,
+          "fin": 132.44
+        }
+      ]
+    },
+    {
+      "texte": "Tous les jours?",
+      "debut": 132.64,
+      "fin": 133.53,
+      "id": "r72",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Tous",
+          "debut": 132.72,
+          "fin": 132.85
+        },
+        {
+          "texte": "les",
+          "debut": 132.9,
+          "fin": 132.99
+        },
+        {
+          "texte": "jours?",
+          "debut": 133.01,
+          "fin": 133.41
+        }
+      ]
+    },
+    {
+      "texte": "Non mais je vais varier les fruits, vous inquiétez pas!",
+      "debut": 133.58,
+      "fin": 135.38,
+      "id": "r73",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Non",
+          "debut": 133.66,
+          "fin": 133.78
+        },
+        {
+          "texte": "mais",
+          "debut": 133.8,
+          "fin": 133.88
+        },
+        {
+          "texte": "je",
+          "debut": 133.9,
+          "fin": 134.04
+        },
+        {
+          "texte": "vais",
+          "debut": 134.06,
+          "fin": 134.12
+        },
+        {
+          "texte": "varier",
+          "debut": 134.14,
+          "fin": 134.22
+        },
+        {
+          "texte": "les",
+          "debut": 134.24,
+          "fin": 134.42
+        },
+        {
+          "texte": "fruits,",
+          "debut": 134.44,
+          "fin": 134.52
+        },
+        {
+          "texte": "vous",
+          "debut": 134.54,
+          "fin": 134.7
+        },
+        {
+          "texte": "inquiétez",
+          "debut": 134.7,
+          "fin": 135.04
+        },
+        {
+          "texte": "pas!",
+          "debut": 135.08,
+          "fin": 135.38
+        }
+      ]
+    },
+    {
+      "texte": "Et vous allez varier la pâte aussi?",
+      "debut": 135.38,
+      "fin": 136.74,
+      "id": "r74",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 135.4,
+          "fin": 135.46
+        },
+        {
+          "texte": "vous",
+          "debut": 135.48,
+          "fin": 135.56
+        },
+        {
+          "texte": "allez",
+          "debut": 135.58,
+          "fin": 135.72
+        },
+        {
+          "texte": "varier",
+          "debut": 135.74,
+          "fin": 135.94
+        },
+        {
+          "texte": "la",
+          "debut": 135.96,
+          "fin": 136.12
+        },
+        {
+          "texte": "pâte",
+          "debut": 136.14,
+          "fin": 136.24
+        },
+        {
+          "texte": "aussi?",
+          "debut": 136.26,
+          "fin": 136.74
+        }
+      ]
+    },
+    {
+      "texte": "Non mais n'exagérez pas non plus,",
+      "debut": 136.74,
+      "fin": 137.94,
+      "id": "r75",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Non",
+          "debut": 136.76,
+          "fin": 136.84
+        },
+        {
+          "texte": "mais",
+          "debut": 136.86,
+          "fin": 136.94
+        },
+        {
+          "texte": "n'exagérez",
+          "debut": 137,
+          "fin": 137.5
+        },
+        {
+          "texte": "pas",
+          "debut": 137.54,
+          "fin": 137.7
+        },
+        {
+          "texte": "non",
+          "debut": 137.72,
+          "fin": 137.84
+        },
+        {
+          "texte": "plus,",
+          "debut": 137.86,
+          "fin": 137.94
+        }
+      ]
+    },
+    {
+      "texte": "je vous demande quand même pas de manger des briques!",
+      "debut": 137.98,
+      "fin": 139.46,
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "je",
+          "debut": 137.98,
+          "fin": 138.06
+        },
+        {
+          "texte": "vous",
+          "debut": 138.06,
+          "fin": 138.1
+        },
+        {
+          "texte": "demande",
+          "debut": 138.12,
+          "fin": 138.26
+        },
+        {
+          "texte": "quand",
+          "debut": 138.3,
+          "fin": 138.44
+        },
+        {
+          "texte": "même",
+          "debut": 138.46,
+          "fin": 138.56
+        },
+        {
+          "texte": "pas",
+          "debut": 138.58,
+          "fin": 138.66
+        },
+        {
+          "texte": "de",
+          "debut": 138.68,
+          "fin": 138.76
+        },
+        {
+          "texte": "manger",
+          "debut": 138.8,
+          "fin": 138.88
+        },
+        {
+          "texte": "des",
+          "debut": 138.9,
+          "fin": 139.06
+        },
+        {
+          "texte": "briques!",
+          "debut": 139.12,
+          "fin": 139.46
+        }
+      ]
+    },
+    {
+      "texte": "Sans vouloir la ramener, la seule différence concrète avec des briques,",
+      "debut": 139.82,
+      "fin": 142.34,
+      "id": "r77",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Sans",
+          "debut": 139.9,
+          "fin": 140.18
+        },
+        {
+          "texte": "vouloir",
+          "debut": 140.2,
+          "fin": 140.38
+        },
+        {
+          "texte": "la",
+          "debut": 140.4,
+          "fin": 140.48
+        },
+        {
+          "texte": "ramener,",
+          "debut": 140.5,
+          "fin": 140.7
+        },
+        {
+          "texte": "la",
+          "debut": 140.72,
+          "fin": 140.84
+        },
+        {
+          "texte": "seule",
+          "debut": 140.86,
+          "fin": 141
+        },
+        {
+          "texte": "différence",
+          "debut": 141.06,
+          "fin": 141.34
+        },
+        {
+          "texte": "concrète",
+          "debut": 141.36,
+          "fin": 141.7
+        },
+        {
+          "texte": "avec",
+          "debut": 141.7,
+          "fin": 141.86
+        },
+        {
+          "texte": "des",
+          "debut": 141.88,
+          "fin": 142.06
+        },
+        {
+          "texte": "briques,",
+          "debut": 142.08,
+          "fin": 142.34
+        }
+      ]
+    },
+    {
+      "texte": "c'est que vous appelez ça des tartes, hein!",
+      "debut": 142.5,
+      "fin": 143.8,
+      "id": "r78",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "c'est",
+          "debut": 142.5,
+          "fin": 142.58
+        },
+        {
+          "texte": "que",
+          "debut": 142.58,
+          "fin": 142.64
+        },
+        {
+          "texte": "vous",
+          "debut": 142.64,
+          "fin": 142.76
+        },
+        {
+          "texte": "appelez",
+          "debut": 142.8,
+          "fin": 142.9
+        },
+        {
+          "texte": "ça",
+          "debut": 142.94,
+          "fin": 143.02
+        },
+        {
+          "texte": "des",
+          "debut": 143.08,
+          "fin": 143.16
+        },
+        {
+          "texte": "tartes,",
+          "debut": 143.18,
+          "fin": 143.4
+        },
+        {
+          "texte": "hein!",
+          "debut": 143.42,
+          "fin": 143.8
+        }
+      ]
+    },
+    {
+      "texte": "Si vous J'ai des confitures, mère, les petits enfants, ils adorent ça!",
+      "debut": 143.8,
+      "fin": 147.12,
+      "id": "r79",
+      "personnage": 4,
+      "mots": [
+        {
+          "texte": "Si",
+          "debut": 143.8,
+          "fin": 143.98
+        },
+        {
+          "texte": "vous",
+          "debut": 144,
+          "fin": 144.22
+        },
+        {
+          "texte": "J'ai",
+          "debut": 144.24,
+          "fin": 144.48
+        },
+        {
+          "texte": "des",
+          "debut": 144.54,
+          "fin": 144.62
+        },
+        {
+          "texte": "confitures,",
+          "debut": 144.64,
+          "fin": 145.24
+        },
+        {
+          "texte": "mère,",
+          "debut": 145.27,
+          "fin": 145.54
+        },
+        {
+          "texte": "les",
+          "debut": 145.56,
+          "fin": 145.76
+        },
+        {
+          "texte": "petits",
+          "debut": 145.76,
+          "fin": 145.96
+        },
+        {
+          "texte": "enfants,",
+          "debut": 145.96,
+          "fin": 146.16
+        },
+        {
+          "texte": "ils",
+          "debut": 146.18,
+          "fin": 146.36
+        },
+        {
+          "texte": "adorent",
+          "debut": 146.38,
+          "fin": 146.6
+        },
+        {
+          "texte": "ça!",
+          "debut": 146.6,
+          "fin": 147.12
+        }
+      ]
+    },
+    {
+      "texte": "Ouais, puis ils pourraient en manger tout de suite, au moins.",
+      "debut": 147.12,
+      "fin": 148.8,
+      "id": "r80",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ouais,",
+          "debut": 147.14,
+          "fin": 147.2
+        },
+        {
+          "texte": "puis",
+          "debut": 147.24,
+          "fin": 147.36
+        },
+        {
+          "texte": "ils",
+          "debut": 147.36,
+          "fin": 147.4
+        },
+        {
+          "texte": "pourraient",
+          "debut": 147.42,
+          "fin": 147.62
+        },
+        {
+          "texte": "en",
+          "debut": 147.64,
+          "fin": 147.74
+        },
+        {
+          "texte": "manger",
+          "debut": 147.76,
+          "fin": 147.84
+        },
+        {
+          "texte": "tout",
+          "debut": 147.88,
+          "fin": 148.04
+        },
+        {
+          "texte": "de",
+          "debut": 148.06,
+          "fin": 148.12
+        },
+        {
+          "texte": "suite,",
+          "debut": 148.12,
+          "fin": 148.22
+        },
+        {
+          "texte": "au",
+          "debut": 148.24,
+          "fin": 148.32
+        },
+        {
+          "texte": "moins.",
+          "debut": 148.34,
+          "fin": 148.7
+        }
+      ]
+    },
+    {
+      "texte": "Tandis que ça, avant un an, ils ont pas assez de chicots, de toute façon.",
+      "debut": 148.8,
+      "fin": 151.1,
+      "id": "r81",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Tandis",
+          "debut": 148.88,
+          "fin": 149.12
+        },
+        {
+          "texte": "que",
+          "debut": 149.12,
+          "fin": 149.28
+        },
+        {
+          "texte": "ça,",
+          "debut": 149.3,
+          "fin": 149.42
+        },
+        {
+          "texte": "avant",
+          "debut": 149.44,
+          "fin": 149.58
+        },
+        {
+          "texte": "un",
+          "debut": 149.6,
+          "fin": 149.74
+        },
+        {
+          "texte": "an,",
+          "debut": 149.74,
+          "fin": 149.78
+        },
+        {
+          "texte": "ils",
+          "debut": 149.8,
+          "fin": 149.86
+        },
+        {
+          "texte": "ont",
+          "debut": 149.88,
+          "fin": 150.02
+        },
+        {
+          "texte": "pas",
+          "debut": 150.04,
+          "fin": 150.14
+        },
+        {
+          "texte": "assez",
+          "debut": 150.16,
+          "fin": 150.26
+        },
+        {
+          "texte": "de",
+          "debut": 150.26,
+          "fin": 150.36
+        },
+        {
+          "texte": "chicots,",
+          "debut": 150.42,
+          "fin": 150.56
+        },
+        {
+          "texte": "de",
+          "debut": 150.58,
+          "fin": 150.72
+        },
+        {
+          "texte": "toute",
+          "debut": 150.72,
+          "fin": 150.76
+        },
+        {
+          "texte": "façon.",
+          "debut": 150.78,
+          "fin": 150.98
+        }
+      ]
+    },
+    {
+      "texte": "Ah, puis attention, faut pas s'amuser à attaquer ça avec des dents de lait, hein!",
+      "debut": 151.1,
+      "fin": 153.7,
+      "id": "r82",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Ah,",
+          "debut": 151.18,
+          "fin": 151.4
+        },
+        {
+          "texte": "puis",
+          "debut": 151.42,
+          "fin": 151.5
+        },
+        {
+          "texte": "attention,",
+          "debut": 151.5,
+          "fin": 151.82
+        },
+        {
+          "texte": "faut",
+          "debut": 151.84,
+          "fin": 151.98
+        },
+        {
+          "texte": "pas",
+          "debut": 152,
+          "fin": 152.1
+        },
+        {
+          "texte": "s'amuser",
+          "debut": 152.14,
+          "fin": 152.44
+        },
+        {
+          "texte": "à",
+          "debut": 152.44,
+          "fin": 152.5
+        },
+        {
+          "texte": "attaquer",
+          "debut": 152.5,
+          "fin": 152.72
+        },
+        {
+          "texte": "ça",
+          "debut": 152.78,
+          "fin": 152.86
+        },
+        {
+          "texte": "avec",
+          "debut": 152.88,
+          "fin": 152.96
+        },
+        {
+          "texte": "des",
+          "debut": 153.02,
+          "fin": 153.08
+        },
+        {
+          "texte": "dents",
+          "debut": 153.1,
+          "fin": 153.24
+        },
+        {
+          "texte": "de",
+          "debut": 153.24,
+          "fin": 153.3
+        },
+        {
+          "texte": "lait,",
+          "debut": 153.32,
+          "fin": 153.38
+        },
+        {
+          "texte": "hein!",
+          "debut": 153.4,
+          "fin": 153.7
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 155.6,
+      "fin": 160.72,
+      "id": "r84",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 155.939,
+          "fin": 160.705
+        }
+      ]
+    },
+    {
+      "texte": "Attendez! Au cas où vous ayez un creux dans l'après-midi...",
+      "debut": 161.25,
+      "fin": 164.48,
+      "id": "r86",
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "Attendez!",
+          "debut": 161.253,
+          "fin": 161.925
+        },
+        {
+          "texte": "Au",
+          "debut": 162.325,
+          "fin": 162.425
+        },
+        {
+          "texte": "cas",
+          "debut": 162.453,
+          "fin": 162.545
+        },
+        {
+          "texte": "où",
+          "debut": 162.565,
+          "fin": 162.626
+        },
+        {
+          "texte": "vous",
+          "debut": 162.646,
+          "fin": 162.746
+        },
+        {
+          "texte": "ayez",
+          "debut": 162.766,
+          "fin": 162.987
+        },
+        {
+          "texte": "un",
+          "debut": 163.007,
+          "fin": 163.147
+        },
+        {
+          "texte": "creux",
+          "debut": 163.273,
+          "fin": 163.468
+        },
+        {
+          "texte": "dans",
+          "debut": 163.488,
+          "fin": 163.589
+        },
+        {
+          "texte": "l'après-midi...",
+          "debut": 163.609,
+          "fin": 164.11
+        }
+      ]
+    },
+    {
+      "texte": "Oui, ou une fissure à colmater dans un muret...",
+      "debut": 164.48,
+      "fin": 166.48,
+      "id": "r87",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Oui,",
+          "debut": 164.5,
+          "fin": 164.62
+        },
+        {
+          "texte": "ou",
+          "debut": 164.64,
+          "fin": 164.74
+        },
+        {
+          "texte": "une",
+          "debut": 164.76,
+          "fin": 164.94
+        },
+        {
+          "texte": "fissure",
+          "debut": 164.94,
+          "fin": 165.2
+        },
+        {
+          "texte": "à",
+          "debut": 165.22,
+          "fin": 165.3
+        },
+        {
+          "texte": "colmater",
+          "debut": 165.32,
+          "fin": 165.62
+        },
+        {
+          "texte": "dans",
+          "debut": 165.64,
+          "fin": 165.8
+        },
+        {
+          "texte": "un",
+          "debut": 165.82,
+          "fin": 165.94
+        },
+        {
+          "texte": "muret...",
+          "debut": 165.96,
+          "fin": 166.36
+        }
+      ]
+    },
+    {
+      "texte": "Ah, ça va, On plaisante...",
+      "debut": 167.32,
+      "fin": 168.74,
+      "id": "r88",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ah,",
+          "debut": 167.4,
+          "fin": 167.68
+        },
+        {
+          "texte": "ça",
+          "debut": 167.7,
+          "fin": 167.8
+        },
+        {
+          "texte": "va,",
+          "debut": 167.82,
+          "fin": 167.98
+        },
+        {
+          "texte": "On",
+          "debut": 168,
+          "fin": 168.18
+        },
+        {
+          "texte": "plaisante...",
+          "debut": 168.2,
+          "fin": 168.62
+        }
+      ]
+    },
+    {
+      "texte": "on plaisante, on plaisante...",
+      "debut": 170.83,
+      "fin": 172.14,
+      "id": "r89",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "on",
+          "debut": 170.85,
+          "fin": 171.034
+        },
+        {
+          "texte": "plaisante,",
+          "debut": 171.054,
+          "fin": 171.44
+        },
+        {
+          "texte": "on",
+          "debut": 171.46,
+          "fin": 171.582
+        },
+        {
+          "texte": "plaisante...",
+          "debut": 171.602,
+          "fin": 172.14
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 172.8,
+      "fin": 175.56,
+      "id": "r90",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 172.88,
+          "fin": 175.44
+        }
+      ]
+    },
+    {
+      "texte": "Bon allez, moi je vais me coucher, hein, je tiens plus en l'air...",
+      "debut": 185.36,
+      "fin": 188.05,
+      "id": "r91",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Bon",
+          "debut": 185.44,
+          "fin": 185.83
+        },
+        {
+          "texte": "allez,",
+          "debut": 185.83,
+          "fin": 186.22
+        },
+        {
+          "texte": "moi",
+          "debut": 186.24,
+          "fin": 186.31
+        },
+        {
+          "texte": "je",
+          "debut": 186.33,
+          "fin": 186.39
+        },
+        {
+          "texte": "vais",
+          "debut": 186.39,
+          "fin": 186.43
+        },
+        {
+          "texte": "me",
+          "debut": 186.45,
+          "fin": 186.55
+        },
+        {
+          "texte": "coucher,",
+          "debut": 186.57,
+          "fin": 186.83
+        },
+        {
+          "texte": "hein,",
+          "debut": 186.85,
+          "fin": 186.93
+        },
+        {
+          "texte": "je",
+          "debut": 186.95,
+          "fin": 187.01
+        },
+        {
+          "texte": "tiens",
+          "debut": 187.03,
+          "fin": 187.15
+        },
+        {
+          "texte": "plus",
+          "debut": 187.17,
+          "fin": 187.29
+        },
+        {
+          "texte": "en",
+          "debut": 187.31,
+          "fin": 187.45
+        },
+        {
+          "texte": "l'air...",
+          "debut": 187.47,
+          "fin": 188.05
+        }
+      ]
+    },
+    {
+      "texte": "Ok, je vais rester un peu pour finir...",
+      "debut": 188.05,
+      "fin": 189.77,
+      "id": "r92",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ok,",
+          "debut": 188.05,
+          "fin": 188.23
+        },
+        {
+          "texte": "je",
+          "debut": 188.34,
+          "fin": 188.45
+        },
+        {
+          "texte": "vais",
+          "debut": 188.45,
+          "fin": 188.49
+        },
+        {
+          "texte": "rester",
+          "debut": 188.51,
+          "fin": 188.71
+        },
+        {
+          "texte": "un",
+          "debut": 188.74,
+          "fin": 188.83
+        },
+        {
+          "texte": "peu",
+          "debut": 188.83,
+          "fin": 188.89
+        },
+        {
+          "texte": "pour",
+          "debut": 188.92,
+          "fin": 189.09
+        },
+        {
+          "texte": "finir...",
+          "debut": 189.11,
+          "fin": 189.65
+        }
+      ]
+    },
+    {
+      "texte": "Attendez, ça va, ça fait 30 heures que je suis debout,",
+      "debut": 189.94,
+      "fin": 191.86,
+      "id": "r93",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Attendez,",
+          "debut": 190.02,
+          "fin": 190.337
+        },
+        {
+          "texte": "ça",
+          "debut": 190.346,
+          "fin": 190.521
+        },
+        {
+          "texte": "va,",
+          "debut": 190.529,
+          "fin": 190.772
+        },
+        {
+          "texte": "ça",
+          "debut": 190.772,
+          "fin": 190.812
+        },
+        {
+          "texte": "fait",
+          "debut": 190.85,
+          "fin": 190.969
+        },
+        {
+          "texte": "30",
+          "debut": 190.983,
+          "fin": 191.14
+        },
+        {
+          "texte": "heures",
+          "debut": 191.14,
+          "fin": 191.261
+        },
+        {
+          "texte": "que",
+          "debut": 191.302,
+          "fin": 191.415
+        },
+        {
+          "texte": "je",
+          "debut": 191.415,
+          "fin": 191.455
+        },
+        {
+          "texte": "suis",
+          "debut": 191.455,
+          "fin": 191.585
+        },
+        {
+          "texte": "debout,",
+          "debut": 191.585,
+          "fin": 191.86
+        }
+      ]
+    },
+    {
+      "texte": "je peux peut-être aller m'alonger deux minutes, non!?",
+      "debut": 191.94,
+      "fin": 193.29,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "je",
+          "debut": 191.95,
+          "fin": 191.99
+        },
+        {
+          "texte": "peux",
+          "debut": 191.99,
+          "fin": 192.03
+        },
+        {
+          "texte": "peut-être",
+          "debut": 192.03,
+          "fin": 192.252
+        },
+        {
+          "texte": "aller",
+          "debut": 192.28,
+          "fin": 192.369
+        },
+        {
+          "texte": "m'alonger",
+          "debut": 192.44,
+          "fin": 192.631
+        },
+        {
+          "texte": "deux",
+          "debut": 192.7,
+          "fin": 192.773
+        },
+        {
+          "texte": "minutes,",
+          "debut": 192.793,
+          "fin": 193.055
+        },
+        {
+          "texte": "non!?",
+          "debut": 193.075,
+          "fin": 193.287
+        }
+      ]
+    },
+    {
+      "texte": "Mais qu'est-ce que j'ai dit?",
+      "debut": 193.29,
+      "fin": 194.32,
+      "id": "r94",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 193.287,
+          "fin": 193.327
+        },
+        {
+          "texte": "qu'est-ce",
+          "debut": 193.327,
+          "fin": 193.84
+        },
+        {
+          "texte": "que",
+          "debut": 193.84,
+          "fin": 193.94
+        },
+        {
+          "texte": "j'ai",
+          "debut": 193.96,
+          "fin": 194.08
+        },
+        {
+          "texte": "dit?",
+          "debut": 194.08,
+          "fin": 194.32
+        }
+      ]
+    },
+    {
+      "texte": "Ben oui, genre, je vais rester pour finir",
+      "debut": 194.32,
+      "fin": 196.46,
+      "id": "r95",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Ben",
+          "debut": 194.34,
+          "fin": 194.4
+        },
+        {
+          "texte": "oui,",
+          "debut": 194.42,
+          "fin": 194.86
+        },
+        {
+          "texte": "genre,",
+          "debut": 194.86,
+          "fin": 194.9
+        },
+        {
+          "texte": "je",
+          "debut": 194.92,
+          "fin": 195.14
+        },
+        {
+          "texte": "vais",
+          "debut": 195.14,
+          "fin": 195.18
+        },
+        {
+          "texte": "rester",
+          "debut": 195.2,
+          "fin": 195.42
+        },
+        {
+          "texte": "pour",
+          "debut": 195.44,
+          "fin": 195.62
+        },
+        {
+          "texte": "finir",
+          "debut": 195.64,
+          "fin": 196.46
+        }
+      ]
+    },
+    {
+      "texte": "sous-entendu avec moi qui bosse, c'est ça?",
+      "debut": 196.46,
+      "fin": 198.08,
+      "id": "r97",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "sous-entendu",
+          "debut": 196.46,
+          "fin": 196.98
+        },
+        {
+          "texte": "avec",
+          "debut": 197,
+          "fin": 197.08
+        },
+        {
+          "texte": "moi",
+          "debut": 197.1,
+          "fin": 197.2
+        },
+        {
+          "texte": "qui",
+          "debut": 197.22,
+          "fin": 197.34
+        },
+        {
+          "texte": "bosse,",
+          "debut": 197.36,
+          "fin": 197.46
+        },
+        {
+          "texte": "c'est",
+          "debut": 197.5,
+          "fin": 197.66
+        },
+        {
+          "texte": "ça?",
+          "debut": 197.68,
+          "fin": 198.08
+        }
+      ]
+    },
+    {
+      "texte": "Non.",
+      "debut": 198.5,
+      "fin": 198.73,
+      "id": "r98",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non.",
+          "debut": 198.5,
+          "fin": 198.73
+        }
+      ]
+    },
+    {
+      "texte": "Ah bon? Bon, ben bonne nuit alors.",
+      "debut": 199.34,
+      "fin": 201.54,
+      "id": "r99",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Ah",
+          "debut": 199.34,
+          "fin": 199.54
+        },
+        {
+          "texte": "bon?",
+          "debut": 199.56,
+          "fin": 199.76
+        },
+        {
+          "texte": "Bon,",
+          "debut": 200.56,
+          "fin": 200.68
+        },
+        {
+          "texte": "ben",
+          "debut": 200.7,
+          "fin": 200.9
+        },
+        {
+          "texte": "bonne",
+          "debut": 200.92,
+          "fin": 201.04
+        },
+        {
+          "texte": "nuit",
+          "debut": 201.06,
+          "fin": 201.22
+        },
+        {
+          "texte": "alors.",
+          "debut": 201.24,
+          "fin": 201.42
+        }
+      ]
+    },
+    {
+      "texte": "Ok, à demain.",
+      "debut": 202.32,
+      "fin": 202.96,
+      "id": "r100",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ok,",
+          "debut": 202.4,
+          "fin": 202.64
+        },
+        {
+          "texte": "à",
+          "debut": 202.66,
+          "fin": 202.76
+        },
+        {
+          "texte": "demain.",
+          "debut": 202.76,
+          "fin": 202.84
+        }
+      ]
+    },
+    {
+      "texte": "Voilà, c'est ça, à demain.",
+      "debut": 203.07,
+      "fin": 204.86,
+      "id": "r101",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Voilà,",
+          "debut": 203.15,
+          "fin": 203.58
+        },
+        {
+          "texte": "c'est",
+          "debut": 203.7,
+          "fin": 204.16
+        },
+        {
+          "texte": "ça,",
+          "debut": 204.18,
+          "fin": 204.28
+        },
+        {
+          "texte": "à",
+          "debut": 204.3,
+          "fin": 204.42
+        },
+        {
+          "texte": "demain.",
+          "debut": 204.48,
+          "fin": 204.74
+        }
+      ]
+    },
+    {
+      "texte": "Qu'est-ce que ça veut dire, c'est à demain?",
+      "debut": 204.88,
+      "fin": 206.55,
+      "id": "r102",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Qu'est-ce",
+          "debut": 205.26,
+          "fin": 205.43
+        },
+        {
+          "texte": "que",
+          "debut": 205.43,
+          "fin": 205.47
+        },
+        {
+          "texte": "ça",
+          "debut": 205.47,
+          "fin": 205.53
+        },
+        {
+          "texte": "veut",
+          "debut": 205.55,
+          "fin": 205.65
+        },
+        {
+          "texte": "dire,",
+          "debut": 205.67,
+          "fin": 205.79
+        },
+        {
+          "texte": "c'est",
+          "debut": 205.86,
+          "fin": 205.97
+        },
+        {
+          "texte": "à",
+          "debut": 205.99,
+          "fin": 206.05
+        },
+        {
+          "texte": "demain?",
+          "debut": 206.07,
+          "fin": 206.43
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 208.98,
+      "fin": 215.2,
+      "id": "r103",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 209.06,
+          "fin": 215.178
+        }
+      ]
+    },
+    {
+      "texte": "Mais de quoi, vous voulez qu'on parlent ?",
+      "debut": 215.32,
+      "fin": 216.69,
+      "id": "r104",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 215.4,
+          "fin": 215.575
+        },
+        {
+          "texte": "de",
+          "debut": 215.575,
+          "fin": 215.663
+        },
+        {
+          "texte": "quoi,",
+          "debut": 215.663,
+          "fin": 215.75
+        },
+        {
+          "texte": "vous",
+          "debut": 215.77,
+          "fin": 215.85
+        },
+        {
+          "texte": "voulez",
+          "debut": 215.87,
+          "fin": 215.99
+        },
+        {
+          "texte": "qu'on",
+          "debut": 216.01,
+          "fin": 216.48
+        },
+        {
+          "texte": "parlent",
+          "debut": 216.48,
+          "fin": 216.637
+        },
+        {
+          "texte": "?",
+          "debut": 216.637,
+          "fin": 216.689
+        }
+      ]
+    },
+    {
+      "texte": "Je sais pas, de tout et de rien!",
+      "debut": 216.69,
+      "fin": 218.6,
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Je",
+          "debut": 216.69,
+          "fin": 216.969
+        },
+        {
+          "texte": "sais",
+          "debut": 216.969,
+          "fin": 217.249
+        },
+        {
+          "texte": "pas,",
+          "debut": 217.249,
+          "fin": 217.489
+        },
+        {
+          "texte": "de",
+          "debut": 217.489,
+          "fin": 217.709
+        },
+        {
+          "texte": "tout",
+          "debut": 217.74,
+          "fin": 217.8
+        },
+        {
+          "texte": "et",
+          "debut": 217.82,
+          "fin": 217.96
+        },
+        {
+          "texte": "de",
+          "debut": 217.98,
+          "fin": 218.1
+        },
+        {
+          "texte": "rien!",
+          "debut": 218.12,
+          "fin": 218.6
+        }
+      ]
+    },
+    {
+      "texte": "Écoutez, Bohort, vous devriez aller vous coucher,",
+      "debut": 218.6,
+      "fin": 220,
+      "id": "r105",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Écoutez,",
+          "debut": 218.6,
+          "fin": 218.8
+        },
+        {
+          "texte": "Bohort,",
+          "debut": 218.82,
+          "fin": 218.98
+        },
+        {
+          "texte": "vous",
+          "debut": 219.02,
+          "fin": 219.14
+        },
+        {
+          "texte": "devriez",
+          "debut": 219.16,
+          "fin": 219.46
+        },
+        {
+          "texte": "aller",
+          "debut": 219.48,
+          "fin": 219.58
+        },
+        {
+          "texte": "vous",
+          "debut": 219.6,
+          "fin": 219.76
+        },
+        {
+          "texte": "coucher,",
+          "debut": 219.76,
+          "fin": 220
+        }
+      ]
+    },
+    {
+      "texte": "l'assaut est programmée pour demain à l'aube,",
+      "debut": 220.02,
+      "fin": 221.34,
+      "id": "r106",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "l'assaut",
+          "debut": 220.02,
+          "fin": 220.42
+        },
+        {
+          "texte": "est",
+          "debut": 220.44,
+          "fin": 220.54
+        },
+        {
+          "texte": "programmée",
+          "debut": 220.56,
+          "fin": 220.74
+        },
+        {
+          "texte": "pour",
+          "debut": 220.76,
+          "fin": 220.92
+        },
+        {
+          "texte": "demain",
+          "debut": 220.94,
+          "fin": 221.1
+        },
+        {
+          "texte": "à",
+          "debut": 221.12,
+          "fin": 221.26
+        },
+        {
+          "texte": "l'aube,",
+          "debut": 221.28,
+          "fin": 221.34
+        }
+      ]
+    },
+    {
+      "texte": "vous allez avoir les yeux au milieu de la figure!",
+      "debut": 221.36,
+      "fin": 222.84,
+      "id": "r107",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "vous",
+          "debut": 221.36,
+          "fin": 221.46
+        },
+        {
+          "texte": "allez",
+          "debut": 221.48,
+          "fin": 221.64
+        },
+        {
+          "texte": "avoir",
+          "debut": 221.66,
+          "fin": 221.82
+        },
+        {
+          "texte": "les",
+          "debut": 221.84,
+          "fin": 221.98
+        },
+        {
+          "texte": "yeux",
+          "debut": 222,
+          "fin": 222.06
+        },
+        {
+          "texte": "au",
+          "debut": 222.08,
+          "fin": 222.18
+        },
+        {
+          "texte": "milieu",
+          "debut": 222.2,
+          "fin": 222.28
+        },
+        {
+          "texte": "de",
+          "debut": 222.3,
+          "fin": 222.4
+        },
+        {
+          "texte": "la",
+          "debut": 222.4,
+          "fin": 222.52
+        },
+        {
+          "texte": "figure!",
+          "debut": 222.54,
+          "fin": 222.84
+        }
+      ]
+    },
+    {
+      "texte": "J'arrive pas à m'assoupir,",
+      "debut": 222.86,
+      "fin": 223.82,
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "J'arrive",
+          "debut": 222.86,
+          "fin": 223.08
+        },
+        {
+          "texte": "pas",
+          "debut": 223.1,
+          "fin": 223.22
+        },
+        {
+          "texte": "à",
+          "debut": 223.24,
+          "fin": 223.32
+        },
+        {
+          "texte": "m'assoupir,",
+          "debut": 223.32,
+          "fin": 223.82
+        }
+      ]
+    },
+    {
+      "texte": "Sire, tous ces bruits autour de nous, c'est à mourir d'épouvante!",
+      "debut": 223.94,
+      "fin": 226.18,
+      "id": "r108",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Sire,",
+          "debut": 223.94,
+          "fin": 224.08
+        },
+        {
+          "texte": "tous",
+          "debut": 224.24,
+          "fin": 224.28
+        },
+        {
+          "texte": "ces",
+          "debut": 224.3,
+          "fin": 224.46
+        },
+        {
+          "texte": "bruits",
+          "debut": 224.48,
+          "fin": 224.6
+        },
+        {
+          "texte": "autour",
+          "debut": 224.6,
+          "fin": 224.84
+        },
+        {
+          "texte": "de",
+          "debut": 224.86,
+          "fin": 225
+        },
+        {
+          "texte": "nous,",
+          "debut": 225.02,
+          "fin": 225.12
+        },
+        {
+          "texte": "c'est",
+          "debut": 225.26,
+          "fin": 225.34
+        },
+        {
+          "texte": "à",
+          "debut": 225.36,
+          "fin": 225.44
+        },
+        {
+          "texte": "mourir",
+          "debut": 225.46,
+          "fin": 225.68
+        },
+        {
+          "texte": "d'épouvante!",
+          "debut": 225.7,
+          "fin": 226.18
+        }
+      ]
+    },
+    {
+      "texte": "Mais c'est rien, ça, c'est des bestioles!",
+      "debut": 226.18,
+      "fin": 228.16,
+      "id": "r109",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 226.18,
+          "fin": 226.32
+        },
+        {
+          "texte": "c'est",
+          "debut": 226.38,
+          "fin": 226.56
+        },
+        {
+          "texte": "rien,",
+          "debut": 226.58,
+          "fin": 226.8
+        },
+        {
+          "texte": "ça,",
+          "debut": 226.94,
+          "fin": 227.06
+        },
+        {
+          "texte": "c'est",
+          "debut": 227.14,
+          "fin": 227.24
+        },
+        {
+          "texte": "des",
+          "debut": 227.26,
+          "fin": 227.4
+        },
+        {
+          "texte": "bestioles!",
+          "debut": 227.4,
+          "fin": 228.16
+        }
+      ]
+    },
+    {
+      "texte": "Des bestioles, oui, justement,",
+      "debut": 228.16,
+      "fin": 229.24,
+      "id": "r110",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 228.18,
+          "fin": 228.32
+        },
+        {
+          "texte": "bestioles,",
+          "debut": 228.32,
+          "fin": 228.72
+        },
+        {
+          "texte": "oui,",
+          "debut": 228.74,
+          "fin": 228.9
+        },
+        {
+          "texte": "justement,",
+          "debut": 228.92,
+          "fin": 229.24
+        }
+      ]
+    },
+    {
+      "texte": "je vois pas ce que ça a de rassurant!",
+      "debut": 229.26,
+      "fin": 230.78,
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "je",
+          "debut": 229.26,
+          "fin": 229.46
+        },
+        {
+          "texte": "vois",
+          "debut": 229.48,
+          "fin": 229.6
+        },
+        {
+          "texte": "pas",
+          "debut": 229.62,
+          "fin": 229.72
+        },
+        {
+          "texte": "ce",
+          "debut": 229.76,
+          "fin": 229.82
+        },
+        {
+          "texte": "que",
+          "debut": 229.82,
+          "fin": 229.88
+        },
+        {
+          "texte": "ça",
+          "debut": 229.9,
+          "fin": 230
+        },
+        {
+          "texte": "a",
+          "debut": 230.02,
+          "fin": 230.08
+        },
+        {
+          "texte": "de",
+          "debut": 230.1,
+          "fin": 230.16
+        },
+        {
+          "texte": "rassurant!",
+          "debut": 230.16,
+          "fin": 230.78
+        }
+      ]
+    },
+    {
+      "texte": "Ah, bah on est dans la forêt, Bohort, il y a des bestioles, c'est comme ça!",
+      "debut": 230.78,
+      "fin": 233.76,
+      "id": "r111",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Ah,",
+          "debut": 230.84,
+          "fin": 231.04
+        },
+        {
+          "texte": "bah",
+          "debut": 231.06,
+          "fin": 231.16
+        },
+        {
+          "texte": "on",
+          "debut": 231.18,
+          "fin": 231.28
+        },
+        {
+          "texte": "est",
+          "debut": 231.3,
+          "fin": 231.38
+        },
+        {
+          "texte": "dans",
+          "debut": 231.4,
+          "fin": 231.46
+        },
+        {
+          "texte": "la",
+          "debut": 231.48,
+          "fin": 231.7
+        },
+        {
+          "texte": "forêt,",
+          "debut": 231.72,
+          "fin": 231.96
+        },
+        {
+          "texte": "Bohort,",
+          "debut": 231.98,
+          "fin": 232.32
+        },
+        {
+          "texte": "il",
+          "debut": 232.34,
+          "fin": 232.5
+        },
+        {
+          "texte": "y",
+          "debut": 232.5,
+          "fin": 232.54
+        },
+        {
+          "texte": "a",
+          "debut": 232.54,
+          "fin": 232.6
+        },
+        {
+          "texte": "des",
+          "debut": 232.62,
+          "fin": 232.7
+        },
+        {
+          "texte": "bestioles,",
+          "debut": 232.7,
+          "fin": 233.06
+        },
+        {
+          "texte": "c'est",
+          "debut": 233.08,
+          "fin": 233.22
+        },
+        {
+          "texte": "comme",
+          "debut": 233.24,
+          "fin": 233.34
+        },
+        {
+          "texte": "ça!",
+          "debut": 233.36,
+          "fin": 233.76
+        }
+      ]
+    },
+    {
+      "texte": "Après, bien sûr, tout dépend de quelle bestiole!",
+      "debut": 233.76,
+      "fin": 235.8,
+      "id": "r112",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Après,",
+          "debut": 233.8,
+          "fin": 233.9
+        },
+        {
+          "texte": "bien",
+          "debut": 233.99,
+          "fin": 234.14
+        },
+        {
+          "texte": "sûr,",
+          "debut": 234.16,
+          "fin": 234.34
+        },
+        {
+          "texte": "tout",
+          "debut": 234.48,
+          "fin": 234.6
+        },
+        {
+          "texte": "dépend",
+          "debut": 234.62,
+          "fin": 234.88
+        },
+        {
+          "texte": "de",
+          "debut": 234.9,
+          "fin": 235.06
+        },
+        {
+          "texte": "quelle",
+          "debut": 235.08,
+          "fin": 235.18
+        },
+        {
+          "texte": "bestiole!",
+          "debut": 235.2,
+          "fin": 235.8
+        }
+      ]
+    },
+    {
+      "texte": "Ah, quelle bestiole, j'en sais rien, moi, un peu de tout!",
+      "debut": 235.8,
+      "fin": 238.34,
+      "id": "r113",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ah,",
+          "debut": 235.8,
+          "fin": 235.88
+        },
+        {
+          "texte": "quelle",
+          "debut": 236.04,
+          "fin": 236.12
+        },
+        {
+          "texte": "bestiole,",
+          "debut": 236.16,
+          "fin": 236.54
+        },
+        {
+          "texte": "j'en",
+          "debut": 236.62,
+          "fin": 236.78
+        },
+        {
+          "texte": "sais",
+          "debut": 236.8,
+          "fin": 236.94
+        },
+        {
+          "texte": "rien,",
+          "debut": 236.96,
+          "fin": 237.08
+        },
+        {
+          "texte": "moi,",
+          "debut": 237.1,
+          "fin": 237.34
+        },
+        {
+          "texte": "un",
+          "debut": 237.36,
+          "fin": 237.54
+        },
+        {
+          "texte": "peu",
+          "debut": 237.58,
+          "fin": 237.7
+        },
+        {
+          "texte": "de",
+          "debut": 237.7,
+          "fin": 237.88
+        },
+        {
+          "texte": "tout!",
+          "debut": 237.9,
+          "fin": 238.34
+        }
+      ]
+    },
+    {
+      "texte": "Des lapins?",
+      "debut": 238.34,
+      "fin": 239.54,
+      "id": "r114",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 238.38,
+          "fin": 238.56
+        },
+        {
+          "texte": "lapins?",
+          "debut": 238.58,
+          "fin": 238.9
+        }
+      ]
+    },
+    {
+      "texte": "Oui, Bohort, (Kr) si vous voulez d'accord Des lapins",
+      "debut": 239.54,
+      "fin": 241.6,
+      "id": "r115",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Oui,",
+          "debut": 239.54,
+          "fin": 239.744
+        },
+        {
+          "texte": "Bohort,",
+          "debut": 239.802,
+          "fin": 239.978
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 239.978,
+          "fin": 240.097
+        },
+        {
+          "texte": "si",
+          "debut": 240.097,
+          "fin": 240.222
+        },
+        {
+          "texte": "vous",
+          "debut": 240.227,
+          "fin": 240.374
+        },
+        {
+          "texte": "voulez",
+          "debut": 240.374,
+          "fin": 240.712
+        },
+        {
+          "texte": "d'accord",
+          "debut": 240.732,
+          "fin": 241.075
+        },
+        {
+          "texte": "Des",
+          "debut": 241.075,
+          "fin": 241.166
+        },
+        {
+          "texte": "lapins",
+          "debut": 241.166,
+          "fin": 241.448
+        }
+      ]
+    },
+    {
+      "texte": "De minuscules, lapro, mignons et inoffensifs, qui s'amaillent probablement dans",
+      "debut": 242.03,
+      "fin": 246.55,
+      "id": "r117",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "De",
+          "debut": 242.05,
+          "fin": 242.41
+        },
+        {
+          "texte": "minuscules,",
+          "debut": 242.43,
+          "fin": 243.11
+        },
+        {
+          "texte": "lapro,",
+          "debut": 243.13,
+          "fin": 243.71
+        },
+        {
+          "texte": "mignons",
+          "debut": 243.78,
+          "fin": 244.19
+        },
+        {
+          "texte": "et",
+          "debut": 244.21,
+          "fin": 244.39
+        },
+        {
+          "texte": "inoffensifs,",
+          "debut": 244.41,
+          "fin": 244.99
+        },
+        {
+          "texte": "qui",
+          "debut": 245.16,
+          "fin": 245.33
+        },
+        {
+          "texte": "s'amaillent",
+          "debut": 245.33,
+          "fin": 246.03
+        },
+        {
+          "texte": "probablement",
+          "debut": 246.06,
+          "fin": 246.41
+        },
+        {
+          "texte": "dans",
+          "debut": 246.43,
+          "fin": 246.55
+        }
+      ]
+    },
+    {
+      "texte": "les fougères, (Kr) sont-ils cocasses, ces chers petits?",
+      "debut": 246.55,
+      "fin": 249.99,
+      "id": "r118",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "les",
+          "debut": 246.57,
+          "fin": 246.77
+        },
+        {
+          "texte": "fougères,",
+          "debut": 246.79,
+          "fin": 247.55
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 247.62,
+          "fin": 247.81
+        },
+        {
+          "texte": "sont-ils",
+          "debut": 247.86,
+          "fin": 248.39
+        },
+        {
+          "texte": "cocasses,",
+          "debut": 248.41,
+          "fin": 248.873
+        },
+        {
+          "texte": "ces",
+          "debut": 248.883,
+          "fin": 248.968
+        },
+        {
+          "texte": "chers",
+          "debut": 249.039,
+          "fin": 249.27
+        },
+        {
+          "texte": "petits?",
+          "debut": 249.3,
+          "fin": 249.838
+        }
+      ]
+    },
+    {
+      "texte": "Voilà, soyez tranquille, allez, allez au coucher",
+      "debut": 249.99,
+      "fin": 251.95,
+      "id": "r119",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Voilà,",
+          "debut": 250.01,
+          "fin": 250.49
+        },
+        {
+          "texte": "soyez",
+          "debut": 250.56,
+          "fin": 250.77
+        },
+        {
+          "texte": "tranquille,",
+          "debut": 250.79,
+          "fin": 251.11
+        },
+        {
+          "texte": "allez,",
+          "debut": 251.13,
+          "fin": 251.29
+        },
+        {
+          "texte": "allez",
+          "debut": 251.31,
+          "fin": 251.39
+        },
+        {
+          "texte": "au",
+          "debut": 251.41,
+          "fin": 251.49
+        },
+        {
+          "texte": "coucher",
+          "debut": 251.49,
+          "fin": 251.83
+        }
+      ]
+    },
+    {
+      "texte": "(Kr)",
+      "debut": 252.46,
+      "fin": 253.1,
+      "id": "r120",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 252.54,
+          "fin": 253.1
+        }
+      ]
+    },
+    {
+      "texte": "(Kr) (Kr) (Kr) (Kr) Vous avez vu, j'ai pas crié",
+      "debut": 254.44,
+      "fin": 257.06,
+      "id": "r122",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 254.52,
+          "fin": 254.8
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 254.8,
+          "fin": 255.02
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 255.02,
+          "fin": 255.24
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 255.24,
+          "fin": 255.46
+        },
+        {
+          "texte": "Vous",
+          "debut": 255.68,
+          "fin": 255.72
+        },
+        {
+          "texte": "avez",
+          "debut": 255.74,
+          "fin": 255.96
+        },
+        {
+          "texte": "vu,",
+          "debut": 255.98,
+          "fin": 256.08
+        },
+        {
+          "texte": "j'ai",
+          "debut": 256.28,
+          "fin": 256.36
+        },
+        {
+          "texte": "pas",
+          "debut": 256.38,
+          "fin": 256.54
+        },
+        {
+          "texte": "crié",
+          "debut": 256.58,
+          "fin": 256.94
+        }
+      ]
+    },
+    {
+      "texte": "(Kr) (Kr)",
+      "debut": 258.76,
+      "fin": 259.6,
+      "id": "r123",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 258.84,
+          "fin": 259.02
+        },
+        {
+          "texte": "(Kr)",
+          "debut": 259.16,
+          "fin": 259.6
+        }
+      ]
+    },
+    {
+      "texte": "ah!",
+      "debut": 260.68,
+      "fin": 261.13,
+      "id": "r124",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "ah!",
+          "debut": 260.68,
+          "fin": 260.902
+        }
+      ]
+    },
+    {
+      "texte": "Non, non, c'est bon, c'est bon, c'est bon, c'est bon, c'est bon!",
+      "debut": 261.13,
+      "fin": 263.03,
+      "id": "r125",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 261.15,
+          "fin": 261.27
+        },
+        {
+          "texte": "non,",
+          "debut": 261.33,
+          "fin": 261.37
+        },
+        {
+          "texte": "c'est",
+          "debut": 261.39,
+          "fin": 261.69
+        },
+        {
+          "texte": "bon,",
+          "debut": 261.69,
+          "fin": 261.73
+        },
+        {
+          "texte": "c'est",
+          "debut": 261.75,
+          "fin": 261.97
+        },
+        {
+          "texte": "bon,",
+          "debut": 261.99,
+          "fin": 262.05
+        },
+        {
+          "texte": "c'est",
+          "debut": 262.05,
+          "fin": 262.25
+        },
+        {
+          "texte": "bon,",
+          "debut": 262.27,
+          "fin": 262.35
+        },
+        {
+          "texte": "c'est",
+          "debut": 262.42,
+          "fin": 262.55
+        },
+        {
+          "texte": "bon,",
+          "debut": 262.55,
+          "fin": 262.59
+        },
+        {
+          "texte": "c'est",
+          "debut": 262.62,
+          "fin": 262.71
+        },
+        {
+          "texte": "bon!",
+          "debut": 262.73,
+          "fin": 262.91
+        }
+      ]
+    },
+    {
+      "texte": "D'accord. Effectivement,",
+      "debut": 265.19,
+      "fin": 266.74,
+      "id": "r126",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "D'accord.",
+          "debut": 265.434,
+          "fin": 265.954
+        },
+        {
+          "texte": "Effectivement,",
+          "debut": 266.005,
+          "fin": 266.74
+        }
+      ]
+    },
+    {
+      "texte": "Bohort, ce serait vous mentir que de dire qu'il n'y a que",
+      "debut": 266.76,
+      "fin": 269.46,
+      "id": "r127",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Bohort,",
+          "debut": 266.76,
+          "fin": 267.02
+        },
+        {
+          "texte": "ce",
+          "debut": 267.12,
+          "fin": 267.24
+        },
+        {
+          "texte": "serait",
+          "debut": 267.26,
+          "fin": 267.38
+        },
+        {
+          "texte": "vous",
+          "debut": 267.4,
+          "fin": 267.52
+        },
+        {
+          "texte": "mentir",
+          "debut": 267.54,
+          "fin": 268.02
+        },
+        {
+          "texte": "que",
+          "debut": 268.08,
+          "fin": 268.18
+        },
+        {
+          "texte": "de",
+          "debut": 268.2,
+          "fin": 268.3
+        },
+        {
+          "texte": "dire",
+          "debut": 268.32,
+          "fin": 268.44
+        },
+        {
+          "texte": "qu'il",
+          "debut": 268.52,
+          "fin": 268.74
+        },
+        {
+          "texte": "n'y",
+          "debut": 268.76,
+          "fin": 268.92
+        },
+        {
+          "texte": "a",
+          "debut": 268.92,
+          "fin": 269.08
+        },
+        {
+          "texte": "que",
+          "debut": 269.08,
+          "fin": 269.46
+        }
+      ]
+    },
+    {
+      "texte": "des lapins dans cette forêt.",
+      "debut": 269.52,
+      "fin": 270.51,
+      "id": "r128",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "des",
+          "debut": 269.52,
+          "fin": 269.7
+        },
+        {
+          "texte": "lapins",
+          "debut": 269.7,
+          "fin": 269.92
+        },
+        {
+          "texte": "dans",
+          "debut": 269.94,
+          "fin": 270.1
+        },
+        {
+          "texte": "cette",
+          "debut": 270.1,
+          "fin": 270.3
+        },
+        {
+          "texte": "forêt.",
+          "debut": 270.32,
+          "fin": 270.5
+        }
+      ]
+    },
+    {
+      "texte": "Quoi d'autre, alors?",
+      "debut": 270.51,
+      "fin": 271.8,
+      "id": "r129",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Quoi",
+          "debut": 270.59,
+          "fin": 270.96
+        },
+        {
+          "texte": "d'autre,",
+          "debut": 270.98,
+          "fin": 271.44
+        },
+        {
+          "texte": "alors?",
+          "debut": 271.46,
+          "fin": 271.8
+        }
+      ]
+    },
+    {
+      "texte": "Mais tout, c'est une forêt!",
+      "debut": 271.8,
+      "fin": 273.62,
+      "id": "r130",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 271.82,
+          "fin": 272.16
+        },
+        {
+          "texte": "tout,",
+          "debut": 272.18,
+          "fin": 272.36
+        },
+        {
+          "texte": "c'est",
+          "debut": 272.5,
+          "fin": 272.7
+        },
+        {
+          "texte": "une",
+          "debut": 272.72,
+          "fin": 272.92
+        },
+        {
+          "texte": "forêt!",
+          "debut": 272.96,
+          "fin": 273.6
+        }
+      ]
+    },
+    {
+      "texte": "Des faisans?",
+      "debut": 273.62,
+      "fin": 274.45,
+      "id": "r131",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 273.7,
+          "fin": 274.03
+        },
+        {
+          "texte": "faisans?",
+          "debut": 274.05,
+          "fin": 274.33
+        }
+      ]
+    },
+    {
+      "texte": "Je ne sais pas, oui.",
+      "debut": 274.48,
+      "fin": 276.11,
+      "id": "r132",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Je",
+          "debut": 275.16,
+          "fin": 275.47
+        },
+        {
+          "texte": "ne",
+          "debut": 275.47,
+          "fin": 275.61
+        },
+        {
+          "texte": "sais",
+          "debut": 275.63,
+          "fin": 275.73
+        },
+        {
+          "texte": "pas,",
+          "debut": 275.75,
+          "fin": 275.93
+        },
+        {
+          "texte": "oui.",
+          "debut": 275.95,
+          "fin": 276.11
+        }
+      ]
+    },
+    {
+      "texte": "Pourquoi pas, des faisans?",
+      "debut": 276.11,
+      "fin": 277.13,
+      "id": "r133",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Pourquoi",
+          "debut": 276.16,
+          "fin": 276.41
+        },
+        {
+          "texte": "pas,",
+          "debut": 276.46,
+          "fin": 276.63
+        },
+        {
+          "texte": "des",
+          "debut": 276.65,
+          "fin": 276.79
+        },
+        {
+          "texte": "faisans?",
+          "debut": 276.81,
+          "fin": 277.13
+        }
+      ]
+    },
+    {
+      "texte": "Y en a ou y en a pas?",
+      "debut": 277.13,
+      "fin": 278.11,
+      "id": "r134",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Y",
+          "debut": 277.2,
+          "fin": 277.29
+        },
+        {
+          "texte": "en",
+          "debut": 277.31,
+          "fin": 277.39
+        },
+        {
+          "texte": "a",
+          "debut": 277.41,
+          "fin": 277.49
+        },
+        {
+          "texte": "ou",
+          "debut": 277.51,
+          "fin": 277.61
+        },
+        {
+          "texte": "y",
+          "debut": 277.63,
+          "fin": 277.71
+        },
+        {
+          "texte": "en",
+          "debut": 277.73,
+          "fin": 277.81
+        },
+        {
+          "texte": "a",
+          "debut": 277.88,
+          "fin": 277.95
+        },
+        {
+          "texte": "pas?",
+          "debut": 277.97,
+          "fin": 278.11
+        }
+      ]
+    },
+    {
+      "texte": "Mais vous m'emmerder!",
+      "debut": 278.11,
+      "fin": 279.27,
+      "id": "r135",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 278.13,
+          "fin": 278.23
+        },
+        {
+          "texte": "vous",
+          "debut": 278.23,
+          "fin": 278.27
+        },
+        {
+          "texte": "m'emmerder!",
+          "debut": 278.31,
+          "fin": 279.15
+        }
+      ]
+    },
+    {
+      "texte": "Qu'est-ce que j'en sais moi?",
+      "debut": 279.68,
+      "fin": 280.42,
+      "id": "r136",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Qu'est-ce",
+          "debut": 279.76,
+          "fin": 279.92
+        },
+        {
+          "texte": "que",
+          "debut": 279.92,
+          "fin": 279.96
+        },
+        {
+          "texte": "j'en",
+          "debut": 280,
+          "fin": 280.24
+        },
+        {
+          "texte": "sais",
+          "debut": 280.26,
+          "fin": 280.38
+        },
+        {
+          "texte": "moi?",
+          "debut": 280.38,
+          "fin": 280.42
+        }
+      ]
+    },
+    {
+      "texte": "je ne pas garde-chasse!",
+      "debut": 280.46,
+      "fin": 281.7,
+      "id": "r137",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "je",
+          "debut": 280.46,
+          "fin": 280.5
+        },
+        {
+          "texte": "ne",
+          "debut": 280.5,
+          "fin": 280.56
+        },
+        {
+          "texte": "pas",
+          "debut": 280.56,
+          "fin": 280.64
+        },
+        {
+          "texte": "garde-chasse!",
+          "debut": 280.7,
+          "fin": 281.58
+        }
+      ]
+    },
+    {
+      "texte": "Qu'est-ce que ça peut vous foutre, d'abord?",
+      "debut": 281.88,
+      "fin": 282.92,
+      "id": "r138",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Qu'est-ce",
+          "debut": 281.96,
+          "fin": 282.1
+        },
+        {
+          "texte": "que",
+          "debut": 282.1,
+          "fin": 282.14
+        },
+        {
+          "texte": "ça",
+          "debut": 282.14,
+          "fin": 282.18
+        },
+        {
+          "texte": "peut",
+          "debut": 282.2,
+          "fin": 282.3
+        },
+        {
+          "texte": "vous",
+          "debut": 282.32,
+          "fin": 282.48
+        },
+        {
+          "texte": "foutre,",
+          "debut": 282.5,
+          "fin": 282.66
+        },
+        {
+          "texte": "d'abord?",
+          "debut": 282.68,
+          "fin": 282.92
+        }
+      ]
+    },
+    {
+      "texte": "Vous n'avez pas peur des faisans, si?",
+      "debut": 282.92,
+      "fin": 283.9,
+      "id": "r139",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 282.92,
+          "fin": 282.96
+        },
+        {
+          "texte": "n'avez",
+          "debut": 282.96,
+          "fin": 283.02
+        },
+        {
+          "texte": "pas",
+          "debut": 283.04,
+          "fin": 283.12
+        },
+        {
+          "texte": "peur",
+          "debut": 283.12,
+          "fin": 283.18
+        },
+        {
+          "texte": "des",
+          "debut": 283.2,
+          "fin": 283.34
+        },
+        {
+          "texte": "faisans,",
+          "debut": 283.36,
+          "fin": 283.62
+        },
+        {
+          "texte": "si?",
+          "debut": 283.7,
+          "fin": 283.9
+        }
+      ]
+    },
+    {
+      "texte": "Bah, si!",
+      "debut": 283.9,
+      "fin": 284.58,
+      "id": "r140",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Bah,",
+          "debut": 283.92,
+          "fin": 284.14
+        },
+        {
+          "texte": "si!",
+          "debut": 284.16,
+          "fin": 284.58
+        }
+      ]
+    },
+    {
+      "texte": "Des faisans?",
+      "debut": 284.58,
+      "fin": 285.28,
+      "id": "r141",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 284.64,
+          "fin": 284.8
+        },
+        {
+          "texte": "faisans?",
+          "debut": 284.82,
+          "fin": 285.28
+        }
+      ]
+    },
+    {
+      "texte": "Ah oui...",
+      "debut": 285.28,
+      "fin": 285.84,
+      "id": "r142",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Ah",
+          "debut": 285.34,
+          "fin": 285.46
+        },
+        {
+          "texte": "oui...",
+          "debut": 285.48,
+          "fin": 285.84
+        }
+      ]
+    },
+    {
+      "texte": "Vous avez vu la taille de ces machins?",
+      "debut": 285.84,
+      "fin": 287.46,
+      "id": "r143",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 285.86,
+          "fin": 286.02
+        },
+        {
+          "texte": "avez",
+          "debut": 286.08,
+          "fin": 286.2
+        },
+        {
+          "texte": "vu",
+          "debut": 286.24,
+          "fin": 286.34
+        },
+        {
+          "texte": "la",
+          "debut": 286.36,
+          "fin": 286.46
+        },
+        {
+          "texte": "taille",
+          "debut": 286.48,
+          "fin": 286.6
+        },
+        {
+          "texte": "de",
+          "debut": 286.6,
+          "fin": 286.76
+        },
+        {
+          "texte": "ces",
+          "debut": 286.78,
+          "fin": 286.86
+        },
+        {
+          "texte": "machins?",
+          "debut": 286.86,
+          "fin": 287.46
+        }
+      ]
+    },
+    {
+      "texte": "Les faisans, c'est des oiseaux Bohort.",
+      "debut": 288.2,
+      "fin": 290.08,
+      "id": "r145",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Les",
+          "debut": 288.46,
+          "fin": 288.74
+        },
+        {
+          "texte": "faisans,",
+          "debut": 288.82,
+          "fin": 288.92
+        },
+        {
+          "texte": "c'est",
+          "debut": 288.96,
+          "fin": 289.04
+        },
+        {
+          "texte": "des",
+          "debut": 289.04,
+          "fin": 289.24
+        },
+        {
+          "texte": "oiseaux",
+          "debut": 289.26,
+          "fin": 289.58
+        },
+        {
+          "texte": "Bohort.",
+          "debut": 289.6,
+          "fin": 290.02
+        }
+      ]
+    },
+    {
+      "texte": "Mais des oiseaux de quatre pieds de long!",
+      "debut": 290.08,
+      "fin": 291.6,
+      "id": "r146",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 290.085,
+          "fin": 290.125
+        },
+        {
+          "texte": "des",
+          "debut": 290.2,
+          "fin": 290.32
+        },
+        {
+          "texte": "oiseaux",
+          "debut": 290.34,
+          "fin": 290.62
+        },
+        {
+          "texte": "de",
+          "debut": 290.7,
+          "fin": 290.78
+        },
+        {
+          "texte": "quatre",
+          "debut": 290.78,
+          "fin": 290.92
+        },
+        {
+          "texte": "pieds",
+          "debut": 290.92,
+          "fin": 291.24
+        },
+        {
+          "texte": "de",
+          "debut": 291.24,
+          "fin": 291.32
+        },
+        {
+          "texte": "long!",
+          "debut": 291.34,
+          "fin": 291.6
+        }
+      ]
+    },
+    {
+      "texte": "J'm'excuse du peu, mais j'trouve ça parfaitement terrifiant!",
+      "debut": 291.6,
+      "fin": 293.76,
+      "id": "r147",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "J'm'excuse",
+          "debut": 291.62,
+          "fin": 291.98
+        },
+        {
+          "texte": "du",
+          "debut": 292,
+          "fin": 292.12
+        },
+        {
+          "texte": "peu,",
+          "debut": 292.14,
+          "fin": 292.2
+        },
+        {
+          "texte": "mais",
+          "debut": 292.22,
+          "fin": 292.32
+        },
+        {
+          "texte": "j'trouve",
+          "debut": 292.4,
+          "fin": 292.52
+        },
+        {
+          "texte": "ça",
+          "debut": 292.56,
+          "fin": 292.76
+        },
+        {
+          "texte": "parfaitement",
+          "debut": 292.82,
+          "fin": 293.12
+        },
+        {
+          "texte": "terrifiant!",
+          "debut": 293.14,
+          "fin": 293.76
+        }
+      ]
+    },
+    {
+      "texte": "Oui, alors là, c'est sûr, c'est pas gagné.",
+      "debut": 293.76,
+      "fin": 295.54,
+      "id": "r148",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Oui,",
+          "debut": 293.78,
+          "fin": 293.9
+        },
+        {
+          "texte": "alors",
+          "debut": 293.92,
+          "fin": 294.06
+        },
+        {
+          "texte": "là,",
+          "debut": 294.08,
+          "fin": 294.22
+        },
+        {
+          "texte": "c'est",
+          "debut": 294.24,
+          "fin": 294.44
+        },
+        {
+          "texte": "sûr,",
+          "debut": 294.46,
+          "fin": 294.66
+        },
+        {
+          "texte": "c'est",
+          "debut": 294.7,
+          "fin": 295.06
+        },
+        {
+          "texte": "pas",
+          "debut": 295.08,
+          "fin": 295.18
+        },
+        {
+          "texte": "gagné.",
+          "debut": 295.2,
+          "fin": 295.48
+        }
+      ]
+    },
+    {
+      "texte": "Un faisan blessé?",
+      "debut": 295.54,
+      "fin": 296.84,
+      "id": "r149",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Un",
+          "debut": 295.62,
+          "fin": 295.79
+        },
+        {
+          "texte": "faisan",
+          "debut": 295.79,
+          "fin": 295.96
+        },
+        {
+          "texte": "blessé?",
+          "debut": 295.98,
+          "fin": 296.84
+        }
+      ]
+    },
+    {
+      "texte": "Il paraît qu'il a plus peur de l'homme et qu'il peut venir vous picorer!",
+      "debut": 296.84,
+      "fin": 299.72,
+      "id": "r150",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Il",
+          "debut": 296.84,
+          "fin": 296.88
+        },
+        {
+          "texte": "paraît",
+          "debut": 296.9,
+          "fin": 297.14
+        },
+        {
+          "texte": "qu'il",
+          "debut": 297.14,
+          "fin": 297.32
+        },
+        {
+          "texte": "a",
+          "debut": 297.32,
+          "fin": 297.42
+        },
+        {
+          "texte": "plus",
+          "debut": 297.44,
+          "fin": 297.54
+        },
+        {
+          "texte": "peur",
+          "debut": 297.56,
+          "fin": 297.7
+        },
+        {
+          "texte": "de",
+          "debut": 297.72,
+          "fin": 297.82
+        },
+        {
+          "texte": "l'homme",
+          "debut": 297.84,
+          "fin": 297.96
+        },
+        {
+          "texte": "et",
+          "debut": 297.98,
+          "fin": 298.18
+        },
+        {
+          "texte": "qu'il",
+          "debut": 298.18,
+          "fin": 298.38
+        },
+        {
+          "texte": "peut",
+          "debut": 298.38,
+          "fin": 298.42
+        },
+        {
+          "texte": "venir",
+          "debut": 298.46,
+          "fin": 298.68
+        },
+        {
+          "texte": "vous",
+          "debut": 298.7,
+          "fin": 298.9
+        },
+        {
+          "texte": "picorer!",
+          "debut": 298.92,
+          "fin": 299.6
+        }
+      ]
+    },
+    {
+      "texte": "Bon, remettons qu'il n'y a pas de faisans.",
+      "debut": 299.86,
+      "fin": 301.17,
+      "id": "r151",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Bon,",
+          "debut": 299.94,
+          "fin": 300.11
+        },
+        {
+          "texte": "remettons",
+          "debut": 300.13,
+          "fin": 300.39
+        },
+        {
+          "texte": "qu'il",
+          "debut": 300.46,
+          "fin": 300.53
+        },
+        {
+          "texte": "n'y",
+          "debut": 300.53,
+          "fin": 300.57
+        },
+        {
+          "texte": "a",
+          "debut": 300.57,
+          "fin": 300.61
+        },
+        {
+          "texte": "pas",
+          "debut": 300.61,
+          "fin": 300.67
+        },
+        {
+          "texte": "de",
+          "debut": 300.67,
+          "fin": 300.81
+        },
+        {
+          "texte": "faisans.",
+          "debut": 300.83,
+          "fin": 301.05
+        }
+      ]
+    },
+    {
+      "texte": "Vous dites ça me rassurer?",
+      "debut": 302.46,
+      "fin": 303.34,
+      "id": "r152",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 302.5,
+          "fin": 302.541
+        },
+        {
+          "texte": "dites",
+          "debut": 302.541,
+          "fin": 302.581
+        },
+        {
+          "texte": "ça",
+          "debut": 302.622,
+          "fin": 302.663
+        },
+        {
+          "texte": "me",
+          "debut": 302.805,
+          "fin": 302.866
+        },
+        {
+          "texte": "rassurer?",
+          "debut": 303,
+          "fin": 303.191
+        }
+      ]
+    },
+    {
+      "texte": "Non, pas du tout.",
+      "debut": 303.34,
+      "fin": 304.12,
+      "id": "r153",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 303.36,
+          "fin": 303.52
+        },
+        {
+          "texte": "pas",
+          "debut": 303.6,
+          "fin": 303.7
+        },
+        {
+          "texte": "du",
+          "debut": 303.72,
+          "fin": 303.84
+        },
+        {
+          "texte": "tout.",
+          "debut": 303.86,
+          "fin": 304
+        }
+      ]
+    },
+    {
+      "texte": "Tenez, ici, c'est le territoire de chasse du Seigneur Dagonet.",
+      "debut": 304.16,
+      "fin": 306.4,
+      "id": "r154",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Tenez,",
+          "debut": 304.24,
+          "fin": 304.46
+        },
+        {
+          "texte": "ici,",
+          "debut": 304.62,
+          "fin": 304.76
+        },
+        {
+          "texte": "c'est",
+          "debut": 304.8,
+          "fin": 304.9
+        },
+        {
+          "texte": "le",
+          "debut": 304.9,
+          "fin": 305.02
+        },
+        {
+          "texte": "territoire",
+          "debut": 305.02,
+          "fin": 305.32
+        },
+        {
+          "texte": "de",
+          "debut": 305.32,
+          "fin": 305.48
+        },
+        {
+          "texte": "chasse",
+          "debut": 305.48,
+          "fin": 305.54
+        },
+        {
+          "texte": "du",
+          "debut": 305.54,
+          "fin": 305.68
+        },
+        {
+          "texte": "Seigneur",
+          "debut": 305.7,
+          "fin": 305.92
+        },
+        {
+          "texte": "Dagonet.",
+          "debut": 305.96,
+          "fin": 306.28
+        }
+      ]
+    },
+    {
+      "texte": "Le Seigneur Dagonet, vous le savez bien, quand il chasse des bestioles,",
+      "debut": 306.58,
+      "fin": 309.02,
+      "id": "r155",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Le",
+          "debut": 306.66,
+          "fin": 306.74
+        },
+        {
+          "texte": "Seigneur",
+          "debut": 306.76,
+          "fin": 306.96
+        },
+        {
+          "texte": "Dagonet,",
+          "debut": 306.98,
+          "fin": 307.32
+        },
+        {
+          "texte": "vous",
+          "debut": 307.34,
+          "fin": 307.44
+        },
+        {
+          "texte": "le",
+          "debut": 307.44,
+          "fin": 307.5
+        },
+        {
+          "texte": "savez",
+          "debut": 307.52,
+          "fin": 307.6
+        },
+        {
+          "texte": "bien,",
+          "debut": 307.62,
+          "fin": 307.84
+        },
+        {
+          "texte": "quand",
+          "debut": 307.91,
+          "fin": 308.2
+        },
+        {
+          "texte": "il",
+          "debut": 308.22,
+          "fin": 308.3
+        },
+        {
+          "texte": "chasse",
+          "debut": 308.32,
+          "fin": 308.44
+        },
+        {
+          "texte": "des",
+          "debut": 308.46,
+          "fin": 308.6
+        },
+        {
+          "texte": "bestioles,",
+          "debut": 308.6,
+          "fin": 309.02
+        }
+      ]
+    },
+    {
+      "texte": "il les empaille et il les expose chez lui.",
+      "debut": 309.06,
+      "fin": 310.78,
+      "id": "r156",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "il",
+          "debut": 309.06,
+          "fin": 309.18
+        },
+        {
+          "texte": "les",
+          "debut": 309.18,
+          "fin": 309.249
+        },
+        {
+          "texte": "empaille",
+          "debut": 309.292,
+          "fin": 309.74
+        },
+        {
+          "texte": "et",
+          "debut": 309.8,
+          "fin": 309.88
+        },
+        {
+          "texte": "il",
+          "debut": 309.9,
+          "fin": 309.96
+        },
+        {
+          "texte": "les",
+          "debut": 310.02,
+          "fin": 310.14
+        },
+        {
+          "texte": "expose",
+          "debut": 310.2,
+          "fin": 310.34
+        },
+        {
+          "texte": "chez",
+          "debut": 310.42,
+          "fin": 310.54
+        },
+        {
+          "texte": "lui.",
+          "debut": 310.56,
+          "fin": 310.66
+        }
+      ]
+    },
+    {
+      "texte": "(Kr) Bon ben voilà, je ne me",
+      "debut": 310.8,
+      "fin": 312.22,
+      "id": "r157",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 310.88,
+          "fin": 310.96
+        },
+        {
+          "texte": "Bon",
+          "debut": 311.04,
+          "fin": 311.18
+        },
+        {
+          "texte": "ben",
+          "debut": 311.2,
+          "fin": 311.3
+        },
+        {
+          "texte": "voilà,",
+          "debut": 311.32,
+          "fin": 311.5
+        },
+        {
+          "texte": "je",
+          "debut": 311.86,
+          "fin": 311.94
+        },
+        {
+          "texte": "ne",
+          "debut": 312,
+          "fin": 312.04
+        },
+        {
+          "texte": "me",
+          "debut": 312.04,
+          "fin": 312.22
+        }
+      ]
+    },
+    {
+      "texte": "souviens pas avoir vu de faisans empaillés chez Dagonnet.",
+      "debut": 312.24,
+      "fin": 314.64,
+      "id": "r158",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "souviens",
+          "debut": 312.24,
+          "fin": 312.46
+        },
+        {
+          "texte": "pas",
+          "debut": 312.48,
+          "fin": 312.62
+        },
+        {
+          "texte": "avoir",
+          "debut": 312.64,
+          "fin": 312.8
+        },
+        {
+          "texte": "vu",
+          "debut": 312.84,
+          "fin": 313.06
+        },
+        {
+          "texte": "de",
+          "debut": 313.08,
+          "fin": 313.32
+        },
+        {
+          "texte": "faisans",
+          "debut": 313.34,
+          "fin": 313.6
+        },
+        {
+          "texte": "empaillés",
+          "debut": 313.68,
+          "fin": 313.94
+        },
+        {
+          "texte": "chez",
+          "debut": 314,
+          "fin": 314.08
+        },
+        {
+          "texte": "Dagonnet.",
+          "debut": 314.1,
+          "fin": 314.52
+        }
+      ]
+    },
+    {
+      "texte": "Alors qu'est-ce que vous avez vu comme bêtes empaillées",
+      "debut": 314.64,
+      "fin": 316.8,
+      "id": "r159",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Alors",
+          "debut": 314.72,
+          "fin": 315
+        },
+        {
+          "texte": "qu'est-ce",
+          "debut": 315.08,
+          "fin": 315.28
+        },
+        {
+          "texte": "que",
+          "debut": 315.3,
+          "fin": 315.36
+        },
+        {
+          "texte": "vous",
+          "debut": 315.42,
+          "fin": 315.48
+        },
+        {
+          "texte": "avez",
+          "debut": 315.5,
+          "fin": 315.64
+        },
+        {
+          "texte": "vu",
+          "debut": 315.66,
+          "fin": 315.8
+        },
+        {
+          "texte": "comme",
+          "debut": 315.82,
+          "fin": 315.98
+        },
+        {
+          "texte": "bêtes",
+          "debut": 316,
+          "fin": 316.16
+        },
+        {
+          "texte": "empaillées",
+          "debut": 316.18,
+          "fin": 316.68
+        }
+      ]
+    },
+    {
+      "texte": "Des lapins.",
+      "debut": 317.7,
+      "fin": 318.3,
+      "id": "r161",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 317.72,
+          "fin": 317.84
+        },
+        {
+          "texte": "lapins.",
+          "debut": 317.86,
+          "fin": 318.18
+        }
+      ]
+    },
+    {
+      "texte": "Des lapins adultes?",
+      "debut": 320.58,
+      "fin": 321.68,
+      "id": "r162",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 320.66,
+          "fin": 320.78
+        },
+        {
+          "texte": "lapins",
+          "debut": 320.8,
+          "fin": 321.1
+        },
+        {
+          "texte": "adultes?",
+          "debut": 321.18,
+          "fin": 321.56
+        }
+      ]
+    },
+    {
+      "texte": "Non.",
+      "debut": 322.08,
+      "fin": 322.51,
+      "id": "r163",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non.",
+          "debut": 322.185,
+          "fin": 322.513
+        }
+      ]
+    },
+    {
+      "texte": "Maintenant que vous me le dites, non, c'était plutôt des jeunes.",
+      "debut": 323.62,
+      "fin": 326.16,
+      "id": "r165",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Maintenant",
+          "debut": 323.7,
+          "fin": 324.06
+        },
+        {
+          "texte": "que",
+          "debut": 324.08,
+          "fin": 324.2
+        },
+        {
+          "texte": "vous",
+          "debut": 324.2,
+          "fin": 324.26
+        },
+        {
+          "texte": "me",
+          "debut": 324.28,
+          "fin": 324.34
+        },
+        {
+          "texte": "le",
+          "debut": 324.36,
+          "fin": 324.46
+        },
+        {
+          "texte": "dites,",
+          "debut": 324.48,
+          "fin": 324.66
+        },
+        {
+          "texte": "non,",
+          "debut": 325.07,
+          "fin": 325.3
+        },
+        {
+          "texte": "c'était",
+          "debut": 325.38,
+          "fin": 325.48
+        },
+        {
+          "texte": "plutôt",
+          "debut": 325.5,
+          "fin": 325.68
+        },
+        {
+          "texte": "des",
+          "debut": 325.7,
+          "fin": 325.86
+        },
+        {
+          "texte": "jeunes.",
+          "debut": 325.88,
+          "fin": 326.04
+        }
+      ]
+    },
+    {
+      "texte": "Des jeunes lapins?",
+      "debut": 326.62,
+      "fin": 327.54,
+      "id": "r166",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 326.7,
+          "fin": 326.88
+        },
+        {
+          "texte": "jeunes",
+          "debut": 326.9,
+          "fin": 327.1
+        },
+        {
+          "texte": "lapins?",
+          "debut": 327.12,
+          "fin": 327.54
+        }
+      ]
+    },
+    {
+      "texte": "Oui voilà.",
+      "debut": 327.54,
+      "fin": 328,
+      "id": "r167",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Oui",
+          "debut": 327.56,
+          "fin": 327.66
+        },
+        {
+          "texte": "voilà.",
+          "debut": 327.68,
+          "fin": 327.88
+        }
+      ]
+    },
+    {
+      "texte": "Et quoi d'autre?",
+      "debut": 328.33,
+      "fin": 329.85,
+      "id": "r168",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 328.41,
+          "fin": 328.68
+        },
+        {
+          "texte": "quoi",
+          "debut": 328.7,
+          "fin": 328.8
+        },
+        {
+          "texte": "d'autre?",
+          "debut": 328.82,
+          "fin": 329.04
+        }
+      ]
+    },
+    {
+      "texte": "Non, non, là comme ça, je me souviens surtout des lapins.",
+      "debut": 329.85,
+      "fin": 333.47,
+      "id": "r169",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non,",
+          "debut": 329.87,
+          "fin": 330.07
+        },
+        {
+          "texte": "non,",
+          "debut": 330.54,
+          "fin": 330.85
+        },
+        {
+          "texte": "là",
+          "debut": 331.04,
+          "fin": 331.35
+        },
+        {
+          "texte": "comme",
+          "debut": 331.4,
+          "fin": 331.55
+        },
+        {
+          "texte": "ça,",
+          "debut": 331.6,
+          "fin": 332.42
+        },
+        {
+          "texte": "je",
+          "debut": 332.43,
+          "fin": 332.47
+        },
+        {
+          "texte": "me",
+          "debut": 332.47,
+          "fin": 332.61
+        },
+        {
+          "texte": "souviens",
+          "debut": 332.63,
+          "fin": 332.75
+        },
+        {
+          "texte": "surtout",
+          "debut": 332.75,
+          "fin": 332.95
+        },
+        {
+          "texte": "des",
+          "debut": 332.97,
+          "fin": 333.05
+        },
+        {
+          "texte": "lapins.",
+          "debut": 333.07,
+          "fin": 333.35
+        }
+      ]
+    },
+    {
+      "texte": "Des jeunes lapins.",
+      "debut": 333.7,
+      "fin": 334.66,
+      "id": "r170",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 333.78,
+          "fin": 334.08
+        },
+        {
+          "texte": "jeunes",
+          "debut": 334.12,
+          "fin": 334.24
+        },
+        {
+          "texte": "lapins.",
+          "debut": 334.26,
+          "fin": 334.54
+        }
+      ]
+    },
+    {
+      "texte": "(musique) Ouais, non, ça d'accord.",
+      "debut": 336.84,
+      "fin": 340.58,
+      "id": "r171",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 336.92,
+          "fin": 339.4
+        },
+        {
+          "texte": "Ouais,",
+          "debut": 339.45,
+          "fin": 339.84
+        },
+        {
+          "texte": "non,",
+          "debut": 339.86,
+          "fin": 340.02
+        },
+        {
+          "texte": "ça",
+          "debut": 340.04,
+          "fin": 340.14
+        },
+        {
+          "texte": "d'accord.",
+          "debut": 340.16,
+          "fin": 340.5
+        }
+      ]
+    },
+    {
+      "texte": "Ça d'accord, ça c'est un lapin adulte ça.",
+      "debut": 340.58,
+      "fin": 342.18,
+      "id": "r172",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ça",
+          "debut": 340.66,
+          "fin": 340.78
+        },
+        {
+          "texte": "d'accord,",
+          "debut": 340.8,
+          "fin": 340.96
+        },
+        {
+          "texte": "ça",
+          "debut": 341.02,
+          "fin": 341.12
+        },
+        {
+          "texte": "c'est",
+          "debut": 341.18,
+          "fin": 341.28
+        },
+        {
+          "texte": "un",
+          "debut": 341.3,
+          "fin": 341.4
+        },
+        {
+          "texte": "lapin",
+          "debut": 341.48,
+          "fin": 341.64
+        },
+        {
+          "texte": "adulte",
+          "debut": 341.66,
+          "fin": 341.9
+        },
+        {
+          "texte": "ça.",
+          "debut": 341.9,
+          "fin": 342.06
+        }
+      ]
+    },
+    {
+      "texte": "Vous voulez vraiment pas aller vous coucher?",
+      "debut": 346.05,
+      "fin": 348.14,
+      "id": "r173",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 346.13,
+          "fin": 346.28
+        },
+        {
+          "texte": "voulez",
+          "debut": 346.3,
+          "fin": 346.52
+        },
+        {
+          "texte": "vraiment",
+          "debut": 346.54,
+          "fin": 346.92
+        },
+        {
+          "texte": "pas",
+          "debut": 347,
+          "fin": 347.18
+        },
+        {
+          "texte": "aller",
+          "debut": 347.22,
+          "fin": 347.38
+        },
+        {
+          "texte": "vous",
+          "debut": 347.4,
+          "fin": 347.54
+        },
+        {
+          "texte": "coucher?",
+          "debut": 347.56,
+          "fin": 348.14
+        }
+      ]
+    },
+    {
+      "texte": "J'irais me coucher quand vous m'aurez juré qu'il n'y a dans cette forêt pas",
+      "debut": 348.14,
+      "fin": 350.52,
+      "id": "r174",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "J'irais",
+          "debut": 348.14,
+          "fin": 348.38
+        },
+        {
+          "texte": "me",
+          "debut": 348.38,
+          "fin": 348.52
+        },
+        {
+          "texte": "coucher",
+          "debut": 348.54,
+          "fin": 348.82
+        },
+        {
+          "texte": "quand",
+          "debut": 348.86,
+          "fin": 348.96
+        },
+        {
+          "texte": "vous",
+          "debut": 348.98,
+          "fin": 349.12
+        },
+        {
+          "texte": "m'aurez",
+          "debut": 349.14,
+          "fin": 349.38
+        },
+        {
+          "texte": "juré",
+          "debut": 349.4,
+          "fin": 349.6
+        },
+        {
+          "texte": "qu'il",
+          "debut": 349.64,
+          "fin": 349.78
+        },
+        {
+          "texte": "n'y",
+          "debut": 349.78,
+          "fin": 349.82
+        },
+        {
+          "texte": "a",
+          "debut": 349.82,
+          "fin": 349.86
+        },
+        {
+          "texte": "dans",
+          "debut": 349.86,
+          "fin": 349.98
+        },
+        {
+          "texte": "cette",
+          "debut": 350.02,
+          "fin": 350.18
+        },
+        {
+          "texte": "forêt",
+          "debut": 350.2,
+          "fin": 350.4
+        },
+        {
+          "texte": "pas",
+          "debut": 350.42,
+          "fin": 350.52
+        }
+      ]
+    },
+    {
+      "texte": "d'animal plus dangereux que le lapin adulte.",
+      "debut": 350.52,
+      "fin": 352.36,
+      "id": "r175",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "d'animal",
+          "debut": 350.54,
+          "fin": 350.86
+        },
+        {
+          "texte": "plus",
+          "debut": 350.94,
+          "fin": 351.06
+        },
+        {
+          "texte": "dangereux",
+          "debut": 351.08,
+          "fin": 351.38
+        },
+        {
+          "texte": "que",
+          "debut": 351.44,
+          "fin": 351.52
+        },
+        {
+          "texte": "le",
+          "debut": 351.54,
+          "fin": 351.68
+        },
+        {
+          "texte": "lapin",
+          "debut": 351.7,
+          "fin": 352.06
+        },
+        {
+          "texte": "adulte.",
+          "debut": 352.14,
+          "fin": 352.36
+        }
+      ]
+    },
+    {
+      "texte": "(Kr) Je jure, voilà.",
+      "debut": 352.36,
+      "fin": 353.46,
+      "id": "r176",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 352.41,
+          "fin": 352.49
+        },
+        {
+          "texte": "Je",
+          "debut": 352.54,
+          "fin": 352.74
+        },
+        {
+          "texte": "jure,",
+          "debut": 352.78,
+          "fin": 353.08
+        },
+        {
+          "texte": "voilà.",
+          "debut": 353.16,
+          "fin": 353.42
+        }
+      ]
+    },
+    {
+      "texte": "Vous êtes contents?",
+      "debut": 353.46,
+      "fin": 354.04,
+      "id": "r177",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 353.54,
+          "fin": 353.6
+        },
+        {
+          "texte": "êtes",
+          "debut": 353.62,
+          "fin": 353.76
+        },
+        {
+          "texte": "contents?",
+          "debut": 353.78,
+          "fin": 354.04
+        }
+      ]
+    },
+    {
+      "texte": "Je jure.",
+      "debut": 354.04,
+      "fin": 354.58,
+      "id": "r178",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Je",
+          "debut": 354.06,
+          "fin": 354.2
+        },
+        {
+          "texte": "jure.",
+          "debut": 354.26,
+          "fin": 354.58
+        }
+      ]
+    },
+    {
+      "texte": "À part le lapin adulte, il n'y a rien de dangereux dans cette forêt.",
+      "debut": 354.58,
+      "fin": 357.36,
+      "id": "r179",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "À",
+          "debut": 354.6,
+          "fin": 354.74
+        },
+        {
+          "texte": "part",
+          "debut": 354.76,
+          "fin": 354.86
+        },
+        {
+          "texte": "le",
+          "debut": 354.88,
+          "fin": 355.08
+        },
+        {
+          "texte": "lapin",
+          "debut": 355.16,
+          "fin": 355.44
+        },
+        {
+          "texte": "adulte,",
+          "debut": 355.44,
+          "fin": 355.76
+        },
+        {
+          "texte": "il",
+          "debut": 355.78,
+          "fin": 355.92
+        },
+        {
+          "texte": "n'y",
+          "debut": 355.94,
+          "fin": 356
+        },
+        {
+          "texte": "a",
+          "debut": 356,
+          "fin": 356.04
+        },
+        {
+          "texte": "rien",
+          "debut": 356.06,
+          "fin": 356.2
+        },
+        {
+          "texte": "de",
+          "debut": 356.22,
+          "fin": 356.4
+        },
+        {
+          "texte": "dangereux",
+          "debut": 356.42,
+          "fin": 356.62
+        },
+        {
+          "texte": "dans",
+          "debut": 356.64,
+          "fin": 356.78
+        },
+        {
+          "texte": "cette",
+          "debut": 356.8,
+          "fin": 356.96
+        },
+        {
+          "texte": "forêt.",
+          "debut": 356.98,
+          "fin": 357.24
+        }
+      ]
+    },
+    {
+      "texte": "(Kr) Pas de faisant.",
+      "debut": 357.74,
+      "fin": 358.54,
+      "id": "r180",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "(Kr)",
+          "debut": 357.82,
+          "fin": 357.88
+        },
+        {
+          "texte": "Pas",
+          "debut": 357.96,
+          "fin": 358.08
+        },
+        {
+          "texte": "de",
+          "debut": 358.08,
+          "fin": 358.18
+        },
+        {
+          "texte": "faisant.",
+          "debut": 358.26,
+          "fin": 358.46
+        }
+      ]
+    },
+    {
+      "texte": "Pas de faisant.",
+      "debut": 358.54,
+      "fin": 359.22,
+      "id": "r181",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Pas",
+          "debut": 358.62,
+          "fin": 358.76
+        },
+        {
+          "texte": "de",
+          "debut": 358.76,
+          "fin": 358.86
+        },
+        {
+          "texte": "faisant.",
+          "debut": 358.94,
+          "fin": 359.1
+        }
+      ]
+    },
+    {
+      "texte": "Pas de belette",
+      "debut": 359.56,
+      "fin": 360.12,
+      "id": "r182",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Pas",
+          "debut": 359.64,
+          "fin": 359.76
+        },
+        {
+          "texte": "de",
+          "debut": 359.78,
+          "fin": 359.88
+        },
+        {
+          "texte": "belette",
+          "debut": 359.9,
+          "fin": 360.12
+        }
+      ]
+    },
+    {
+      "texte": "Non.",
+      "debut": 360.16,
+      "fin": 360.46,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non.",
+          "debut": 360.16,
+          "fin": 360.46
+        }
+      ]
+    },
+    {
+      "texte": "Des petits furets?",
+      "debut": 360.96,
+      "fin": 361.67,
+      "id": "r183",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 361.04,
+          "fin": 361.14
+        },
+        {
+          "texte": "petits",
+          "debut": 361.14,
+          "fin": 361.34
+        },
+        {
+          "texte": "furets?",
+          "debut": 361.36,
+          "fin": 361.668
+        }
+      ]
+    },
+    {
+      "texte": "Non plus.",
+      "debut": 361.68,
+      "fin": 362.14,
+      "id": "r184",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Non",
+          "debut": 361.683,
+          "fin": 361.82
+        },
+        {
+          "texte": "plus.",
+          "debut": 361.84,
+          "fin": 362.06
+        }
+      ]
+    },
+    {
+      "texte": "souriceaux?",
+      "debut": 362.14,
+      "fin": 363.08,
+      "id": "r185",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "souriceaux?",
+          "debut": 362.22,
+          "fin": 363.08
+        }
+      ]
+    },
+    {
+      "texte": "Pas que je sache.",
+      "debut": 363.08,
+      "fin": 363.8,
+      "id": "r186",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Pas",
+          "debut": 363.14,
+          "fin": 363.22
+        },
+        {
+          "texte": "que",
+          "debut": 363.22,
+          "fin": 363.34
+        },
+        {
+          "texte": "je",
+          "debut": 363.34,
+          "fin": 363.48
+        },
+        {
+          "texte": "sache.",
+          "debut": 363.5,
+          "fin": 363.72
+        }
+      ]
+    },
+    {
+      "texte": "Des gerbilles?",
+      "debut": 363.8,
+      "fin": 364.71,
+      "id": "r187",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Des",
+          "debut": 363.88,
+          "fin": 364.1
+        },
+        {
+          "texte": "gerbilles?",
+          "debut": 364.14,
+          "fin": 364.708
+        }
+      ]
+    },
+    {
+      "texte": "(brrr)",
+      "debut": 364.73,
+      "fin": 364.88,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "(brrr)",
+          "debut": 364.734,
+          "fin": 364.876
+        }
+      ]
+    },
+    {
+      "texte": "Une petite gerbille?",
+      "debut": 365.76,
+      "fin": 366.97,
+      "id": "r188",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Une",
+          "debut": 365.76,
+          "fin": 366.01
+        },
+        {
+          "texte": "petite",
+          "debut": 366.01,
+          "fin": 366.45
+        },
+        {
+          "texte": "gerbille?",
+          "debut": 366.45,
+          "fin": 366.97
+        }
+      ]
+    },
+    {
+      "texte": "Rien du tout.",
+      "debut": 366.97,
+      "fin": 367.65,
+      "id": "r189",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Rien",
+          "debut": 366.97,
+          "fin": 367.19
+        },
+        {
+          "texte": "du",
+          "debut": 367.19,
+          "fin": 367.37
+        },
+        {
+          "texte": "tout.",
+          "debut": 367.39,
+          "fin": 367.53
+        }
+      ]
+    },
+    {
+      "texte": "Qu'est-ce vous bricolez, à cette heure?",
+      "debut": 369.36,
+      "fin": 371.06,
+      "id": "r190",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Qu'est-ce",
+          "debut": 369.44,
+          "fin": 369.74
+        },
+        {
+          "texte": "vous",
+          "debut": 369.76,
+          "fin": 369.82
+        },
+        {
+          "texte": "bricolez,",
+          "debut": 369.84,
+          "fin": 370.296
+        },
+        {
+          "texte": "à",
+          "debut": 370.296,
+          "fin": 370.457
+        },
+        {
+          "texte": "cette",
+          "debut": 370.457,
+          "fin": 370.553
+        },
+        {
+          "texte": "heure?",
+          "debut": 370.553,
+          "fin": 370.683
+        }
+      ]
+    },
+    {
+      "texte": "Vous roupillez pas?",
+      "debut": 371.36,
+      "fin": 372.39,
+      "id": "r191",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Vous",
+          "debut": 371.44,
+          "fin": 371.51
+        },
+        {
+          "texte": "roupillez",
+          "debut": 371.51,
+          "fin": 371.91
+        },
+        {
+          "texte": "pas?",
+          "debut": 371.93,
+          "fin": 372.27
+        }
+      ]
+    },
+    {
+      "texte": "On discutait.",
+      "debut": 372.78,
+      "fin": 373.92,
+      "id": "r192",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "On",
+          "debut": 372.86,
+          "fin": 373.12
+        },
+        {
+          "texte": "discutait.",
+          "debut": 373.14,
+          "fin": 373.8
+        }
+      ]
+    },
+    {
+      "texte": "De choses et d'autres?",
+      "debut": 374.35,
+      "fin": 375.4,
+      "id": "r193",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "De",
+          "debut": 374.38,
+          "fin": 374.56
+        },
+        {
+          "texte": "choses",
+          "debut": 374.58,
+          "fin": 374.74
+        },
+        {
+          "texte": "et",
+          "debut": 374.76,
+          "fin": 374.96
+        },
+        {
+          "texte": "d'autres?",
+          "debut": 374.98,
+          "fin": 375.4
+        }
+      ]
+    },
+    {
+      "texte": "Et vous?",
+      "debut": 375.4,
+      "fin": 376.34,
+      "id": "r194",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 375.42,
+          "fin": 375.78
+        },
+        {
+          "texte": "vous?",
+          "debut": 375.8,
+          "fin": 376.22
+        }
+      ]
+    },
+    {
+      "texte": "M'en parlez pas.",
+      "debut": 376.62,
+      "fin": 377.54,
+      "id": "r195",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "M'en",
+          "debut": 376.776,
+          "fin": 376.856
+        },
+        {
+          "texte": "parlez",
+          "debut": 376.91,
+          "fin": 377.18
+        },
+        {
+          "texte": "pas.",
+          "debut": 377.2,
+          "fin": 377.42
+        }
+      ]
+    },
+    {
+      "texte": "Je pars pars pisser, Pan!",
+      "debut": 377.9,
+      "fin": 379,
+      "id": "r196",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Je",
+          "debut": 377.98,
+          "fin": 378.05
+        },
+        {
+          "texte": "pars",
+          "debut": 378.09,
+          "fin": 378.19
+        },
+        {
+          "texte": "pars",
+          "debut": 378.19,
+          "fin": 378.23
+        },
+        {
+          "texte": "pisser,",
+          "debut": 378.23,
+          "fin": 378.59
+        },
+        {
+          "texte": "Pan!",
+          "debut": 378.59,
+          "fin": 378.95
+        }
+      ]
+    },
+    {
+      "texte": "Un ours d'une toise et demie qui me tombe sur le râble?",
+      "debut": 379,
+      "fin": 381.51,
+      "id": "r197",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Un",
+          "debut": 379.08,
+          "fin": 379.25
+        },
+        {
+          "texte": "ours",
+          "debut": 379.27,
+          "fin": 379.41
+        },
+        {
+          "texte": "d'une",
+          "debut": 379.43,
+          "fin": 379.63
+        },
+        {
+          "texte": "toise",
+          "debut": 379.7,
+          "fin": 379.81
+        },
+        {
+          "texte": "et",
+          "debut": 379.81,
+          "fin": 379.87
+        },
+        {
+          "texte": "demie",
+          "debut": 379.89,
+          "fin": 380.09
+        },
+        {
+          "texte": "qui",
+          "debut": 380.16,
+          "fin": 380.23
+        },
+        {
+          "texte": "me",
+          "debut": 380.23,
+          "fin": 380.33
+        },
+        {
+          "texte": "tombe",
+          "debut": 380.35,
+          "fin": 380.45
+        },
+        {
+          "texte": "sur",
+          "debut": 380.47,
+          "fin": 380.57
+        },
+        {
+          "texte": "le",
+          "debut": 380.59,
+          "fin": 380.67
+        },
+        {
+          "texte": "râble?",
+          "debut": 380.69,
+          "fin": 380.81
+        }
+      ]
+    },
+    {
+      "texte": "Mais non, non.",
+      "debut": 381.51,
+      "fin": 382.73,
+      "id": "r198",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Mais",
+          "debut": 381.53,
+          "fin": 381.81
+        },
+        {
+          "texte": "non,",
+          "debut": 381.83,
+          "fin": 382.4
+        },
+        {
+          "texte": "non.",
+          "debut": 382.57,
+          "fin": 382.61
+        }
+      ]
+    },
+    {
+      "texte": "C'était un lapin adulte",
+      "debut": 383.32,
+      "fin": 384.96,
+      "id": "r199",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "C'était",
+          "debut": 383.4,
+          "fin": 383.74
+        },
+        {
+          "texte": "un",
+          "debut": 383.76,
+          "fin": 383.88
+        },
+        {
+          "texte": "lapin",
+          "debut": 383.9,
+          "fin": 384.42
+        },
+        {
+          "texte": "adulte",
+          "debut": 384.56,
+          "fin": 384.84
+        }
+      ]
+    },
+    {
+      "texte": "non.",
+      "debut": 385.95,
+      "fin": 386.32,
+      "id": "r200",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "non.",
+          "debut": 386.03,
+          "fin": 386.2
+        }
+      ]
+    },
+    {
+      "texte": "Un ours.",
+      "debut": 386.66,
+      "fin": 387.26,
+      "id": "r201",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Un",
+          "debut": 386.74,
+          "fin": 386.9
+        },
+        {
+          "texte": "ours.",
+          "debut": 386.92,
+          "fin": 387.14
+        }
+      ]
+    },
+    {
+      "texte": "(il_tombe)",
+      "debut": 390.06,
+      "fin": 390.74,
+      "id": "r202",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(il_tombe)",
+          "debut": 390.14,
+          "fin": 390.62
+        }
+      ]
+    },
+    {
+      "texte": "(musique)",
+      "debut": 393.85,
+      "fin": 399.1,
+      "id": "r203",
+      "personnage": 3,
+      "mots": [
+        {
+          "texte": "(musique)",
+          "debut": 394.156,
+          "fin": 399.022
+        }
+      ]
+    },
+    {
+      "texte": "Quand je dis un ours, (euh)",
+      "debut": 399.68,
+      "fin": 401.02,
+      "id": "r204",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Quand",
+          "debut": 399.76,
+          "fin": 399.89
+        },
+        {
+          "texte": "je",
+          "debut": 399.89,
+          "fin": 399.99
+        },
+        {
+          "texte": "dis",
+          "debut": 399.99,
+          "fin": 400.07
+        },
+        {
+          "texte": "un",
+          "debut": 400.09,
+          "fin": 400.25
+        },
+        {
+          "texte": "ours,",
+          "debut": 400.27,
+          "fin": 400.72
+        },
+        {
+          "texte": "(euh)",
+          "debut": 400.77,
+          "fin": 400.9
+        }
+      ]
+    },
+    {
+      "texte": "c'est pour frimer, c'était dans le noir.",
+      "debut": 401.44,
+      "fin": 402.91,
+      "id": "r205",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "c'est",
+          "debut": 401.52,
+          "fin": 401.65
+        },
+        {
+          "texte": "pour",
+          "debut": 401.67,
+          "fin": 401.81
+        },
+        {
+          "texte": "frimer,",
+          "debut": 401.84,
+          "fin": 402.11
+        },
+        {
+          "texte": "c'était",
+          "debut": 402.16,
+          "fin": 402.33
+        },
+        {
+          "texte": "dans",
+          "debut": 402.36,
+          "fin": 402.49
+        },
+        {
+          "texte": "le",
+          "debut": 402.51,
+          "fin": 402.61
+        },
+        {
+          "texte": "noir.",
+          "debut": 402.63,
+          "fin": 402.79
+        }
+      ]
+    },
+    {
+      "texte": "J'ai pas bien vu.",
+      "debut": 403.14,
+      "fin": 403.76,
+      "id": "r206",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "J'ai",
+          "debut": 403.22,
+          "fin": 403.28
+        },
+        {
+          "texte": "pas",
+          "debut": 403.28,
+          "fin": 403.34
+        },
+        {
+          "texte": "bien",
+          "debut": 403.36,
+          "fin": 403.48
+        },
+        {
+          "texte": "vu.",
+          "debut": 403.5,
+          "fin": 403.64
+        }
+      ]
+    },
+    {
+      "texte": "C'est sûrement un lapin.",
+      "debut": 403.78,
+      "fin": 404.76,
+      "id": "r207",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "C'est",
+          "debut": 403.86,
+          "fin": 404
+        },
+        {
+          "texte": "sûrement",
+          "debut": 404.04,
+          "fin": 404.32
+        },
+        {
+          "texte": "un",
+          "debut": 404.34,
+          "fin": 404.44
+        },
+        {
+          "texte": "lapin.",
+          "debut": 404.5,
+          "fin": 404.64
+        }
+      ]
+    },
+    {
+      "texte": "Un lapin adulte?",
+      "debut": 405.64,
+      "fin": 406.97,
+      "id": "r208",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "Un",
+          "debut": 405.72,
+          "fin": 405.89
+        },
+        {
+          "texte": "lapin",
+          "debut": 405.89,
+          "fin": 406.25
+        },
+        {
+          "texte": "adulte?",
+          "debut": 406.3,
+          "fin": 406.97
+        }
+      ]
+    },
+    {
+      "texte": "Je sais pas.",
+      "debut": 406.97,
+      "fin": 408,
+      "id": "r209",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Je",
+          "debut": 406.97,
+          "fin": 407.01
+        },
+        {
+          "texte": "sais",
+          "debut": 407.06,
+          "fin": 407.23
+        },
+        {
+          "texte": "pas.",
+          "debut": 407.25,
+          "fin": 408
+        }
+      ]
+    },
+    {
+      "texte": "En même temps, il était pas bien grand.",
+      "debut": 408,
+      "fin": 409.44,
+      "id": "r210",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "En",
+          "debut": 408.06,
+          "fin": 408.3
+        },
+        {
+          "texte": "même",
+          "debut": 408.32,
+          "fin": 408.42
+        },
+        {
+          "texte": "temps,",
+          "debut": 408.46,
+          "fin": 408.56
+        },
+        {
+          "texte": "il",
+          "debut": 408.6,
+          "fin": 408.64
+        },
+        {
+          "texte": "était",
+          "debut": 408.7,
+          "fin": 408.8
+        },
+        {
+          "texte": "pas",
+          "debut": 408.82,
+          "fin": 408.92
+        },
+        {
+          "texte": "bien",
+          "debut": 408.94,
+          "fin": 409.04
+        },
+        {
+          "texte": "grand.",
+          "debut": 409.06,
+          "fin": 409.32
+        }
+      ]
+    },
+    {
+      "texte": "Peut-être un ado.",
+      "debut": 409.78,
+      "fin": 410.5,
+      "id": "r211",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Peut-être",
+          "debut": 409.86,
+          "fin": 410.04
+        },
+        {
+          "texte": "un",
+          "debut": 410.06,
+          "fin": 410.2
+        },
+        {
+          "texte": "ado.",
+          "debut": 410.22,
+          "fin": 410.38
+        }
+      ]
+    },
+    {
+      "texte": "Entre deux âges.",
+      "debut": 410.69,
+      "fin": 412.18,
+      "id": "r212",
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Entre",
+          "debut": 410.77,
+          "fin": 411.24
+        },
+        {
+          "texte": "deux",
+          "debut": 411.26,
+          "fin": 411.46
+        },
+        {
+          "texte": "âges.",
+          "debut": 411.48,
+          "fin": 412.06
+        }
+      ]
+    },
+    {
+      "texte": "C'était pas un faisant quand même.",
+      "debut": 412.62,
+      "fin": 414.21,
+      "id": "r213",
+      "personnage": 5,
+      "mots": [
+        {
+          "texte": "C'était",
+          "debut": 412.7,
+          "fin": 413.14
+        },
+        {
+          "texte": "pas",
+          "debut": 413.18,
+          "fin": 413.3
+        },
+        {
+          "texte": "un",
+          "debut": 413.3,
+          "fin": 413.46
+        },
+        {
+          "texte": "faisant",
+          "debut": 413.48,
+          "fin": 413.72
+        },
+        {
+          "texte": "quand",
+          "debut": 413.74,
+          "fin": 413.92
+        },
+        {
+          "texte": "même.",
+          "debut": 413.94,
+          "fin": 414.12
+        }
+      ]
+    },
+    {
+      "texte": "Bah non.",
+      "debut": 414.21,
+      "fin": 415.3,
+      "id": "r214",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Bah",
+          "debut": 414.29,
+          "fin": 414.68
+        },
+        {
+          "texte": "non.",
+          "debut": 414.7,
+          "fin": 415.18
+        }
+      ]
+    },
+    {
+      "texte": "Si j'étais tombé sur un faisant, je serais pas en train de me la péter comme ça.",
+      "debut": 415.6,
+      "fin": 418.18,
+      "id": "r215",
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Si",
+          "debut": 415.68,
+          "fin": 415.74
+        },
+        {
+          "texte": "j'étais",
+          "debut": 415.8,
+          "fin": 416.02
+        },
+        {
+          "texte": "tombé",
+          "debut": 416.04,
+          "fin": 416.3
+        },
+        {
+          "texte": "sur",
+          "debut": 416.32,
+          "fin": 416.4
+        },
+        {
+          "texte": "un",
+          "debut": 416.42,
+          "fin": 416.54
+        },
+        {
+          "texte": "faisant,",
+          "debut": 416.56,
+          "fin": 416.8
+        },
+        {
+          "texte": "je",
+          "debut": 416.84,
+          "fin": 416.88
+        },
+        {
+          "texte": "serais",
+          "debut": 416.9,
+          "fin": 417.06
+        },
+        {
+          "texte": "pas",
+          "debut": 417.12,
+          "fin": 417.22
+        },
+        {
+          "texte": "en",
+          "debut": 417.22,
+          "fin": 417.28
+        },
+        {
+          "texte": "train",
+          "debut": 417.28,
+          "fin": 417.34
+        },
+        {
+          "texte": "de",
+          "debut": 417.36,
+          "fin": 417.44
+        },
+        {
+          "texte": "me",
+          "debut": 417.44,
+          "fin": 417.5
+        },
+        {
+          "texte": "la",
+          "debut": 417.5,
+          "fin": 417.64
+        },
+        {
+          "texte": "péter",
+          "debut": 417.64,
+          "fin": 417.86
+        },
+        {
+          "texte": "comme",
+          "debut": 417.88,
+          "fin": 418.02
+        },
+        {
+          "texte": "ça.",
+          "debut": 418.04,
+          "fin": 418.18
+        }
+      ]
+    }
+  ],
+  "personnages": [
+    "Arthur",
+    "Léodagan",
+    "Séli",
+    "off",
+    "Guenièvre",
+    "Bohort"
+  ]
+}
