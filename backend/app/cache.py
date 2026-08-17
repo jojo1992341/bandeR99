@@ -10,13 +10,14 @@ import json
 import os
 from pathlib import Path
 
-from .asr import Word
+from .asr import Word, normaliser_mot
 
 # Version de l'affinage des timestamps : incrémentée quand le post-traitement
 # change les horodatages (ex. T50 — prolongation acoustique des syllabes
 # tenues ; T116 — prolongation par phonèmes voisés ; T117 — onsets de mots par
-# phonèmes voisés) — les entrées de cache antérieures sont re-transcrites une fois.
-VERSION_AFFINAGE = "studio-fragments-2026-08"
+# phonèmes voisés ; Slice 11 — nudge des frontières de chunks vers les silences)
+# — les entrées de cache antérieures sont re-transcrites une fois.
+VERSION_AFFINAGE = "studio-frontieres-2026-08"
 
 
 def _cache_dir() -> Path:
@@ -27,12 +28,18 @@ def _cache_dir() -> Path:
 
 
 def cle_transcription(chemin_audio: str | Path, model_name: str,
-                      language: str | None) -> str:
+                      language: str | None,
+                      vocabulaire: list[str] | None = None) -> str:
     hashage = hashlib.sha1()
     with open(chemin_audio, "rb") as f:  # lecture streamée : OK pour gros fichiers
         while bloc := f.read(1024 * 1024):
             hashage.update(bloc)
     hashage.update(f"|{model_name}|{language or 'auto'}|{VERSION_AFFINAGE}".encode())
+    if vocabulaire:
+        voc = ",".join(sorted({normaliser_mot(t) for t in vocabulaire
+                                if normaliser_mot(t)}))
+        if voc:
+            hashage.update(f"|voc:{voc}".encode())
     return hashage.hexdigest()
 
 
@@ -48,7 +55,8 @@ def lire_transcription(cle: str) -> tuple[list[Word], str] | None:
         donnees = json.loads(p.read_text(encoding="utf-8"))
         mots = [Word(m["texte"], float(m["debut"]), float(m["fin"]),
                      float(m.get("proba", 0.0)),
-                     marqueur=bool(m.get("marqueur", False)))
+                     marqueur=bool(m.get("marqueur", False)),
+                     incertain=bool(m.get("incertain", False)))
                 for m in donnees["mots"]]
         return mots, donnees["langue"]
     except (KeyError, ValueError, json.JSONDecodeError):
@@ -58,7 +66,8 @@ def lire_transcription(cle: str) -> tuple[list[Word], str] | None:
 def ecrire_transcription(cle: str, mots: list[Word], langue: str) -> None:
     donnees = {"langue": langue, "mots": [
         {"texte": m.text, "debut": m.start, "fin": m.end, "proba": m.probability,
-         **({"marqueur": True} if m.marqueur else {})}
+         **({"marqueur": True} if m.marqueur else {}),
+         **({"incertain": True} if m.incertain else {})}
         for m in mots]}
     cible = _chemin(cle)
     tampon = cible.with_suffix(".json.tmp")  # écriture atomique (anti-coupure)
@@ -67,9 +76,14 @@ def ecrire_transcription(cle: str, mots: list[Word], langue: str) -> None:
 
 
 def obtenir_transcription(chemin_audio: str | Path, model_name: str, language,
-                          producteur) -> tuple[list[Word], str]:
-    """Sert la transcription depuis le cache, ou la produit puis la met en cache."""
-    cle = cle_transcription(chemin_audio, model_name, language)
+                          producteur,
+                          vocabulaire: list[str] | None = None) -> tuple[list[Word], str]:
+    """Sert la transcription depuis le cache, ou la produit puis la met en cache.
+
+    ``vocabulaire`` participe à la clé : un même audio avec des noms propres
+    différents donne des transcriptions différentes (prompt initial).
+    """
+    cle = cle_transcription(chemin_audio, model_name, language, vocabulaire)
     en_cache = lire_transcription(cle)
     if en_cache is not None:
         return en_cache

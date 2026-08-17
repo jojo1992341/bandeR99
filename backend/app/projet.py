@@ -32,6 +32,7 @@ PARAMS_BORNES: dict[str, tuple[float, float]] = {
 PARAMS_ENTIERS = {"hauteur_bande", "taille_police", "taille_police_min"}
 PARAMS_BOOLEENS = {"aligner_whisperx", "lipsync", "etirer_mots", "diariser", "edition"}
 PARAMS_CHAINES = {"langue", "modele", "style", "theme", "asr", "modele_cloud", "asr_cle"}
+PARAMS_LISTES = {"vocabulaire"}
 
 
 def _assainir_params(params) -> dict:
@@ -71,6 +72,10 @@ def _assainir_params(params) -> dict:
         elif cle in PARAMS_CHAINES:
             if isinstance(valeur, str):
                 propres[cle] = valeur
+        elif cle in PARAMS_LISTES:
+            if isinstance(valeur, list):
+                propres[cle] = [str(v).strip() for v in valeur
+                                if isinstance(v, str) and str(v).strip()]
     return propres
 
 

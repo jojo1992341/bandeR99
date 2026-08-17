@@ -118,5 +118,6 @@ def valider_mots_edites(mots, debut: float, fin: float) -> list[dict]:
                 d = precedent["fin"]
                 f = min(max(f, d + DUREE_MOT_MIN_S), float(fin))
         propres.append({"texte": texte,
-                        "debut": _arrondir(d), "fin": _arrondir(f)})
+                        "debut": _arrondir(d), "fin": _arrondir(f),
+                        **({"incertain": True} if m.get("incertain") else {})})
     return propres

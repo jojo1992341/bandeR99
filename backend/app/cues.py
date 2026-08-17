@@ -111,7 +111,8 @@ def build_cues(mots: list[Word], pause_seuil: float = 0.6,
             etiquette_courante = etiquette
         texte_mot = mot.text.strip()
         courant.append(Word(texte_mot, mot.start, mot.end, mot.probability,
-                             marqueur=mot.marqueur or est_symbole(texte_mot)))
+                             marqueur=mot.marqueur or est_symbole(texte_mot),
+                             incertain=mot.incertain))
     if courant:
         cues.append(Cue(words=courant, personnage=etiquette_courante))
 

@@ -15,7 +15,7 @@ from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from . import __version__
-from .devices import choose_device
+from .devices import diagnostic_device
 from .errors import AnnulationDemandee, RythmoError, format_user_error
 from .paths import safe_path
 
@@ -284,7 +284,9 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
 
     @appli.get("/api/health")
     def health():
-        return {"statut": "ok", "device": choose_device(), "version": __version__,
+        device, raison = diagnostic_device()
+        return {"statut": "ok", "device": device, "device_raison": raison,
+                "version": __version__,
                 "flux_sse_actifs": appli.state.flux_sse_actifs}
 
     @appli.get("/api/projets")
@@ -466,6 +468,124 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
         gestion.executer_rendu(job_id)
         return {"job_id": job_id, "statut": "rendu_en_cours"}
 
+    @appli.get("/api/jobs/{job_id}/glossaire")
+    def lire_glossaire_route(job_id: str):
+        """Glossaire du job (termes pour la transcription) : ``{"termes": [...]}``."""
+        from .traduction.glossaire import GlossaireStore
+
+        job = gestion.jobs.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Job inconnu")
+        with job.verrou:
+            statut = job.statut
+        if statut not in STATUTS_EDITABLES:
+            raise HTTPException(409, f"Ce job n'a pas de glossaire disponible "
+                                     f"(statut « {statut} »)")
+        return {"job_id": job_id, "termes": GlossaireStore(job.job_dir).lire()}
+
+    @appli.put("/api/jobs/{job_id}/glossaire")
+    async def ecrire_glossaire_route(job_id: str, request: Request):
+        """Remplace le glossaire du job ; alimente le vocabulaire de re-transcription."""
+        from .traduction.glossaire import GlossaireStore
+
+        job = gestion.jobs.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Job inconnu")
+        with job.verrou:
+            statut = job.statut
+        if statut not in STATUTS_EDITABLES:
+            raise HTTPException(409, f"Ce job n'accepte pas de glossaire "
+                                     f"(statut « {statut} »)")
+        try:
+            corps = await request.json()
+        except json.JSONDecodeError:
+            raise HTTPException(400, {"code": "E005",
+                                      "message": "Corps JSON illisible",
+                                      "message_utilisateur": format_user_error(
+                                          "E005", "Corps JSON illisible")}) from None
+        termes = corps.get("termes") if isinstance(corps, dict) else None
+        if not isinstance(termes, list) or not all(isinstance(t, str) for t in termes):
+            raise HTTPException(400, {
+                "code": "E005",
+                "message": "Glossaire invalide : champ « termes » (liste de chaînes) attendu",
+                "message_utilisateur": format_user_error(
+                    "E005", "Glossaire invalide : champ « termes » (liste de chaînes) attendu")})
+        GlossaireStore(job.job_dir).ecrire(termes)
+        return {"job_id": job_id, "termes": GlossaireStore(job.job_dir).lire()}
+
+    @appli.post("/api/jobs/{job_id}/glossaire/candidats-wikipedia")
+    async def candidats_wikipedia(job_id: str, request: Request):
+        """Candidats de vocabulaire extraits d'une page Wikipédia (Slices 1–3).
+
+        Ne modifie JAMAIS le glossaire : la route retourne des candidats que
+        l'utilisateur sélectionne, puis la fusion passe par le PUT /glossaire.
+        ``methode`` : ``wikipedia`` (heuristique, défaut) ou ``llm`` (moteur du
+        panneau Traduire). ``langue`` : ``fr`` (défaut) / ``en``, avec repli
+        automatique tant que la langue n'est pas fixée par une URL explicite.
+        Avec ``methode=llm``, ``categories`` porte le classement
+        ``{essentiels, difficiles, termes}`` et ``candidats`` la liste plate
+        dédupliquée (les deux sont renvoyés) ; sinon ``categories`` est ``null``.
+        """
+        from .wikipedia_import import (ErreurImportWikipedia, aplanir_categories,
+                                       construire_moteur_llm,
+                                       extraire_termes_avec_repli, extraire_termes_llm,
+                                       resoudre_saisie)
+
+        job = gestion.jobs.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Job inconnu")
+        with job.verrou:
+            statut = job.statut
+        if statut not in STATUTS_EDITABLES:
+            raise HTTPException(409, f"Ce job n'accepte pas d'import de glossaire "
+                                     f"(statut « {statut} »)")
+        try:
+            corps = await request.json()
+        except json.JSONDecodeError:
+            raise HTTPException(400, {"code": "E005",
+                                      "message": "Corps JSON illisible",
+                                      "message_utilisateur": format_user_error(
+                                          "E005", "Corps JSON illisible")}) from None
+        corps = corps if isinstance(corps, dict) else {}
+        saisie = str(corps.get("titre") or corps.get("url") or "").strip()
+        if not saisie:
+            raise HTTPException(400, {
+                "code": "E005",
+                "message": "Titre ou URL Wikipédia requis",
+                "message_utilisateur": format_user_error(
+                    "E005", "Titre ou URL Wikipédia requis")})
+        langue_param = corps.get("langue")
+        methode = str(corps.get("methode") or "wikipedia").strip()
+        if langue_param is not None and langue_param not in ("fr", "en"):
+            raise HTTPException(400, {
+                "code": "E005", "message": f"Langue inconnue : {langue_param}",
+                "message_utilisateur": format_user_error(
+                    "E005", f"Langue inconnue : {langue_param}")})
+        if methode not in ("wikipedia", "llm"):
+            raise HTTPException(400, {
+                "code": "E005", "message": f"Méthode inconnue : {methode}",
+                "message_utilisateur": format_user_error(
+                    "E005", f"Méthode inconnue : {methode}")})
+        explicite = saisie.startswith(("http://", "https://"))
+        categories = None
+        try:
+            langue, titre = resoudre_saisie(saisie, langue_param)
+            if methode == "llm":
+                moteur = construire_moteur_llm(corps)
+                categories = extraire_termes_llm(titre, langue, moteur)
+                candidats = aplanir_categories(categories)
+            else:
+                langue, candidats = extraire_termes_avec_repli(titre, langue,
+                                                               repli=not explicite)
+        except ErreurImportWikipedia as exc:
+            statut_http = {"E005": 400, "E011": 404}.get(exc.code, 502)
+            raise HTTPException(statut_http, {
+                "code": exc.code, "message": exc.message,
+                "message_utilisateur": format_user_error(exc.code, exc.message)}) from None
+        return {"job_id": job_id, "titre": titre, "langue": langue,
+                "source": f"{langue}.wikipedia.org", "candidats": candidats,
+                "categories": categories}
+
     @appli.get("/api/jobs/{job_id}/srt")
     def sous_titres_srt(job_id: str):
         """Sous-titres `.srt` des répliques (générées ou corrigées).
@@ -641,6 +761,41 @@ def creer_app(jobs_dir: Path | None = None, max_upload_octets: int = 512 * 1024 
                                       "message_utilisateur": format_user_error(
                                           exc.code, exc.message)}) from None
         return {"job_id": job_id, "repliques": resynchronisees}
+
+    @appli.post("/api/jobs/{job_id}/synchroniser-replique")
+    async def synchroniser_replique_route(job_id: str, request: Request):
+        """Réaligne UNE réplique sur sa seule fenêtre audio (mot à mot).
+
+        Stateless : reçoit la réplique affichée et renvoie cette même réplique
+        complétée de timings ``mots`` — sans persister ni relancer le rendu.
+        Contrairement à ``/synchroniser``, seule la fenêtre ``[debut, fin]`` de
+        la réplique est transcrite (jamais le fichier entier).
+        """
+        from .synchroniser import resynchroniser_replique
+
+        job = gestion.jobs.get(job_id)
+        if job is None:
+            raise HTTPException(404, "Job inconnu")
+        with job.verrou:
+            statut = job.statut
+        if statut not in STATUTS_EDITABLES:
+            raise HTTPException(409, f"Ce job n'accepte pas de resynchronisation "
+                                     f"(statut « {statut} »)")
+        try:
+            corps = await request.json()
+        except json.JSONDecodeError:
+            raise HTTPException(400, {"code": "E005",
+                                      "message": "Corps JSON illisible",
+                                      "message_utilisateur": format_user_error(
+                                          "E005", "Corps JSON illisible")}) from None
+        replique = corps.get("replique") if isinstance(corps, dict) else None
+        try:
+            resynchronisee = resynchroniser_replique(job.job_dir, replique)
+        except RythmoError as exc:
+            raise HTTPException(400, {"code": exc.code, "message": exc.message,
+                                      "message_utilisateur": format_user_error(
+                                          exc.code, exc.message)}) from None
+        return {"job_id": job_id, "replique": resynchronisee}
 
     @appli.get("/api/jobs/{job_id}/projet")
     def exporter_projet_route(job_id: str):

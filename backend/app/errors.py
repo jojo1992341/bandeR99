@@ -40,6 +40,10 @@ CODES_ERREUR: dict[str, tuple[str, str]] = {
              "Le fichier de projet a une version inconnue ou plus récente que "
              "cette application : mettez à jour l'application, ou ouvrez-le "
              "avec la version qui l'a créé puis ré-exportez."),
+    "E010": ("Import Wikipédia impossible",
+             "Vérifiez le titre ou l'URL, la connexion, puis réessayez."),
+    "E011": ("Page Wikipédia introuvable",
+             "Vérifiez l'orthographe du titre, ou choisissez l'autre langue."),
     "E999": ("Erreur interne inattendue",
              "Consultez le journal du serveur ; si le problème persiste, "
              "signalez-le avec la vidéo concernée."),

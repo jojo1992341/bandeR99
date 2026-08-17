@@ -99,11 +99,17 @@ _ENCODER = None  # VoiceEncoder Resemblyzer, chargé paresseusement (une fois)
 
 
 def _obtenir_encoder():
-    """Charge (une seule fois) l'encodeur vocal Resemblyzer. Lève si absent."""
+    """Charge (une seule fois) l'encodeur vocal Resemblyzer. Lève si absent.
+
+    GPU CUDA prioritaire ; repli CPU si le chargement CUDA échoue (OOM, pilote…).
+    """
     global _ENCODER
     if _ENCODER is None:
         from resemblyzer import VoiceEncoder
-        _ENCODER = VoiceEncoder()
+
+        from .devices import charger_sur_device
+
+        _ENCODER, _ = charger_sur_device(lambda device: VoiceEncoder(device=device))
     return _ENCODER
 
 

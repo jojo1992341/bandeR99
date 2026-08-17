@@ -139,7 +139,9 @@ def _rescaler_mots(mots: list[dict], fenetre_orig: tuple[float, float],
     facteur = (f_n - d_n) / (f_o - d_o)
     return [{"texte": m["texte"],
              "debut": d_n + (float(m["debut"]) - d_o) * facteur,
-             "fin": d_n + (float(m["fin"]) - d_o) * facteur} for m in mots]
+             "fin": d_n + (float(m["fin"]) - d_o) * facteur,
+             **({"incertain": True} if m.get("incertain") else {})}
+            for m in mots]
 
 
 def _aligner_tokens(tokens: list[str], mots_recales: list[dict],
@@ -155,6 +157,9 @@ def _aligner_tokens(tokens: list[str], mots_recales: list[dict],
     seq_o = [normaliser_token(m["texte"]) for m in mots_recales]
     seq_e = [normaliser_token(t) for t in tokens]
     intervalles: list[tuple[float, float] | None] = [None] * len(tokens)
+    # Le drapeau « incertain » (Slice 16) survit à l'alignement des mots
+    # INCHANGÉS (equal) ; un mot remplacé/inséré n'a plus de confiance ASR.
+    incertains: list[bool] = [False] * len(tokens)
 
     for etiquette, i1, i2, j1, j2 in difflib.SequenceMatcher(
             None, seq_o, seq_e, autojunk=False).get_opcodes():
@@ -162,6 +167,7 @@ def _aligner_tokens(tokens: list[str], mots_recales: list[dict],
             for k in range(i2 - i1):
                 m = mots_recales[i1 + k]
                 intervalles[j1 + k] = (m["debut"], m["fin"])
+                incertains[j1 + k] = bool(m.get("incertain", False))
         elif etiquette == "replace":
             g0 = mots_recales[i1]["debut"] if i1 < len(mots_recales) else debut
             g1 = mots_recales[i2 - 1]["fin"] if i2 > i1 else g0
@@ -182,7 +188,8 @@ def _aligner_tokens(tokens: list[str], mots_recales: list[dict],
     comble = _distribuer_uniforme(tokens, debut, fin)
     return [{"texte": t,
              "debut": (intervalles[i][0] if intervalles[i] else comble[i]["debut"]),
-             "fin": (intervalles[i][1] if intervalles[i] else comble[i]["fin"])}
+             "fin": (intervalles[i][1] if intervalles[i] else comble[i]["fin"]),
+             **({"incertain": True} if incertains[i] else {})}
             for i, t in enumerate(tokens)]
 
 

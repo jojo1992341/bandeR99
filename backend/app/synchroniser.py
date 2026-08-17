@@ -12,12 +12,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .asr import Word, transcribe_words
+from .asr import (Word, marquer_mots_incertains, transcribe_words,
+                  transcrire_fenetre)
 from .cache import obtenir_transcription
 from .cues_edit import (_aligner_tokens, _distribuer_uniforme, _forcer_monotonie)
 from .edition import chemin_params, lire_repliques
 from .errors import RythmoError
 from .symboles import etiqueter_mots
+from .vocabulaire import vocabulaire_du_projet
 
 
 def _valider_entrees(repliques) -> None:
@@ -56,15 +58,6 @@ def _aligner_repliques(repliques: list[dict], mots_transcrits: list[Word]) -> li
     """
     sortie: list[dict] = []
     for r in repliques:
-        # réplique verrouillée : la resynchronisation n'a aucun effet dessus —
-        # ses mots (et ses autres champs) sont renvoyés tels quels.
-        if r.get("verrouillee"):
-            resultat = dict(r)
-            if not isinstance(resultat.get("mots"), list):
-                resultat["mots"] = []
-            etiqueter_mots(resultat["mots"])  # les « (souffle) » restent des marqueurs
-            sortie.append(resultat)
-            continue
         debut, fin = float(r["debut"]), float(r["fin"])
         tokens = str(r.get("texte", "")).split()
         fenetre = [w for w in mots_transcrits if debut <= w.start < fin]
@@ -74,13 +67,30 @@ def _aligner_repliques(repliques: list[dict], mots_transcrits: list[Word]) -> li
         elif not fenetre:
             resultat["mots"] = _distribuer_uniforme(tokens, debut, fin)
         else:
-            recales = [{"texte": w.text, "debut": w.start, "fin": w.end}
+            recales = [{"texte": w.text, "debut": w.start, "fin": w.end,
+                        **({"incertain": True} if w.incertain else {})}
                        for w in fenetre]
             alignes = _aligner_tokens(tokens, recales, debut, fin)
             resultat["mots"] = _forcer_monotonie(alignes, debut, fin)
         etiqueter_mots(resultat["mots"])  # les « (souffle) » redeviennent des marqueurs
         sortie.append(resultat)
     return sortie
+
+
+def _config_transcription(job_dir: Path) -> tuple[str | None, str, bool, list[str]]:
+    """Langue, modèle, affinage WhisperX et vocabulaire lus depuis le job."""
+    try:
+        cfg = json.loads(chemin_params(job_dir).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        raise RythmoError("E005", "Paramètres du job illisibles : "
+                                  "relancez l'analyse de la vidéo.") from None
+    params = cfg.get("params", {}) if isinstance(cfg, dict) else {}
+    payload = lire_repliques(job_dir)
+    langue = payload.get("langue") or params.get("langue")
+    modele = params.get("modele", "medium")
+    affiner = bool(params.get("aligner_whisperx", True))
+    vocabulaire = vocabulaire_du_projet(job_dir, params.get("vocabulaire"))
+    return langue, modele, affiner, vocabulaire
 
 
 def synchroniser_repliques(job_dir: str | Path, repliques: list[dict]) -> list[dict]:
@@ -98,27 +108,55 @@ def synchroniser_repliques(job_dir: str | Path, repliques: list[dict]) -> list[d
         raise RythmoError("E002", "Audio indisponible pour la synchronisation "
                                   "(le fichier audio_16k.wav est absent).")
 
-    try:
-        cfg = json.loads(chemin_params(job_dir).read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        raise RythmoError("E005", "Paramètres du job illisibles : "
-                                  "relancez l'analyse de la vidéo.") from None
-    params = cfg.get("params", {}) if isinstance(cfg, dict) else {}
-    payload = lire_repliques(job_dir)
-    langue = payload.get("langue") or params.get("langue")
-    modele = params.get("modele", "small")
-    affiner = bool(params.get("aligner_whisperx", True))
+    langue, modele, affiner, vocabulaire = _config_transcription(job_dir)
 
     def _transcrire():
         return transcribe_words(wav, language=langue or None, model_name=modele,
-                                affiner=affiner)
+                                affiner=affiner, vocabulaire=vocabulaire)
 
     try:
-        mots, _ = obtenir_transcription(wav, modele, langue, _transcrire)
+        mots, _ = obtenir_transcription(wav, modele, langue, _transcrire,
+                                        vocabulaire=vocabulaire)
     except RythmoError:
         raise
     except Exception as exc:  # noqa: BLE001 — modèle absent, échec ASR…
         raise RythmoError("E999", "Synchronisation impossible : "
                                   f"{str(exc)[:200]}") from None
 
+    # Slice 16-bis : la resynchronisation re-transcrit → on re-marque les mots
+    # à basse confiance (texte et timestamps inchangés).
+    mots = marquer_mots_incertains(mots)
     return _aligner_repliques(repliques, mots)
+
+
+def resynchroniser_replique(job_dir: str | Path, replique: dict) -> dict:
+    """Re-transcrit la seule fenêtre ``[debut, fin]`` de la réplique puis réaligne.
+
+    Même contrat que ``synchroniser_repliques`` mais pour UNE réplique : seul
+    l'audio de sa fenêtre (avec marges de contexte) est transcrit, jamais le
+    fichier entier. Ne persiste rien et ne relance pas le rendu — le front
+    ré-affiche la piste et l'utilisateur valide ensuite (PUT) s'il est satisfait.
+    """
+    job_dir = Path(job_dir)
+    _valider_entrees([replique])
+
+    wav = job_dir / "audio_16k.wav"
+    if not wav.is_file():
+        raise RythmoError("E002", "Audio indisponible pour la synchronisation "
+                                  "(le fichier audio_16k.wav est absent).")
+
+    langue, modele, affiner, vocabulaire = _config_transcription(job_dir)
+
+    debut, fin = float(replique["debut"]), float(replique["fin"])
+    try:
+        mots = transcrire_fenetre(wav, debut, fin, language=langue or None,
+                                  model_name=modele, affiner=affiner,
+                                  vocabulaire=vocabulaire)
+    except RythmoError:
+        raise
+    except Exception as exc:  # noqa: BLE001 — modèle absent, échec ASR…
+        raise RythmoError("E999", "Synchronisation impossible : "
+                                  f"{str(exc)[:200]}") from None
+
+    mots = marquer_mots_incertains(mots)
+    return _aligner_repliques([replique], mots)[0]

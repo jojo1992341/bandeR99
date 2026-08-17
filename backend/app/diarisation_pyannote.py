@@ -73,9 +73,16 @@ def charger_pipeline():
     try:
         from pyannote.audio import Pipeline
 
-        _PIPELINE = Pipeline.from_pretrained(
-            "pyannote/speaker-diarization-3.1", token=token)
-        _PIPELINE.to(__import__("torch").device("cpu"))
+        from .devices import charger_sur_device
+
+        def _creer(device: str):
+            pipeline = Pipeline.from_pretrained(
+                "pyannote/speaker-diarization-3.1", token=token)
+            pipeline.to(__import__("torch").device(device))
+            return pipeline
+
+        # GPU CUDA prioritaire ; repli CPU si le placement CUDA échoue (OOM).
+        _PIPELINE, _ = charger_sur_device(_creer)
     except Exception:
         _PIPELINE = None
     return _PIPELINE

@@ -15,6 +15,7 @@ import shutil
 from pathlib import Path
 
 from .compose import compose_final
+from .vocabulaire import vocabulaire_du_projet
 
 EXTENSIONS_VIDEO = (".mp4", ".mkv", ".avi", ".mov", ".m4v", ".webm")
 
@@ -66,7 +67,8 @@ from .render import construire_style, taille_police_auto
 
 PARAMS_DEFAUT = {
     "langue": None,            # None = détection automatique
-    "modele": "small",         # tiny / base / small / medium / large-v3
+    "modele": "medium",        # tiny / base / small / medium / large-v3
+    "vocabulaire": [],         # noms propres/mots du projet pour le prompt FR
     "aligner_whisperx": True,  # alignement forcé si dispo (repli natif sinon)
     "lipsync": True,
     "style": "RYTHMO",         # ou REPLIQUE
@@ -104,17 +106,21 @@ def _analyser(job_dir: Path, chemin_video: Path, params: dict, progresser) -> di
     progresser(20, "transcription IA locale")
     from .cache import obtenir_transcription
 
+    vocabulaire = vocabulaire_du_projet(job_dir, params.get("vocabulaire"))
+
     def _transcrire():
         if info.duration > 60:  # vidéos longues : fenêtres glissantes fusionnées
             return transcribe_chunked(wav, language=params["langue"] or None,
-                                      model_name=params["modele"])
+                                      model_name=params["modele"],
+                                      vocabulaire=vocabulaire)
         return transcribe_words(wav, language=params["langue"] or None,
                                 model_name=params["modele"],
-                                affiner=params["aligner_whisperx"])
+                                affiner=params["aligner_whisperx"],
+                                vocabulaire=vocabulaire)
 
     if params["asr"] == "local":
         mots, langue = obtenir_transcription(wav, params["modele"], params["langue"],
-                                             _transcrire)
+                                             _transcrire, vocabulaire=vocabulaire)
         source_asr = "local"
     else:  # cloud (strict) ou auto (repli local) — T76–T78
         from .asr_cloud import cle_cloud, transcrire_avec_repli, transcrire_cloud
@@ -130,11 +136,16 @@ def _analyser(job_dir: Path, chemin_video: Path, params: dict, progresser) -> di
 
         def _locale():
             return obtenir_transcription(wav, params["modele"], params["langue"],
-                                         _transcrire)
+                                         _transcrire, vocabulaire=vocabulaire)
 
         mots, langue, source_asr = transcrire_avec_repli(
             wav, params["langue"], params["asr"], _cloud, _locale,
             cle=params.get("asr_cle"))
+    # Slice 16 : drapeau « incertain » des mots à basse confiance, exporté
+    # dans le payload des répliques (texte et timestamps inchangés).
+    from .asr import marquer_mots_incertains
+
+    mots = marquer_mots_incertains(mots)
     progresser(55, f"transcription {langue or '?'} : {len(mots)} mots"
                   + (f" (source {source_asr})" if source_asr != "local" else ""))
 
@@ -215,7 +226,8 @@ def _analyser(job_dir: Path, chemin_video: Path, params: dict, progresser) -> di
              "debut": round(c.start, 3), "fin": round(c.end, 3),
              "mots": [{"texte": w.text.strip(), "debut": round(w.start, 3),
                        "fin": round(w.end, 3),
-                       **({"marqueur": True} if w.marqueur else {})}
+                       **({"marqueur": True} if w.marqueur else {}),
+                       **({"incertain": True} if w.incertain else {})}
                       for w in c.words]}
         if c.personnage is not None:
             r["personnage"] = c.personnage

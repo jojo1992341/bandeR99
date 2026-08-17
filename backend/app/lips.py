@@ -38,7 +38,26 @@ def _creer_landmarker(mode: str = "VIDEO"):
 
     Une instance VIDEO impose des timestamps strictement croissants : une par
     flux analysé. Le modèle (~3,6 Mo) se recharge en quelques dizaines de ms.
+    Delegate GPU en priorité quand CUDA est disponible, avec repli sur le
+    delegate CPU si la création GPU échoue.
     """
+    import mediapipe as mp
+
+    from .devices import choose_device
+
+    gpu = choose_device() == "cuda"
+    try:
+        return _landmarker_avec_delegate(
+            mode, mp.tasks.BaseOptions.Delegate.GPU if gpu
+            else mp.tasks.BaseOptions.Delegate.CPU)
+    except Exception:  # noqa: BLE001 - delegate GPU non supporté : repli CPU
+        if not gpu:
+            raise
+        return _landmarker_avec_delegate(mode, mp.tasks.BaseOptions.Delegate.CPU)
+
+
+def _landmarker_avec_delegate(mode: str, delegate):
+    """FaceLandmarker créé avec le delegate choisi (GPU ou CPU)."""
     import mediapipe as mp
 
     running = mp.tasks.vision.RunningMode[mode]
@@ -46,6 +65,7 @@ def _creer_landmarker(mode: str = "VIDEO"):
         base_options=mp.tasks.BaseOptions(model_asset_path=str(chemin_modele())),
         running_mode=running,
         num_faces=1,
+        delegate=delegate,
     )
     return mp.tasks.vision.FaceLandmarker.create_from_options(options)
 
