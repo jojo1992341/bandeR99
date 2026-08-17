@@ -8,10 +8,14 @@ le moteur. Les correspondances partielles sont, elles, transmises au moteur
 """
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Iterable
+
+from ..paths import safe_path
 
 
 def normaliser_cle(texte: str) -> str:
@@ -65,3 +69,52 @@ class GlossaryManager:
         """Correspondances à transmettre au moteur, ou ``None`` si aucune."""
         correspondances = self.correspondances(texte)
         return correspondances or None
+
+
+NOM_FICHIER_GLOSSAIRE = "glossaire.json"
+
+
+class GlossaireStore:
+    """Persistance du glossaire du job (``glossaire.json``) — termes pour l'ASR.
+
+    Format stocké : ``{"termes": ["Francis", "Kaamelott", …]}``. Lecture
+    tolérante (fichier absent/corrompu → liste vide) ; écriture atomique
+    (tampon puis ``replace``) et dédupliquée insensiblement à la casse/accents.
+    """
+
+    def __init__(self, job_dir: str | Path):
+        self.job_dir = Path(job_dir)
+
+    def chemin(self) -> Path:
+        return safe_path(self.job_dir, NOM_FICHIER_GLOSSAIRE)
+
+    def lire(self) -> list[str]:
+        """Termes persistés (non vides), liste vide si absent ou illisible."""
+        cible = self.chemin()
+        if not cible.is_file():
+            return []
+        try:
+            donnees = json.loads(cible.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return []
+        termes = donnees.get("termes") if isinstance(donnees, dict) else None
+        if not isinstance(termes, list):
+            return []
+        return [str(t).strip() for t in termes if str(t).strip()]
+
+    def ecrire(self, termes: Iterable[str] | None) -> Path:
+        """Écrit le glossaire (dédupliqué, casse/accents ignorés) de façon atomique."""
+        propres: list[str] = []
+        vus: set[str] = set()
+        for terme in (termes or []):
+            mot = str(terme).strip()
+            cle = normaliser_cle(mot)
+            if cle and cle not in vus:
+                vus.add(cle)
+                propres.append(mot)
+        cible = self.chemin()
+        tampon = cible.with_suffix(".tmp")
+        tampon.write_text(json.dumps({"termes": propres}, ensure_ascii=False, indent=2),
+                          encoding="utf-8")
+        tampon.replace(cible)
+        return cible

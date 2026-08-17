@@ -9,12 +9,23 @@ requête — rien n'est en dur. Lazy : importer ce module ne charge rien ;
 La clé API est envoyée en en-tête ``Authorization: Bearer …`` et **jamais**
 persistée (ni dans ``traduction.json``, ni ailleurs). Un serveur local sans
 authentification peut laisser le champ vide.
+
+Un serveur occupé (429/5xx, coupure de connexion, timeout) déclenche des
+réessais bornés avec backoff exponentiel : les échecs définitifs (4xx) sont,
+eux, remontés immédiatement.
 """
 from __future__ import annotations
 
+import time
 from typing import Any, Mapping
 
 from .engine import TranslationEngine, enregistrer_moteur
+
+# ——— réessais : le serveur est parfois occupé ———
+NB_REESSAIS_MAX = 10        # réessais après un échec transitoire (11 tentatives au plus)
+DELAI_REESSAI_BASE = 0.5    # s — backoff exponentiel : 0.5, 1, 2, 4, 8, 8…
+DELAI_REESSAI_MAX = 8.0     # s — plafond du délai entre deux tentatives
+STATUTS_REESSAYABLES = {408, 429, 500, 502, 503, 504}
 
 
 def _prompt(texte: str, contexte: Mapping[str, Any]) -> str:
@@ -76,11 +87,31 @@ class MoteurOpenAI(TranslationEngine):
             ],
             "temperature": temperature,
         }
-        reponse = requests.post(self._url(), json=corps, headers=en_tetes,
-                                timeout=120)
-        reponse.raise_for_status()  # erreur claire (statut HTTP) si serveur défaillant
-        contenu = reponse.json()["choices"][0]["message"]["content"]
-        return str(contenu or texte).strip()
+        url = self._url()
+        derniere: Exception | None = None
+        for essai in range(NB_REESSAIS_MAX + 1):
+            try:
+                reponse = requests.post(url, json=corps, headers=en_tetes,
+                                        timeout=120)
+            except requests.exceptions.Timeout as exc:
+                derniere = exc
+            except requests.exceptions.ConnectionError as exc:
+                derniere = exc
+            else:
+                if reponse.status_code in STATUTS_REESSAYABLES:
+                    # serveur occupé : nouvelle tentative après un court délai
+                    derniere = requests.exceptions.HTTPError(
+                        f"{reponse.status_code} Server Error for url: {url}",
+                        response=reponse)
+                else:
+                    reponse.raise_for_status()  # 4xx définitif : échec immédiat
+                    contenu = reponse.json()["choices"][0]["message"]["content"]
+                    return str(contenu or texte).strip()
+            if essai < NB_REESSAIS_MAX:
+                time.sleep(min(DELAI_REESSAI_BASE * (2 ** essai), DELAI_REESSAI_MAX))
+        if derniere is not None:
+            raise derniere
+        raise RuntimeError("Échec du serveur OpenAI-compatible après réessais")
 
     def arreter(self) -> None:
         self._requests = None
