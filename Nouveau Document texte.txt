@@ -1,3 +1,3 @@
-Implémente le plan de boucle WER Kaamelott @docs/loops/2026-08-17-kaamelott-wer.md  : crée scripts/mesurer_wer_kaamelott.py, l'état initial wer_loop_state.json, le SKILL.md et les prompts maker/vérificateur, puis lance le Run 0 pour poser WER_DE_BASE.
+Implémente le plan de boucle WER Kaamelott @docs/loops/2026-08-17-kaamelott-wer.md  : crée scripts/mesurer_wer_kaamelott.py, l'état initial wer_loop_state.json, le SKILL.md et les prompts maker/vérificateur, puis lance le Run 0 pour poser WER_DE_BASE. Exclure les mots entre parenthèses et la ponctuation du calcule du WER.
 
 pour chaque tache utilise /tdd et /planning
