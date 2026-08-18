@@ -1,0 +1,734 @@
+{
+  "version": 1,
+  "duree_video": 73.073,
+  "job": "5ff37fe816d3",
+  "repliques": [
+    {
+      "texte": "Ce soir... branlette.",
+      "debut": 4.48,
+      "fin": 6.28,
+      "id": "r0",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Ce",
+          "debut": 4.56,
+          "fin": 4.66
+        },
+        {
+          "texte": "soir...",
+          "debut": 4.66,
+          "fin": 5.021
+        },
+        {
+          "texte": "branlette.",
+          "debut": 5.52,
+          "fin": 6.16
+        }
+      ]
+    },
+    {
+      "texte": "Francis!",
+      "debut": 7.35,
+      "fin": 8.75,
+      "id": "r1",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Francis!",
+          "debut": 7.379,
+          "fin": 8.743
+        }
+      ]
+    },
+    {
+      "texte": "Francis!",
+      "debut": 8.8,
+      "fin": 10.35,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Francis!",
+          "debut": 8.81,
+          "fin": 10.322
+        }
+      ]
+    },
+    {
+      "texte": "Merdouille et double crème!",
+      "debut": 12.18,
+      "fin": 13.5,
+      "id": "r3",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Merdouille",
+          "debut": 12.26,
+          "fin": 12.755
+        },
+        {
+          "texte": "et",
+          "debut": 12.755,
+          "fin": 12.876
+        },
+        {
+          "texte": "double",
+          "debut": 12.876,
+          "fin": 13.072
+        },
+        {
+          "texte": "crème!",
+          "debut": 13.074,
+          "fin": 13.459
+        }
+      ]
+    },
+    {
+      "texte": "T'es où, Francis?",
+      "debut": 14.42,
+      "fin": 15.56,
+      "id": "r4",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "T'es",
+          "debut": 14.437,
+          "fin": 14.631
+        },
+        {
+          "texte": "où,",
+          "debut": 14.631,
+          "fin": 14.864
+        },
+        {
+          "texte": "Francis?",
+          "debut": 14.866,
+          "fin": 15.547
+        }
+      ]
+    },
+    {
+      "texte": "Toi, t'es pas Francis!",
+      "debut": 25.09,
+      "fin": 26.74,
+      "id": "r5",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Toi,",
+          "debut": 25.17,
+          "fin": 25.574
+        },
+        {
+          "texte": "t'es",
+          "debut": 25.574,
+          "fin": 25.83
+        },
+        {
+          "texte": "pas",
+          "debut": 25.83,
+          "fin": 26.141
+        },
+        {
+          "texte": "Francis!",
+          "debut": 26.141,
+          "fin": 26.737
+        }
+      ]
+    },
+    {
+      "texte": "Sérieux, on se retrousse les manches?",
+      "debut": 33.99,
+      "fin": 36.61,
+      "id": "r6",
+      "verrouillee": true,
+      "personnage": 0,
+      "mots": [
+        {
+          "texte": "Sérieux,",
+          "debut": 34.003,
+          "fin": 34.808
+        },
+        {
+          "texte": "on",
+          "debut": 35.125,
+          "fin": 35.484
+        },
+        {
+          "texte": "se",
+          "debut": 35.484,
+          "fin": 35.586
+        },
+        {
+          "texte": "retrousse",
+          "debut": 35.586,
+          "fin": 35.868
+        },
+        {
+          "texte": "les",
+          "debut": 35.868,
+          "fin": 35.997
+        },
+        {
+          "texte": "manches?",
+          "debut": 36.034,
+          "fin": 36.333
+        }
+      ]
+    },
+    {
+      "texte": "(Bruitages)",
+      "debut": 40,
+      "fin": 42.02,
+      "id": "r8",
+      "verrouillee": true,
+      "personnage": 2,
+      "mots": [
+        {
+          "texte": "(Bruitages)",
+          "debut": 40.08,
+          "fin": 41.687
+        }
+      ]
+    },
+    {
+      "texte": "Toi ma jolie, tu t'dis,",
+      "debut": 46.82,
+      "fin": 48.09,
+      "id": "r10",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Toi",
+          "debut": 46.9,
+          "fin": 47.019
+        },
+        {
+          "texte": "ma",
+          "debut": 47.019,
+          "fin": 47.132
+        },
+        {
+          "texte": "jolie,",
+          "debut": 47.132,
+          "fin": 47.41
+        },
+        {
+          "texte": "tu",
+          "debut": 47.446,
+          "fin": 47.637
+        },
+        {
+          "texte": "t'dis,",
+          "debut": 47.637,
+          "fin": 47.97
+        }
+      ]
+    },
+    {
+      "texte": "Mon chéri m'a vendu ça comme un film de super-héros,",
+      "debut": 48.46,
+      "fin": 50.69,
+      "id": "r11",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Mon",
+          "debut": 48.54,
+          "fin": 48.67
+        },
+        {
+          "texte": "chéri",
+          "debut": 48.67,
+          "fin": 48.97
+        },
+        {
+          "texte": "m'a",
+          "debut": 48.97,
+          "fin": 49.09
+        },
+        {
+          "texte": "vendu",
+          "debut": 49.11,
+          "fin": 49.31
+        },
+        {
+          "texte": "ça",
+          "debut": 49.31,
+          "fin": 49.49
+        },
+        {
+          "texte": "comme",
+          "debut": 49.56,
+          "fin": 49.67
+        },
+        {
+          "texte": "un",
+          "debut": 49.69,
+          "fin": 49.79
+        },
+        {
+          "texte": "film",
+          "debut": 49.86,
+          "fin": 49.975
+        },
+        {
+          "texte": "de",
+          "debut": 49.975,
+          "fin": 50.07
+        },
+        {
+          "texte": "super-héros,",
+          "debut": 50.07,
+          "fin": 50.69
+        }
+      ]
+    },
+    {
+      "texte": "mais ya l'autre connard qui s'est fait embraucher d'façon boucherie.",
+      "debut": 51.06,
+      "fin": 53.25,
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "mais",
+          "debut": 51.06,
+          "fin": 51.17
+        },
+        {
+          "texte": "ya",
+          "debut": 51.22,
+          "fin": 51.27
+        },
+        {
+          "texte": "l'autre",
+          "debut": 51.32,
+          "fin": 51.45
+        },
+        {
+          "texte": "connard",
+          "debut": 51.5,
+          "fin": 51.77
+        },
+        {
+          "texte": "qui",
+          "debut": 51.77,
+          "fin": 51.87
+        },
+        {
+          "texte": "s'est",
+          "debut": 51.87,
+          "fin": 52.018
+        },
+        {
+          "texte": "fait",
+          "debut": 52.018,
+          "fin": 52.153
+        },
+        {
+          "texte": "embraucher",
+          "debut": 52.187,
+          "fin": 52.57
+        },
+        {
+          "texte": "d'façon",
+          "debut": 52.57,
+          "fin": 52.881
+        },
+        {
+          "texte": "boucherie.",
+          "debut": 52.95,
+          "fin": 53.247
+        }
+      ]
+    },
+    {
+      "texte": "Alors, t'as le droit de me trouver super,",
+      "debut": 53.63,
+      "fin": 55.8,
+      "id": "r13",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Alors,",
+          "debut": 53.63,
+          "fin": 53.959
+        },
+        {
+          "texte": "t'as",
+          "debut": 54.05,
+          "fin": 54.39
+        },
+        {
+          "texte": "le",
+          "debut": 54.39,
+          "fin": 54.47
+        },
+        {
+          "texte": "droit",
+          "debut": 54.49,
+          "fin": 54.55
+        },
+        {
+          "texte": "de",
+          "debut": 54.57,
+          "fin": 54.63
+        },
+        {
+          "texte": "me",
+          "debut": 54.65,
+          "fin": 54.71
+        },
+        {
+          "texte": "trouver",
+          "debut": 54.71,
+          "fin": 54.984
+        },
+        {
+          "texte": "super,",
+          "debut": 55.13,
+          "fin": 55.8
+        }
+      ]
+    },
+    {
+      "texte": "mais je ne suis pas un héro.",
+      "debut": 55.82,
+      "fin": 58.45,
+      "id": "r14",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "mais",
+          "debut": 55.82,
+          "fin": 56.05
+        },
+        {
+          "texte": "je",
+          "debut": 56.46,
+          "fin": 56.86
+        },
+        {
+          "texte": "ne",
+          "debut": 56.88,
+          "fin": 56.96
+        },
+        {
+          "texte": "suis",
+          "debut": 56.96,
+          "fin": 57.12
+        },
+        {
+          "texte": "pas",
+          "debut": 57.12,
+          "fin": 57.38
+        },
+        {
+          "texte": "un",
+          "debut": 57.57,
+          "fin": 57.729
+        },
+        {
+          "texte": "héro.",
+          "debut": 57.729,
+          "fin": 58.358
+        }
+      ]
+    },
+    {
+      "texte": "Et d'accord, techniquement, c'est un meurtre.",
+      "debut": 58.46,
+      "fin": 60.86,
+      "id": "r15",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 58.54,
+          "fin": 58.714
+        },
+        {
+          "texte": "d'accord,",
+          "debut": 58.714,
+          "fin": 59.131
+        },
+        {
+          "texte": "techniquement,",
+          "debut": 59.131,
+          "fin": 59.74
+        },
+        {
+          "texte": "c'est",
+          "debut": 60.2,
+          "fin": 60.26
+        },
+        {
+          "texte": "un",
+          "debut": 60.32,
+          "fin": 60.42
+        },
+        {
+          "texte": "meurtre.",
+          "debut": 60.42,
+          "fin": 60.72
+        }
+      ]
+    },
+    {
+      "texte": "Sauf qu'une belle histoire d'amour commence souvent par un meurtre.",
+      "debut": 61.08,
+      "fin": 63.79,
+      "id": "r16",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Sauf",
+          "debut": 61.087,
+          "fin": 61.26
+        },
+        {
+          "texte": "qu'une",
+          "debut": 61.26,
+          "fin": 61.54
+        },
+        {
+          "texte": "belle",
+          "debut": 61.576,
+          "fin": 61.657
+        },
+        {
+          "texte": "histoire",
+          "debut": 61.707,
+          "fin": 61.942
+        },
+        {
+          "texte": "d'amour",
+          "debut": 61.942,
+          "fin": 62.276
+        },
+        {
+          "texte": "commence",
+          "debut": 62.276,
+          "fin": 62.55
+        },
+        {
+          "texte": "souvent",
+          "debut": 62.55,
+          "fin": 63.031
+        },
+        {
+          "texte": "par",
+          "debut": 63.031,
+          "fin": 63.24
+        },
+        {
+          "texte": "un",
+          "debut": 63.24,
+          "fin": 63.36
+        },
+        {
+          "texte": "meurtre.",
+          "debut": 63.36,
+          "fin": 63.64
+        }
+      ]
+    },
+    {
+      "texte": "Et cette histoire, c'est une histoire d'amour.",
+      "debut": 64,
+      "fin": 66.59,
+      "id": "r17",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Et",
+          "debut": 64.053,
+          "fin": 64.107
+        },
+        {
+          "texte": "cette",
+          "debut": 64.16,
+          "fin": 64.471
+        },
+        {
+          "texte": "histoire,",
+          "debut": 64.471,
+          "fin": 64.9
+        },
+        {
+          "texte": "c'est",
+          "debut": 65.26,
+          "fin": 65.64
+        },
+        {
+          "texte": "une",
+          "debut": 65.64,
+          "fin": 65.831
+        },
+        {
+          "texte": "histoire",
+          "debut": 65.831,
+          "fin": 66.18
+        },
+        {
+          "texte": "d'amour.",
+          "debut": 66.18,
+          "fin": 66.532
+        }
+      ]
+    },
+    {
+      "texte": "Pour la raconter comme il faut,",
+      "debut": 67.2,
+      "fin": 68.36,
+      "id": "r18",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "Pour",
+          "debut": 67.292,
+          "fin": 67.415
+        },
+        {
+          "texte": "la",
+          "debut": 67.415,
+          "fin": 67.5
+        },
+        {
+          "texte": "raconter",
+          "debut": 67.5,
+          "fin": 67.861
+        },
+        {
+          "texte": "comme",
+          "debut": 67.861,
+          "fin": 68.016
+        },
+        {
+          "texte": "il",
+          "debut": 68.016,
+          "fin": 68.126
+        },
+        {
+          "texte": "faut,",
+          "debut": 68.126,
+          "fin": 68.36
+        }
+      ]
+    },
+    {
+      "texte": "on va r'partir loin dans l'passé",
+      "debut": 68.82,
+      "fin": 70.12,
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "on",
+          "debut": 68.82,
+          "fin": 68.9
+        },
+        {
+          "texte": "va",
+          "debut": 68.92,
+          "fin": 69
+        },
+        {
+          "texte": "r'partir",
+          "debut": 69,
+          "fin": 69.42
+        },
+        {
+          "texte": "loin",
+          "debut": 69.42,
+          "fin": 69.62
+        },
+        {
+          "texte": "dans",
+          "debut": 69.64,
+          "fin": 69.771
+        },
+        {
+          "texte": "l'passé",
+          "debut": 69.771,
+          "fin": 70.12
+        }
+      ]
+    },
+    {
+      "texte": "avant que je moule le cul au lycra rouge.",
+      "debut": 70.38,
+      "fin": 72.75,
+      "id": "r19",
+      "verrouillee": true,
+      "personnage": 1,
+      "mots": [
+        {
+          "texte": "avant",
+          "debut": 70.38,
+          "fin": 70.704
+        },
+        {
+          "texte": "que",
+          "debut": 70.704,
+          "fin": 70.85
+        },
+        {
+          "texte": "je",
+          "debut": 70.92,
+          "fin": 70.97
+        },
+        {
+          "texte": "moule",
+          "debut": 71,
+          "fin": 71.38
+        },
+        {
+          "texte": "le",
+          "debut": 71.4,
+          "fin": 71.54
+        },
+        {
+          "texte": "cul",
+          "debut": 71.54,
+          "fin": 71.769
+        },
+        {
+          "texte": "au",
+          "debut": 71.769,
+          "fin": 71.874
+        },
+        {
+          "texte": "lycra",
+          "debut": 71.874,
+          "fin": 72.26
+        },
+        {
+          "texte": "rouge.",
+          "debut": 72.26,
+          "fin": 72.71
+        }
+      ]
+    }
+  ],
+  "personnages": [
+    "Voix 1",
+    "Voix 2",
+    "Voix 3",
+    "Voix 4"
+  ]
+}
